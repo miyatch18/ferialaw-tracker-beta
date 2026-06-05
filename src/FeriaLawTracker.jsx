@@ -16,8 +16,22 @@ const STAGES = [
 ];
 
 const PRACTICE_AREAS = [
-  "Litigation","Corporate","Labor","Intellectual Property",
-  "Tax","Real Estate","Family Law","Criminal Defense","Immigration","Environmental",
+  "Arbitration",
+  "Capital Markets Transactions",
+  "Corporate Secretary Svc",
+  "Corporate/Transactional",
+  "Energy",
+  "Estate Planning/Settlement",
+  "Immigration",
+  "Intellectual Property",
+  "Labor and Employment",
+  "Litigation - Criminal",
+  "Litigation - Civil",
+  "Mergers & Acquisitions",
+  "Real Estate (Ind)",
+  "Retainer",
+  "Taxation",
+  "Tech & Data Privacy",
 ];
 
 const STATUS_OPTIONS = ["On Track", "At Risk", "Overdue", "Completed"];
@@ -56,56 +70,62 @@ const genId = () => `M-${String(_nextId++).padStart(4, "0")}`;
 const SAMPLE_MATTERS = [
   {
     id: "M-0001", name: "Delgado vs. Reyes Corporation", client: "Eduardo Delgado",
-    dateOpened: "2025-03-10", practiceArea: "Litigation", currentStage: "Partner Review",
+    dateOpened: "2025-03-10", practiceArea: "Litigation - Civil", currentStage: "Partner Review",
     includeClientReview: true, status: "At Risk",
     assignedPartner: { name: "Atty. Maria Santos", email: "m.santos@feriatantoco.com" },
     assignedAssociates: [
       { name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com" },
       { name: "Atty. Bianca Reyes", email: "b.reyes@feriatantoco.com" },
     ],
+    assignedLegalAssistants: [{ name: "Ms. Rosa Cruz", email: "r.cruz@feriatantoco.com" }],
+    workspaceLink: "",
     stages: {
-      "Client Engagement": { dateStarted: "2025-03-10", dateCompleted: "2025-03-12", notes: "Initial consultation completed. Retainer signed.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-12" },
-      "Proposal & Scoping": { dateStarted: "2025-03-13", dateCompleted: "2025-03-20", notes: "Scope defined: breach of contract claim, estimated 6 months.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-20" },
-      "Matter Intake & Work Assignment": { dateStarted: "2025-03-21", dateCompleted: "2025-03-25", notes: "Assigned to Mendez and Reyes for research and pleadings.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-03-25" },
-      "Research & Work Output": { dateStarted: "2025-03-26", dateCompleted: "2025-05-15", notes: "Complaint drafted, supporting documents compiled.", responsible: "Atty. Bianca Reyes", responsibleEmail: "b.reyes@feriatantoco.com", dueDate: "2025-05-15" },
-      "Partner Review": { dateStarted: "2025-05-16", dateCompleted: "", notes: "Reviewing complaint and exhibits. Two rounds of revisions expected.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-06-05" },
-      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "2025-06-15" },
-      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "" },
-      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "" },
+      "Client Engagement": { dateStarted: "2025-03-10", dateCompleted: "2025-03-12", notes: "Initial consultation completed. Retainer signed.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-12", updateLog: [{ timestamp: "2025-03-10T09:00:00", author: "Atty. Maria Santos", text: "Matter opened. Client Eduardo Delgado attended initial consultation." }, { timestamp: "2025-03-12T14:30:00", author: "Atty. Maria Santos", text: "Retainer agreement signed and filed." }] },
+      "Proposal & Scoping": { dateStarted: "2025-03-13", dateCompleted: "2025-03-20", notes: "Scope defined: breach of contract claim, estimated 6 months.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-20", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2025-03-21", dateCompleted: "2025-03-25", notes: "Assigned to Mendez and Reyes for research and pleadings.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-03-25", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2025-03-26", dateCompleted: "2025-05-15", notes: "Complaint drafted, supporting documents compiled.", responsible: "Atty. Bianca Reyes", responsibleEmail: "b.reyes@feriatantoco.com", dueDate: "2025-05-15", updateLog: [] },
+      "Partner Review": { dateStarted: "2025-05-16", dateCompleted: "", notes: "Reviewing complaint and exhibits. Two rounds of revisions expected.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-06-05", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "2025-06-15", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
     },
   },
   {
     id: "M-0002", name: "Sunrise Capital Series A Structuring", client: "Sunrise Capital Partners",
-    dateOpened: "2025-04-01", practiceArea: "Corporate", currentStage: "Research & Work Output",
+    dateOpened: "2025-04-01", practiceArea: "Corporate/Transactional", currentStage: "Research & Work Output",
     includeClientReview: false, status: "On Track",
     assignedPartner: { name: "Atty. José Feria", email: "j.feria@feriatantoco.com" },
     assignedAssociates: [{ name: "Atty. Diana Lim", email: "d.lim@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Paolo Santos", email: "p.santos@feriatantoco.com" }],
+    workspaceLink: "",
     stages: {
-      "Client Engagement": { dateStarted: "2025-04-01", dateCompleted: "2025-04-03", notes: "Engagement letter executed.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2025-04-03" },
-      "Proposal & Scoping": { dateStarted: "2025-04-04", dateCompleted: "2025-04-10", notes: "Term sheet reviewed. Full Series A docs scope agreed at PHP 1.2M.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2025-04-10" },
-      "Matter Intake & Work Assignment": { dateStarted: "2025-04-11", dateCompleted: "2025-04-15", notes: "Assigned to Atty. Lim for primary drafting.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2025-04-15" },
-      "Research & Work Output": { dateStarted: "2025-04-16", dateCompleted: "", notes: "SHA, SPA, and Board Resolutions in progress. Investor questionnaires sent.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-06-20" },
-      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-06-30" },
-      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "" },
-      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "" },
-      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "" },
+      "Client Engagement": { dateStarted: "2025-04-01", dateCompleted: "2025-04-03", notes: "Engagement letter executed.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2025-04-03", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2025-04-04", dateCompleted: "2025-04-10", notes: "Term sheet reviewed. Full Series A docs scope agreed at PHP 1.2M.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2025-04-10", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2025-04-11", dateCompleted: "2025-04-15", notes: "Assigned to Atty. Lim for primary drafting.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2025-04-15", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2025-04-16", dateCompleted: "", notes: "SHA, SPA, and Board Resolutions in progress. Investor questionnaires sent.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-06-20", updateLog: [] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-06-30", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
     },
   },
   {
     id: "M-0003", name: "Reyes Family Estate Administration", client: "Reyes Family Estate",
-    dateOpened: "2025-01-15", practiceArea: "Real Estate", currentStage: "Client Feedback Request",
+    dateOpened: "2025-01-15", practiceArea: "Real Estate (Ind)", currentStage: "Client Feedback Request",
     includeClientReview: true, status: "Completed",
     assignedPartner: { name: "Atty. Maria Santos", email: "m.santos@feriatantoco.com" },
     assignedAssociates: [{ name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Ms. Rosa Cruz", email: "r.cruz@feriatantoco.com" }],
+    workspaceLink: "",
     stages: {
-      "Client Engagement": { dateStarted: "2025-01-15", dateCompleted: "2025-01-16", notes: "Heirs met with partner. Scope: full estate settlement.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-01-16" },
-      "Proposal & Scoping": { dateStarted: "2025-01-17", dateCompleted: "2025-01-22", notes: "Agreed on flat fee for extrajudicial settlement.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-01-22" },
-      "Matter Intake & Work Assignment": { dateStarted: "2025-01-23", dateCompleted: "2025-01-25", notes: "Mendez assigned to title research and document compilation.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-01-25" },
-      "Research & Work Output": { dateStarted: "2025-01-26", dateCompleted: "2025-03-10", notes: "EJS drafted, tax clearances obtained, BIR filings completed.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-03-10" },
-      "Partner Review": { dateStarted: "2025-03-11", dateCompleted: "2025-03-18", notes: "All documents reviewed and approved.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-18" },
-      "Client Review": { dateStarted: "2025-03-19", dateCompleted: "2025-03-25", notes: "Heirs reviewed and signed EJS.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-25" },
-      "Billing": { dateStarted: "2025-03-26", dateCompleted: "2025-04-02", notes: "Invoice sent and settled in full.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-04-02" },
-      "Client Feedback Request": { dateStarted: "2025-04-03", dateCompleted: "2025-04-10", notes: "5-star feedback received. Client expressed satisfaction.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-04-10" },
+      "Client Engagement": { dateStarted: "2025-01-15", dateCompleted: "2025-01-16", notes: "Heirs met with partner. Scope: full estate settlement.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-01-16", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2025-01-17", dateCompleted: "2025-01-22", notes: "Agreed on flat fee for extrajudicial settlement.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-01-22", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2025-01-23", dateCompleted: "2025-01-25", notes: "Mendez assigned to title research and document compilation.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-01-25", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2025-01-26", dateCompleted: "2025-03-10", notes: "EJS drafted, tax clearances obtained, BIR filings completed.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-03-10", updateLog: [] },
+      "Partner Review": { dateStarted: "2025-03-11", dateCompleted: "2025-03-18", notes: "All documents reviewed and approved.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-18", updateLog: [] },
+      "Client Review": { dateStarted: "2025-03-19", dateCompleted: "2025-03-25", notes: "Heirs reviewed and signed EJS.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-25", updateLog: [] },
+      "Billing": { dateStarted: "2025-03-26", dateCompleted: "2025-04-02", notes: "Invoice sent and settled in full.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-04-02", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "2025-04-03", dateCompleted: "2025-04-10", notes: "5-star feedback received. Client expressed satisfaction.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-04-10", updateLog: [] },
     },
   },
 ];
@@ -414,7 +434,7 @@ function ReminderCalendarButtons({ matter, stage, onStageUpdate }) {
         {email && (
           <button onClick={handleEmail} style={{
             display: "inline-flex", alignItems: "center", gap: "4px",
-            fontSize: "0.7rem", padding: "3px 8px", borderRadius: "6px",
+            fontSize: "1.15rem", padding: "3px 8px", borderRadius: "6px",
             border: `1px solid ${B.cobaltLight}`, background: B.cobaltTint,
             color: B.cobalt, fontFamily: "var(--font-ui)", cursor: "pointer",
           }}>
@@ -425,7 +445,7 @@ function ReminderCalendarButtons({ matter, stage, onStageUpdate }) {
         {dueDate && (
           <button onClick={handleCalendar} style={{
             display: "inline-flex", alignItems: "center", gap: "4px",
-            fontSize: "0.7rem", padding: "3px 8px", borderRadius: "6px",
+            fontSize: "1.15rem", padding: "3px 8px", borderRadius: "6px",
             border: `1px solid ${B.goldLight}`, background: B.goldTint,
             color: "#7A6022", fontFamily: "var(--font-ui)", cursor: "pointer",
           }}>
@@ -440,10 +460,10 @@ function ReminderCalendarButtons({ matter, stage, onStageUpdate }) {
         {/* Sync status badge */}
         <span style={{
           display: "inline-flex", alignItems: "center", gap: "4px",
-          fontSize: "0.67rem", padding: "2px 7px", borderRadius: "999px",
+          fontSize: "0.92rem", padding: "2px 7px", borderRadius: "999px",
           background: badge.bg, color: badge.color,
           border: `1px solid ${badge.border}`,
-          fontFamily: "var(--font-ui)", fontWeight: 600,
+          fontFamily: "var(--font-heading)", fontWeight: 600,
         }}>
           <span style={{ fontSize: isSyncing ? "0.8rem" : "0.7rem" }}>{badge.icon}</span>
           {syncStatus}
@@ -462,7 +482,7 @@ function ReminderCalendarButtons({ matter, stage, onStageUpdate }) {
           }
           style={{
             display: "inline-flex", alignItems: "center", gap: "4px",
-            fontSize: "0.7rem", padding: "3px 8px", borderRadius: "6px",
+            fontSize: "1.15rem", padding: "3px 8px", borderRadius: "6px",
             border: "1px solid #8DB3E8",
             background: isSyncing ? "#D8E8F8" : "#EAF1FB",
             color: isSyncing ? "#6A9CC8" : "#1553A8",
@@ -484,7 +504,7 @@ function ReminderCalendarButtons({ matter, stage, onStageUpdate }) {
             ? "Re-sync to Outlook"
             : "Sync to Outlook"}
           <span style={{
-            fontSize: "0.6rem", background: "#FFF3CD", color: "#856404",
+            fontSize: "1.0rem", background: "#FFF3CD", color: "#856404",
             border: "1px solid #FFEEBA", borderRadius: "3px", padding: "0 4px",
             fontWeight: 700, letterSpacing: "0.02em",
           }}>DEMO</span>
@@ -492,14 +512,14 @@ function ReminderCalendarButtons({ matter, stage, onStageUpdate }) {
 
         {/* Show last synced time if available */}
         {sd.outlookLastSyncedAt && syncStatus === OUTLOOK_SYNC_STATUS.SYNCED && (
-          <span style={{ fontSize: "0.65rem", color: "#AAA", fontFamily: "var(--font-ui)" }}>
+          <span style={{ fontSize: "1.02rem", color: "#AAA", fontFamily: "var(--font-ui)" }}>
             Last synced: {new Date(sd.outlookLastSyncedAt).toLocaleString()}
           </span>
         )}
 
         {/* Sync Failed helper text */}
         {syncStatus === OUTLOOK_SYNC_STATUS.SYNC_FAILED && (
-          <span style={{ fontSize: "0.65rem", color: "#991B1B", fontFamily: "var(--font-ui)" }}>
+          <span style={{ fontSize: "1.02rem", color: "#991B1B", fontFamily: "var(--font-ui)" }}>
             Sync failed — try again or use .ics fallback
           </span>
         )}
@@ -507,11 +527,184 @@ function ReminderCalendarButtons({ matter, stage, onStageUpdate }) {
 
       {/* Disclaimer — clearly labelled as placeholder */}
       <p style={{
-        fontSize: "0.62rem", color: "#AAA", fontFamily: "var(--font-ui)",
+        fontSize: "1.0rem", color: "#AAA", fontFamily: "var(--font-ui)",
         fontStyle: "italic", marginTop: "2px",
       }}>
         ⚠ Outlook sync is a placeholder. Microsoft Graph authentication is not yet configured.
       </p>
+    </div>
+  );
+}
+
+
+// ─── STAGE UPDATE LOG ────────────────────────────────────────────────────────
+
+function StageUpdateLog({ log, onAddEntry, stageName }) {
+  const [showForm, setShowForm]   = useState(false);
+  const [author,   setAuthor]     = useState("");
+  const [text,     setText]       = useState("");
+  const [expanded, setExpanded]   = useState(false);
+
+  const entries = Array.isArray(log) ? log : [];
+  const sorted  = [...entries].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  const preview = expanded ? sorted : sorted.slice(0, 3);
+
+  const handleAdd = () => {
+    if (!text.trim()) return;
+    const entry = {
+      timestamp: new Date().toISOString(),
+      author:    author.trim() || "Unknown",
+      text:      text.trim(),
+    };
+    onAddEntry(entry);
+    setText("");
+    setShowForm(false);
+  };
+
+  return (
+    <div style={{ marginTop: "10px", borderTop: `1px solid ${B.rule}`, paddingTop: "10px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+        <span style={{
+          fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700,
+          textTransform: "uppercase", letterSpacing: "0.08em", color: B.inkMid,
+          display: "flex", alignItems: "center", gap: "6px",
+        }}>
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Update History
+          {entries.length > 0 && (
+            <span style={{
+              fontFamily: "var(--font-heading)", fontSize: "0.75rem", fontWeight: 700,
+              padding: "1px 7px", borderRadius: "999px",
+              background: B.cobaltTint, color: B.cobalt, border: `1px solid #BFD0F0`,
+            }}>{entries.length}</span>
+          )}
+        </span>
+        <button
+          onClick={() => setShowForm(s => !s)}
+          style={{
+            fontFamily: "var(--font-heading)", fontSize: "0.88rem", fontWeight: 700,
+            padding: "3px 10px", borderRadius: "6px", cursor: "pointer",
+            background: showForm ? "#fff" : B.cobalt,
+            color: showForm ? B.ink : "#fff",
+            border: `1px solid ${showForm ? B.rule : B.cobalt}`,
+          }}
+        >
+          {showForm ? "Cancel" : "+ Add Update"}
+        </button>
+      </div>
+
+      {showForm && (
+        <div style={{
+          background: B.cobaltTint, border: `1px solid #BFD0F0`,
+          borderRadius: "8px", padding: "12px", marginBottom: "10px",
+        }}>
+          <div style={{ marginBottom: "8px" }}>
+            <label style={{
+              display: "block", fontFamily: "var(--font-heading)", fontSize: "0.80rem",
+              fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em",
+              color: B.inkMid, marginBottom: "4px",
+            }}>Your Name</label>
+            <input
+              value={author}
+              onChange={e => setAuthor(e.target.value)}
+              placeholder="e.g. Atty. Maria Santos"
+              style={{
+                width: "100%", border: `1px solid #BFD0F0`, borderRadius: "6px",
+                padding: "6px 10px", fontSize: "1.02rem", fontFamily: "var(--font-ui)",
+                color: B.charcoal, background: "#fff", outline: "none", boxSizing: "border-box",
+              }}
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <label style={{
+              display: "block", fontFamily: "var(--font-heading)", fontSize: "0.80rem",
+              fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em",
+              color: B.inkMid, marginBottom: "4px",
+            }}>Update / Progress Note</label>
+            <textarea
+              value={text}
+              onChange={e => setText(e.target.value)}
+              placeholder={`What happened in the ${stageName} stage?`}
+              rows={3}
+              style={{
+                width: "100%", border: `1px solid #BFD0F0`, borderRadius: "6px",
+                padding: "6px 10px", fontSize: "1.02rem", fontFamily: "var(--font-ui)",
+                color: B.charcoal, background: "#fff", outline: "none",
+                resize: "vertical", boxSizing: "border-box",
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+            <button onClick={() => setShowForm(false)} style={{
+              fontFamily: "var(--font-ui)", fontSize: "0.95rem", padding: "5px 14px",
+              borderRadius: "6px", cursor: "pointer",
+              background: "#fff", color: B.ink, border: `1px solid ${B.rule}`,
+            }}>Cancel</button>
+            <button onClick={handleAdd} disabled={!text.trim()} style={{
+              fontFamily: "var(--font-heading)", fontSize: "0.95rem", fontWeight: 700,
+              padding: "5px 14px", borderRadius: "6px", cursor: text.trim() ? "pointer" : "not-allowed",
+              background: text.trim() ? B.cobalt : "#C8C4BC", color: "#fff", border: "none",
+            }}>Save Update</button>
+          </div>
+        </div>
+      )}
+
+      {entries.length === 0 && !showForm && (
+        <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.95rem", color: "#BBB", fontStyle: "italic" }}>
+          No updates logged yet. Click "+ Add Update" to record progress.
+        </p>
+      )}
+
+      {preview.map((entry, i) => {
+        const d = new Date(entry.timestamp);
+        const dateStr = d.toLocaleDateString("en-PH", { year: "numeric", month: "short", day: "numeric" });
+        const timeStr = d.toLocaleTimeString("en-PH", { hour: "2-digit", minute: "2-digit" });
+        return (
+          <div key={i} style={{ display: "flex", gap: "10px", marginBottom: i < preview.length - 1 ? "8px" : "0" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+              <div style={{
+                width: "8px", height: "8px", borderRadius: "50%", marginTop: "5px",
+                background: i === 0 ? B.cobalt : "#C8C4BC", flexShrink: 0,
+              }} />
+              {i < preview.length - 1 && (
+                <div style={{ width: "1px", flex: 1, background: "#E4E1D8", marginTop: "3px" }} />
+              )}
+            </div>
+            <div style={{
+              flex: 1,
+              background: i === 0 ? "#F7F8FF" : "#FAFAF7",
+              border: `1px solid ${i === 0 ? "#D8E0FF" : B.rule}`,
+              borderRadius: "8px", padding: "8px 12px", marginBottom: "2px",
+            }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "4px", marginBottom: "4px" }}>
+                <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.88rem", fontWeight: 700, color: B.charcoal }}>
+                  {entry.author || "Unknown"}
+                </span>
+                <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.82rem", color: "#AAA", whiteSpace: "nowrap" }}>
+                  {dateStr} · {timeStr}
+                </span>
+              </div>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.95rem", color: B.ink, margin: 0, lineHeight: 1.5 }}>
+                {entry.text}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+
+      {entries.length > 3 && (
+        <button onClick={() => setExpanded(e => !e)} style={{
+          fontFamily: "var(--font-heading)", fontSize: "0.88rem", fontWeight: 600,
+          color: B.cobalt, background: "transparent", border: "none",
+          cursor: "pointer", marginTop: "6px", textDecoration: "underline",
+          textUnderlineOffset: "2px",
+        }}>
+          {expanded ? "Show less" : `Show all ${entries.length} updates`}
+        </button>
+      )}
     </div>
   );
 }
@@ -528,6 +721,25 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
     };
     onUpdate(updatedMatter);
   }, [matter, onUpdate]);
+
+  // handleAddUpdateLogEntry: adds a new entry to a stage's update history log
+  const handleAddUpdateLogEntry = useCallback((stageName, newEntry) => {
+    const existing = matter.stages[stageName]?.updateLog || [];
+    const updatedStage = {
+      ...matter.stages[stageName],
+      updateLog: [...existing, newEntry],
+    };
+    const updatedMatter = {
+      ...matter,
+      stages: { ...matter.stages, [stageName]: updatedStage },
+    };
+    onUpdate(updatedMatter);
+    // Also update draft so UI refreshes without closing the drawer
+    setDraft(prev => ({
+      ...prev,
+      stages: { ...prev.stages, [stageName]: { ...prev.stages[stageName], updateLog: [...existing, newEntry] } },
+    }));
+  }, [matter, onUpdate]);
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(() => JSON.parse(JSON.stringify(matter)));
   const activeStages = draft.includeClientReview ? STAGES : STAGES.filter(s => s !== "Client Review");
@@ -539,11 +751,11 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
 
   const inputSt = {
     width: "100%", border: `1px solid ${B.rule}`, borderRadius: "8px",
-    padding: "6px 10px", fontSize: "0.82rem", fontFamily: "var(--font-ui)",
+    padding: "6px 10px", fontSize: "1.15rem", fontFamily: "var(--font-ui)",
     color: B.charcoal, background: "#fff", outline: "none", boxSizing: "border-box",
   };
   const labelSt = {
-    display: "block", fontSize: "0.68rem", fontWeight: 700,
+    display: "block", fontSize: "0.92rem", fontWeight: 700,
     textTransform: "uppercase", letterSpacing: "0.07em",
     color: B.inkMid, fontFamily: "var(--font-ui)", marginBottom: "3px",
   };
@@ -566,12 +778,12 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "12px" }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "5px" }}>
-                <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.18em", color: B.gold }}>{matter.id}</span>
-                <span style={{ color: "rgba(255,255,255,0.25)", fontSize: "0.7rem" }}>·</span>
-                <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: "rgba(255,255,255,0.65)" }}>{matter.practiceArea}</span>
+                <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700, letterSpacing: "0.18em", color: B.gold }}>{matter.id}</span>
+                <span style={{ color: "rgba(255,255,255,0.25)", fontSize: "1.15rem" }}>·</span>
+                <span style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "rgba(255,255,255,0.65)" }}>{matter.practiceArea}</span>
               </div>
-              <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.35rem", fontWeight: 700, color: "#fff", margin: "0 0 4px", lineHeight: 1.2 }}>{matter.name}</h2>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.82rem", color: "rgba(255,255,255,0.7)", margin: 0 }}>{matter.client}</p>
+              <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.65rem", fontWeight: 700, color: "#fff", margin: "0 0 4px", lineHeight: 1.2 }}>{matter.name}</h2>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "rgba(255,255,255,0.7)", margin: 0 }}>{matter.client}</p>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
               <StatusBadge status={matter.status} />
@@ -580,19 +792,34 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
               </button>
             </div>
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", marginTop: "12px", fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: "rgba(255,255,255,0.5)" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", marginTop: "12px", fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "rgba(255,255,255,0.5)" }}>
             <span>Opened: <strong style={{ color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{formatDate(matter.dateOpened)}</strong></span>
             <span>Partner: <strong style={{ color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{matter.assignedPartner.name}</strong></span>
             <span>Stage: <strong style={{ color: B.gold, fontWeight: 600 }}>{matter.currentStage}</strong></span>
+            {(matter.assignedLegalAssistants || []).filter(a => a.name).map((a, i) => (
+              <span key={i}>Legal Assistant: <strong style={{ color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{a.name}</strong></span>
+            ))}
+            {matter.workspaceLink && (
+              <a href={matter.workspaceLink} target="_blank" rel="noopener noreferrer" style={{
+                color: B.gold, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: "4px",
+                textDecoration: "none",
+              }}>
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Matter Workspace
+              </a>
+            )}
           </div>
         </div>
 
         {/* Drawer Body */}
         <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px", background: B.mist }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-            <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: B.gold }}>Stage Details</span>
+            <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: B.gold }}>Stage Details</span>
             <button onClick={() => editing ? handleSave() : setEditing(true)} style={{
-              fontFamily: "var(--font-ui)", fontSize: "0.75rem", fontWeight: 600,
+              fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 600,
               padding: "5px 14px", borderRadius: "8px", cursor: "pointer",
               ...(editing
                 ? { background: B.cobalt, color: "#fff", border: "none" }
@@ -626,7 +853,41 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
                 <input type="checkbox" id="crToggle" checked={draft.includeClientReview}
                   onChange={e => setDraft(p => ({ ...p, includeClientReview: e.target.checked }))}
                   style={{ accentColor: B.cobalt }} />
-                <label htmlFor="crToggle" style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: B.ink, cursor: "pointer" }}>Include Client Review stage</label>
+                <label htmlFor="crToggle" style={{ fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: B.ink, cursor: "pointer" }}>Include Client Review stage</label>
+              </div>
+              {/* Workspace Link */}
+              <div style={{ gridColumn: "1 / -1" }}>
+                <label style={{ display: "block", fontSize: "0.92rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: B.inkMid, fontFamily: "var(--font-heading)", marginBottom: "3px" }}>Matter Workspace Link</label>
+                <input
+                  value={draft.workspaceLink || ""}
+                  onChange={e => setDraft(p => ({ ...p, workspaceLink: e.target.value }))}
+                  placeholder="iManage Workspace link"
+                  style={{ ...inputSt }}
+                />
+              </div>
+              {/* Legal Assistants */}
+              <div style={{ gridColumn: "1 / -1" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                  <label style={{ display: "block", fontSize: "0.92rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: B.inkMid, fontFamily: "var(--font-heading)" }}>Legal Assistants</label>
+                  <button onClick={() => setDraft(p => ({ ...p, assignedLegalAssistants: [...(p.assignedLegalAssistants || []), { name: "", email: "" }] }))}
+                    style={{ fontFamily: "var(--font-heading)", fontSize: "0.88rem", fontWeight: 600, color: B.cobalt, background: "transparent", border: "none", cursor: "pointer" }}>
+                    + Add
+                  </button>
+                </div>
+                {(draft.assignedLegalAssistants || [{ name: "", email: "" }]).map((a, i) => (
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", marginBottom: "6px" }}>
+                    <input value={a.name} onChange={e => {
+                      const list = [...(draft.assignedLegalAssistants || [])];
+                      list[i] = { ...list[i], name: e.target.value };
+                      setDraft(p => ({ ...p, assignedLegalAssistants: list }));
+                    }} placeholder="Legal Assistant name" style={{ ...inputSt, fontSize: "1.0rem" }} />
+                    <input value={a.email} onChange={e => {
+                      const list = [...(draft.assignedLegalAssistants || [])];
+                      list[i] = { ...list[i], email: e.target.value };
+                      setDraft(p => ({ ...p, assignedLegalAssistants: list }));
+                    }} placeholder="Email" type="email" style={{ ...inputSt, fontSize: "1.0rem" }} />
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -648,17 +909,17 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
                   <div style={{
                     width: "24px", height: "24px", borderRadius: "50%",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: "0.72rem", fontWeight: 700, flexShrink: 0,
+                    fontSize: "1.15rem", fontWeight: 700, flexShrink: 0,
                     background: isCompleted ? "#3A9A4A" : isCurrent ? B.cobalt : "#C8C4BC",
                     color: (isCompleted || isCurrent) ? "#fff" : "#888",
                     fontFamily: "var(--font-ui)",
                   }}>{isCompleted ? "✓" : STAGES.indexOf(stage) + 1}</div>
                   <span style={{
-                    fontFamily: "var(--font-ui)", fontSize: "0.82rem", fontWeight: 600,
+                    fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 600,
                     color: isCurrent ? B.cobalt : isCompleted ? "#2A7A34" : B.inkMid, flex: 1,
                   }}>{stage}</span>
-                  {isCurrent && <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 700, padding: "2px 8px", borderRadius: "999px", background: B.cobalt, color: "#fff" }}>Active</span>}
-                  {isCompleted && !isCurrent && <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 600, padding: "2px 8px", borderRadius: "999px", background: "#D4EDD6", color: "#2A7A34" }}>Done</span>}
+                  {isCurrent && <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700, padding: "2px 8px", borderRadius: "999px", background: B.cobalt, color: "#fff" }}>Active</span>}
+                  {isCompleted && !isCurrent && <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 600, padding: "2px 8px", borderRadius: "999px", background: "#D4EDD6", color: "#2A7A34" }}>Done</span>}
                   {/* Outlook sync status badge — inline in stage header */}
                   {(() => {
                     const syncSt = sd.outlookSyncStatus || OUTLOOK_SYNC_STATUS.NOT_SYNCED;
@@ -666,7 +927,7 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
                     const bStyle = OUTLOOK_SYNC_BADGE[syncSt] || OUTLOOK_SYNC_BADGE["Not Synced"];
                     return (
                       <span style={{
-                        fontFamily: "var(--font-ui)", fontSize: "0.62rem", fontWeight: 600,
+                        fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 600,
                         padding: "1px 6px", borderRadius: "999px",
                         background: bStyle.bg, color: bStyle.color,
                         border: `1px solid ${bStyle.border}`,
@@ -684,25 +945,30 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
                       {[["dateStarted","Date Started","date"],["dateCompleted","Date Completed","date"],["dueDate","Due Date","date"],["responsible","Responsible","text"],["responsibleEmail","Email","email"]].map(([f, lbl, type]) => (
                         <div key={f} style={{ gridColumn: (f === "responsible" || f === "responsibleEmail") ? "1 / -1" : "auto" }}>
                           <label style={{ ...labelSt, color: "#AAA" }}>{lbl}</label>
-                          <input type={type} value={sd[f] || ""} onChange={e => updateDraftStage(stage, f, e.target.value)} style={{ ...inputSt, fontSize: "0.78rem" }} />
+                          <input type={type} value={sd[f] || ""} onChange={e => updateDraftStage(stage, f, e.target.value)} style={{ ...inputSt, fontSize: "1.02rem" }} />
                         </div>
                       ))}
                       <div style={{ gridColumn: "1 / -1" }}>
                         <label style={{ ...labelSt, color: "#AAA" }}>Notes</label>
                         <textarea value={sd.notes || ""} onChange={e => updateDraftStage(stage, "notes", e.target.value)} rows={2}
-                          style={{ ...inputSt, resize: "none", fontSize: "0.78rem" }} />
+                          style={{ ...inputSt, resize: "none", fontSize: "1.02rem" }} />
                       </div>
                     </div>
                   ) : (
-                    <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: B.ink }}>
+                    <div style={{ fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: B.ink }}>
                       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px 16px", marginBottom: "4px" }}>
                         {sd.dateStarted && <div><span style={{ color: "#AAA" }}>Started:</span> {formatDate(sd.dateStarted)}</div>}
                         {sd.dateCompleted && <div><span style={{ color: "#AAA" }}>Completed:</span> {formatDate(sd.dateCompleted)}</div>}
                         {sd.dueDate && <div><span style={{ color: "#AAA" }}>Due:</span> <strong style={{ color: (!sd.dateCompleted && new Date(sd.dueDate) < new Date()) ? "#DC2626" : B.charcoal, fontWeight: 600 }}>{formatDate(sd.dueDate)}</strong></div>}
                         {sd.responsible && <div><span style={{ color: "#AAA" }}>Responsible:</span> {sd.responsible}</div>}
                       </div>
-                      {sd.notes && <p style={{ margin: "6px 0 0", paddingLeft: "8px", borderLeft: `2px solid ${B.goldLight}`, color: B.inkMid, fontStyle: "italic", fontSize: "0.76rem" }}>{sd.notes}</p>}
+                      {sd.notes && <p style={{ margin: "6px 0 0", paddingLeft: "8px", borderLeft: `2px solid ${B.goldLight}`, color: B.inkMid, fontStyle: "italic", fontSize: "1.0rem" }}>{sd.notes}</p>}
                       {(sd.dueDate || sd.responsibleEmail) && <ReminderCalendarButtons matter={matter} stage={stage} onStageUpdate={handleSyncStageUpdate} />}
+                      <StageUpdateLog
+                        log={sd.updateLog || []}
+                        stageName={stage}
+                        onAddEntry={(entry) => handleAddUpdateLogEntry(stage, entry)}
+                      />
                     </div>
                   )}
                 </div>
@@ -719,12 +985,15 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
 
 const blankMatter = () => ({
   id: genId(), name: "", client: "", dateOpened: new Date().toISOString().split("T")[0],
-  practiceArea: "Litigation", currentStage: "Client Engagement",
+  practiceArea: "Litigation - Civil", currentStage: "Client Engagement",
   includeClientReview: true, status: "On Track",
+  workspaceLink: "",                             // iManage workspace URL for this matter
   assignedPartner: { name: "", email: "" },
   assignedAssociates: [{ name: "", email: "" }],
+  assignedLegalAssistants: [{ name: "", email: "" }],  // Legal Assistants assigned to the matter
   stages: Object.fromEntries(STAGES.map(s => [s, {
     dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "",
+    updateLog: [],   // Array of { timestamp, author, text } — history of updates for this stage
     // Outlook Calendar sync fields — populated by createOutlookCalendarEventPlaceholder()
     outlookEventId: null,        // string | null — Graph API event ID once synced
     outlookLastSyncedAt: null,   // ISO timestamp string | null
@@ -743,11 +1012,11 @@ function AddMatterModal({ onClose, onAdd }) {
 
   const inputSt = {
     width: "100%", border: `1px solid ${B.rule}`, borderRadius: "10px",
-    padding: "8px 12px", fontSize: "0.84rem", fontFamily: "var(--font-ui)",
+    padding: "8px 12px", fontSize: "1.15rem", fontFamily: "var(--font-ui)",
     color: B.charcoal, background: "#fff", outline: "none", boxSizing: "border-box",
   };
   const labelSt = {
-    display: "block", fontSize: "0.68rem", fontWeight: 700,
+    display: "block", fontSize: "0.92rem", fontWeight: 700,
     textTransform: "uppercase", letterSpacing: "0.08em",
     color: B.inkMid, fontFamily: "var(--font-ui)", marginBottom: "4px",
   };
@@ -762,8 +1031,8 @@ function AddMatterModal({ onClose, onAdd }) {
         border: `1px solid ${B.rule}`,
       }}>
         <div style={{ padding: "20px 24px 16px", background: `linear-gradient(150deg, ${B.navy} 0%, ${B.navyMid} 100%)`, borderBottom: `1px solid rgba(181,160,106,0.25)` }}>
-          <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.3rem", fontWeight: 700, color: "#fff", margin: "0 0 3px" }}>New Legal Matter</h2>
-          <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "rgba(255,255,255,0.6)", margin: 0 }}>Open a new matter file</p>
+          <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.55rem", fontWeight: 700, color: "#fff", margin: "0 0 3px" }}>New Legal Matter</h2>
+          <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: "rgba(255,255,255,0.6)", margin: 0 }}>Open a new matter file</p>
         </div>
         <div style={{ overflowY: "auto", flex: 1, padding: "20px 24px", background: B.mist }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
@@ -799,7 +1068,7 @@ function AddMatterModal({ onClose, onAdd }) {
           <div style={{ display: "flex", alignItems: "center", gap: "8px", margin: "12px 0" }}>
             <input type="checkbox" id="crNew" checked={form.includeClientReview}
               onChange={e => set("includeClientReview", e.target.checked)} style={{ accentColor: B.cobalt }} />
-            <label htmlFor="crNew" style={{ fontFamily: "var(--font-ui)", fontSize: "0.82rem", color: B.ink, cursor: "pointer" }}>Include Client Review stage</label>
+            <label htmlFor="crNew" style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: B.ink, cursor: "pointer" }}>Include Client Review stage</label>
           </div>
           <div style={{ marginBottom: "12px" }}>
             <label style={labelSt}>Assigned Partner</label>
@@ -812,7 +1081,7 @@ function AddMatterModal({ onClose, onAdd }) {
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
               <label style={labelSt}>Associates</label>
               <button onClick={() => setForm(p => ({ ...p, assignedAssociates: [...p.assignedAssociates, { name: "", email: "" }] }))}
-                style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", fontWeight: 600, color: B.cobalt, background: "transparent", border: "none", cursor: "pointer" }}>
+                style={{ fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 600, color: B.cobalt, background: "transparent", border: "none", cursor: "pointer" }}>
                 + Add Associate
               </button>
             </div>
@@ -823,10 +1092,46 @@ function AddMatterModal({ onClose, onAdd }) {
               </div>
             ))}
           </div>
+
+          {/* Legal Assistants */}
+          <div style={{ marginTop: "12px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+              <label style={labelSt}>Legal Assistants</label>
+              <button onClick={() => setForm(p => ({ ...p, assignedLegalAssistants: [...(p.assignedLegalAssistants || []), { name: "", email: "" }] }))}
+                style={{ fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 600, color: B.cobalt, background: "transparent", border: "none", cursor: "pointer" }}>
+                + Add Legal Assistant
+              </button>
+            </div>
+            {(form.assignedLegalAssistants || [{ name: "", email: "" }]).map((a, i) => (
+              <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "8px" }}>
+                <input value={a.name} onChange={e => {
+                  const list = [...(form.assignedLegalAssistants || [])];
+                  list[i] = { ...list[i], name: e.target.value };
+                  setForm(p => ({ ...p, assignedLegalAssistants: list }));
+                }} placeholder="Legal Assistant name" style={inputSt} />
+                <input value={a.email} onChange={e => {
+                  const list = [...(form.assignedLegalAssistants || [])];
+                  list[i] = { ...list[i], email: e.target.value };
+                  setForm(p => ({ ...p, assignedLegalAssistants: list }));
+                }} placeholder="Legal Assistant email" type="email" style={inputSt} />
+              </div>
+            ))}
+          </div>
+
+          {/* Matter Workspace Link */}
+          <div style={{ marginTop: "12px" }}>
+            <label style={labelSt}>Matter Workspace Link</label>
+            <input
+              value={form.workspaceLink || ""}
+              onChange={e => set("workspaceLink", e.target.value)}
+              placeholder="iManage Workspace link"
+              style={inputSt}
+            />
+          </div>
         </div>
         <div style={{ padding: "14px 24px", borderTop: `1px solid ${B.rule}`, background: "#fff", display: "flex", gap: "8px", justifyContent: "flex-end" }}>
-          <button onClick={onClose} style={{ fontFamily: "var(--font-ui)", fontSize: "0.82rem", fontWeight: 500, padding: "8px 18px", borderRadius: "10px", border: `1px solid ${B.rule}`, background: "#fff", color: B.ink, cursor: "pointer" }}>Cancel</button>
-          <button onClick={handleSubmit} style={{ fontFamily: "var(--font-ui)", fontSize: "0.82rem", fontWeight: 700, padding: "8px 22px", borderRadius: "10px", background: B.navy, color: "#fff", border: "none", cursor: "pointer" }}>Open Matter</button>
+          <button onClick={onClose} style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", fontWeight: 500, padding: "8px 18px", borderRadius: "10px", border: `1px solid ${B.rule}`, background: "#fff", color: B.ink, cursor: "pointer" }}>Cancel</button>
+          <button onClick={handleSubmit} style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 700, padding: "8px 22px", borderRadius: "10px", background: B.navy, color: "#fff", border: "none", cursor: "pointer" }}>Open Matter</button>
         </div>
       </div>
     </div>
@@ -856,18 +1161,18 @@ function KanbanCard({ matter, onClick, onDragStart }) {
         transition: "box-shadow 0.15s, border-color 0.15s",
       }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "8px", marginBottom: "6px" }}>
-        <h4 style={{ fontFamily: "var(--font-serif)", fontSize: "0.9rem", fontWeight: 700, color: hovered ? B.cobalt : B.charcoal, margin: 0, lineHeight: 1.25, transition: "color 0.15s" }}>{matter.name}</h4>
+        <h4 style={{ fontFamily: "var(--font-serif)", fontSize: "1.02rem", fontWeight: 700, color: hovered ? B.cobalt : B.charcoal, margin: 0, lineHeight: 1.25, transition: "color 0.15s" }}>{matter.name}</h4>
         <StatusBadge status={matter.status} />
       </div>
-      <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: B.inkMid, margin: "0 0 7px" }}>{matter.client}</p>
+      <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: B.inkMid, margin: "0 0 7px" }}>{matter.client}</p>
       <div style={{ marginBottom: "7px" }}>
         <span style={{
-          fontFamily: "var(--font-ui)", fontSize: "0.68rem", padding: "2px 7px",
+          fontFamily: "var(--font-ui)", fontSize: "0.92rem", padding: "2px 7px",
           borderRadius: "5px", background: B.cobaltTint,
           color: B.cobalt, border: `1px solid #BFD0F0`, fontWeight: 500,
         }}>{matter.practiceArea}</span>
       </div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "var(--font-ui)", fontSize: "0.7rem", color: "#999" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "#999" }}>
         <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "130px" }}>{matter.assignedPartner.name}</span>
         {dueDate && <span style={{ color: isOverdueDue ? "#DC2626" : "#AAA", fontWeight: isOverdueDue ? 700 : 400 }}>{formatDate(dueDate)}</span>}
       </div>
@@ -875,7 +1180,7 @@ function KanbanCard({ matter, onClick, onDragStart }) {
         <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginTop: "7px" }}>
           {matter.assignedAssociates.map((a, i) => (
             <span key={i} style={{
-              fontFamily: "var(--font-ui)", fontSize: "0.68rem", padding: "2px 7px",
+              fontFamily: "var(--font-ui)", fontSize: "0.92rem", padding: "2px 7px",
               borderRadius: "999px", background: B.goldTint,
               border: `1px solid ${B.goldLight}`, color: "#7A6022", fontWeight: 500,
             }}>{a.name.split(" ").slice(-1)[0]}</span>
@@ -922,14 +1227,14 @@ function KanbanBoard({ matters, filters, onCardClick, onMoveMatter }) {
               }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <h3 style={{
-                    fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 700,
+                    fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700,
                     textTransform: "uppercase", letterSpacing: "0.08em",
                     color: isDragTarget ? B.cobalt : B.inkMid, margin: 0, lineHeight: 1.3,
                   }}>{stage}</h3>
                   <span style={{
                     width: "20px", height: "20px", borderRadius: "50%",
                     background: isDragTarget ? B.cobalt : B.navy,
-                    color: B.gold, fontFamily: "var(--font-ui)", fontSize: "0.7rem",
+                    color: B.gold, fontFamily: "var(--font-ui)", fontSize: "1.15rem",
                     fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center",
                     flexShrink: 0,
                   }}>{cards.length}</span>
@@ -945,7 +1250,7 @@ function KanbanBoard({ matters, filters, onCardClick, onMoveMatter }) {
                     border: `2px dashed ${isDragTarget ? B.cobalt : B.rule}`,
                     background: isDragTarget ? B.cobaltTint : "transparent",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: "#C0BBB2",
+                    fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "#C0BBB2",
                     transition: "all 0.15s",
                   }}>Drop here</div>
                 )}
@@ -987,13 +1292,13 @@ function TableView({ matters, filters, onRowClick }) {
 
   return (
     <div style={{ overflowX: "auto", borderRadius: "14px", border: `1px solid ${B.rule}`, boxShadow: "0 2px 8px rgba(11,23,65,0.06)" }}>
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "1.15rem" }}>
         <thead>
           <tr style={{ background: B.navy }}>
             {cols.map(c => (
               <th key={c.key} onClick={() => toggle(c.key)} style={{
                 padding: "11px 14px", textAlign: "left", whiteSpace: "nowrap", cursor: "pointer",
-                fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 700,
+                fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700,
                 letterSpacing: "0.09em", textTransform: "uppercase",
                 color: sort.col === c.key ? B.gold : "rgba(255,255,255,0.6)",
                 borderBottom: `2px solid ${sort.col === c.key ? B.gold : "transparent"}`,
@@ -1008,7 +1313,7 @@ function TableView({ matters, filters, onRowClick }) {
           {filtered.length === 0 && (
             <tr><td colSpan={cols.length} style={{
               padding: "48px", textAlign: "center",
-              fontFamily: "var(--font-ui)", fontSize: "0.84rem", color: "#AAA",
+              fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "#AAA",
             }}>No matters match the current filters.</td></tr>
           )}
           {filtered.map((m, i) => {
@@ -1022,15 +1327,15 @@ function TableView({ matters, filters, onRowClick }) {
                   background: isHovered ? B.cobaltTint : (i % 2 === 0 ? "#fff" : "#FAFAF7"),
                   cursor: "pointer", transition: "background 0.12s",
                 }}>
-                <td style={{ padding: "11px 14px", fontFamily: "var(--font-ui)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", color: B.gold, whiteSpace: "nowrap" }}>{m.id}</td>
-                <td style={{ padding: "11px 14px", fontFamily: "var(--font-serif)", fontSize: "0.88rem", fontWeight: 700, color: isHovered ? B.cobalt : B.charcoal }}>{m.name}</td>
-                <td style={{ padding: "11px 14px", fontFamily: "var(--font-ui)", fontSize: "0.8rem", color: B.ink }}>{m.client}</td>
+                <td style={{ padding: "11px 14px", fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 700, letterSpacing: "0.1em", color: B.gold, whiteSpace: "nowrap" }}>{m.id}</td>
+                <td style={{ padding: "11px 14px", fontFamily: "var(--font-serif)", fontSize: "1.0rem", fontWeight: 700, color: isHovered ? B.cobalt : B.charcoal }}>{m.name}</td>
+                <td style={{ padding: "11px 14px", fontFamily: "var(--font-ui)", fontSize: "0.92rem", color: B.ink }}>{m.client}</td>
                 <td style={{ padding: "11px 14px" }}>
-                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", padding: "2px 8px", borderRadius: "5px", background: B.cobaltTint, color: B.cobalt, border: `1px solid #BFD0F0`, fontWeight: 500 }}>{m.practiceArea}</span>
+                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", padding: "2px 8px", borderRadius: "5px", background: B.cobaltTint, color: B.cobalt, border: `1px solid #BFD0F0`, fontWeight: 500 }}>{m.practiceArea}</span>
                 </td>
-                <td style={{ padding: "11px 14px", fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: B.inkMid, maxWidth: "140px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.currentStage}</td>
-                <td style={{ padding: "11px 14px", fontFamily: "var(--font-ui)", fontSize: "0.8rem", color: B.ink, whiteSpace: "nowrap" }}>{m.assignedPartner.name}</td>
-                <td style={{ padding: "11px 14px", fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "#AAA", whiteSpace: "nowrap" }}>{formatDate(m.dateOpened)}</td>
+                <td style={{ padding: "11px 14px", fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: B.inkMid, maxWidth: "140px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.currentStage}</td>
+                <td style={{ padding: "11px 14px", fontFamily: "var(--font-ui)", fontSize: "0.92rem", color: B.ink, whiteSpace: "nowrap" }}>{m.assignedPartner.name}</td>
+                <td style={{ padding: "11px 14px", fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: "#AAA", whiteSpace: "nowrap" }}>{formatDate(m.dateOpened)}</td>
                 <td style={{ padding: "11px 14px" }}><StatusBadge status={m.status} /></td>
               </tr>
             );
@@ -1046,7 +1351,7 @@ function TableView({ matters, filters, onRowClick }) {
 function FiltersBar({ matters, filters, setFilters }) {
   const partners = [...new Set(matters.map(m => m.assignedPartner.name).filter(Boolean))];
   const selSt = {
-    fontFamily: "var(--font-ui)", fontSize: "0.8rem", color: B.charcoal,
+    fontFamily: "var(--font-ui)", fontSize: "0.92rem", color: B.charcoal,
     border: `1px solid ${B.rule}`, borderRadius: "10px",
     padding: "7px 28px 7px 11px", background: "#fff", outline: "none",
     cursor: "pointer", appearance: "none",
@@ -1061,7 +1366,7 @@ function FiltersBar({ matters, filters, setFilters }) {
         <svg style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "#AAA" }} width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         <input value={filters.search} onChange={e => setFilters(f => ({ ...f, search: e.target.value }))}
           placeholder="Search matters or clients…"
-          style={{ fontFamily: "var(--font-ui)", fontSize: "0.8rem", color: B.charcoal, border: `1px solid ${B.rule}`, borderRadius: "10px", padding: "7px 10px 7px 32px", background: "#fff", outline: "none", width: "100%", boxSizing: "border-box" }} />
+          style={{ fontFamily: "var(--font-ui)", fontSize: "0.92rem", color: B.charcoal, border: `1px solid ${B.rule}`, borderRadius: "10px", padding: "7px 10px 7px 32px", background: "#fff", outline: "none", width: "100%", boxSizing: "border-box" }} />
       </div>
       <select value={filters.stage} onChange={e => setFilters(f => ({ ...f, stage: e.target.value }))} style={selSt}>
         <option value="">All Stages</option>
@@ -1080,7 +1385,7 @@ function FiltersBar({ matters, filters, setFilters }) {
         {PRACTICE_AREAS.map(a => <option key={a}>{a}</option>)}
       </select>
       {hasFilters && (
-        <button onClick={clear} style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", fontWeight: 600, color: B.cobalt, background: "transparent", border: "none", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "2px" }}>Clear filters</button>
+        <button onClick={clear} style={{ fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 600, color: B.cobalt, background: "transparent", border: "none", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "2px" }}>Clear filters</button>
       )}
     </div>
   );
@@ -1124,7 +1429,7 @@ const TEMPLATE_HEADERS = [
 ];
 
 const TEMPLATE_ROW = [
-  "M-0010","Dela Cruz vs. Pacific Corp","Juan Dela Cruz","Litigation","Client Engagement","On Track",
+  "M-0010","Dela Cruz vs. Pacific Corp","Juan Dela Cruz","Litigation - Civil","Client Engagement","On Track",
   "2025-06-01","Atty. Maria Santos","m.santos@feriatantoco.com","Atty. Carlos Mendez","c.mendez@feriatantoco.com",
   "Client Engagement","Atty. Maria Santos","m.santos@feriatantoco.com","2025-06-15","2025-06-01","","Initial meeting held.",
 ];
@@ -1199,7 +1504,7 @@ function rowsToMatters(rows, existingMatters) {
         matterId:       mid,
         name:           row.name || "",
         client:         row.client || "",
-        practiceArea:   row.practiceArea || "Litigation",
+        practiceArea:   row.practiceArea || "Litigation - Civil",
         currentStage:   row.currentStage || "Client Engagement",
         status:         row.status || "On Track",
         dateOpened:     normaliseDate(row.dateOpened),
@@ -1284,7 +1589,7 @@ function rowsToMatters(rows, existingMatters) {
 
     // Build stages object
     const stages = Object.fromEntries(
-      STAGES.map(s => [s, { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "" }])
+      STAGES.map(s => [s, { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] }])
     );
     raw.stageRows.forEach(sr => {
       stages[sr.stage] = {
@@ -1299,7 +1604,7 @@ function rowsToMatters(rows, existingMatters) {
 
     const validStatus = STATUS_OPTIONS.includes(raw.status) ? raw.status : "On Track";
     const validStage  = STAGES.includes(raw.currentStage) ? raw.currentStage : "Client Engagement";
-    const validPA     = PRACTICE_AREAS.includes(raw.practiceArea) ? raw.practiceArea : "Litigation";
+    const validPA     = PRACTICE_AREAS.includes(raw.practiceArea) ? raw.practiceArea : "Litigation - Civil";
 
     result.push({
       _isDuplicate: !!(assignedId || nameMatch),
@@ -1381,7 +1686,7 @@ function ImportModal({ onClose, onImport, existingMatters }) {
 
   // Shared style atoms
   const btnBase = {
-    fontFamily: "var(--font-ui)", fontSize: "0.82rem", fontWeight: 600,
+    fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 600,
     padding: "8px 18px", borderRadius: "9px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "6px",
   };
 
@@ -1402,8 +1707,8 @@ function ImportModal({ onClose, onImport, existingMatters }) {
           display: "flex", alignItems: "center", justifyContent: "space-between",
         }}>
           <div>
-            <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.2rem", fontWeight: 700, color: "#fff", margin: 0 }}>Import Matters from Excel / CSV</h2>
-            <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: "rgba(255,255,255,0.55)", marginTop: "3px" }}>
+            <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.55rem", fontWeight: 700, color: "#fff", margin: 0 }}>Import Matters from Excel / CSV</h2>
+            <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "rgba(255,255,255,0.55)", marginTop: "3px" }}>
               Drag &amp; drop or browse — supports .xlsx, .xls, .csv
             </p>
           </div>
@@ -1436,10 +1741,10 @@ function ImportModal({ onClose, onImport, existingMatters }) {
               <svg width="36" height="36" fill="none" viewBox="0 0 24 24" stroke={dragOver ? B.cobalt : "#AAA"} style={{ margin: "0 auto 10px", display: "block" }}>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.9rem", fontWeight: 600, color: dragOver ? B.cobalt : B.ink, marginBottom: "4px" }}>
+              <p style={{ fontFamily: "var(--font-heading)", fontSize: "1.02rem", fontWeight: 600, color: dragOver ? B.cobalt : B.ink, marginBottom: "4px" }}>
                 {parsing ? "Parsing…" : "Drop your file here or click to browse"}
               </p>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", color: "#AAA" }}>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.0rem", color: "#AAA" }}>
                 .xlsx · .xls · .csv — first worksheet will be used
               </p>
               <input ref={fileRef} type="file" accept=".xlsx,.xls,.csv" style={{ display: "none" }}
@@ -1449,7 +1754,7 @@ function ImportModal({ onClose, onImport, existingMatters }) {
 
           {/* Parse error */}
           {parseErr && (
-            <div style={{ background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: "8px", padding: "10px 14px", marginBottom: "14px", fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "#991B1B" }}>
+            <div style={{ background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: "8px", padding: "10px 14px", marginBottom: "14px", fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: "#991B1B" }}>
               ⚠ {parseErr}
             </div>
           )}
@@ -1459,16 +1764,16 @@ function ImportModal({ onClose, onImport, existingMatters }) {
             <>
               {/* Summary chips */}
               <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: "14px" }}>
-                <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", background: B.cobaltTint, color: B.cobalt, border: `1px solid #BFD0F0` }}>
+                <span style={{ fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", background: B.cobaltTint, color: B.cobalt, border: `1px solid #BFD0F0` }}>
                   {nonDupCount} matter{nonDupCount !== 1 ? "s" : ""} ready to import
                 </span>
                 {dupCount > 0 && (
-                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", background: "#FBF5E6", color: "#7A6022", border: `1px solid ${B.goldLight}` }}>
+                  <span style={{ fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", background: "#FBF5E6", color: "#7A6022", border: `1px solid ${B.goldLight}` }}>
                     {dupCount} duplicate{dupCount !== 1 ? "s" : ""} will be skipped
                   </span>
                 )}
                 {errWarnings.length > 0 && (
-                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", background: "#FEF2F2", color: "#991B1B", border: "1px solid #FCA5A5" }}>
+                  <span style={{ fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", background: "#FEF2F2", color: "#991B1B", border: "1px solid #FCA5A5" }}>
                     {errWarnings.length} warning{errWarnings.length !== 1 ? "s" : ""}
                   </span>
                 )}
@@ -1477,12 +1782,12 @@ function ImportModal({ onClose, onImport, existingMatters }) {
               {/* Warnings list */}
               {preview.warnings.length > 0 && (
                 <div style={{ background: "#fff", border: `1px solid ${B.rule}`, borderRadius: "10px", marginBottom: "14px", overflow: "hidden" }}>
-                  <div style={{ padding: "8px 14px", background: "#FAFAF7", borderBottom: `1px solid ${B.rule}`, fontFamily: "var(--font-ui)", fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: B.inkMid }}>
+                  <div style={{ padding: "8px 14px", background: "#FAFAF7", borderBottom: `1px solid ${B.rule}`, fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: B.inkMid }}>
                     Validation Notes
                   </div>
                   <div style={{ maxHeight: "120px", overflowY: "auto", padding: "8px 0" }}>
                     {preview.warnings.map((w, i) => (
-                      <div key={i} style={{ padding: "4px 14px", fontFamily: "var(--font-ui)", fontSize: "0.75rem", color: w.isDup ? "#7A6022" : "#991B1B", display: "flex", gap: "6px" }}>
+                      <div key={i} style={{ padding: "4px 14px", fontFamily: "var(--font-ui)", fontSize: "1.0rem", color: w.isDup ? "#7A6022" : "#991B1B", display: "flex", gap: "6px" }}>
                         <span style={{ flexShrink: 0, color: "#AAA" }}>Row {w.row}:</span>
                         <span>{w.msg}</span>
                       </div>
@@ -1493,15 +1798,15 @@ function ImportModal({ onClose, onImport, existingMatters }) {
 
               {/* Preview table */}
               <div style={{ background: "#fff", border: `1px solid ${B.rule}`, borderRadius: "10px", overflow: "hidden", marginBottom: "4px" }}>
-                <div style={{ padding: "8px 14px", background: "#FAFAF7", borderBottom: `1px solid ${B.rule}`, fontFamily: "var(--font-ui)", fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: B.inkMid }}>
+                <div style={{ padding: "8px 14px", background: "#FAFAF7", borderBottom: `1px solid ${B.rule}`, fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: B.inkMid }}>
                   Preview ({preview.matters.length} total)
                 </div>
                 <div style={{ overflowX: "auto", maxHeight: "260px", overflowY: "auto" }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.78rem" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "1.02rem" }}>
                     <thead>
                       <tr style={{ background: B.navy, position: "sticky", top: 0 }}>
                         {["Matter Name","Client","Practice Area","Stage","Status","Partner","Warnings"].map(h => (
-                          <th key={h} style={{ padding: "7px 10px", textAlign: "left", fontFamily: "var(--font-ui)", fontSize: "0.67rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", whiteSpace: "nowrap" }}>{h}</th>
+                          <th key={h} style={{ padding: "7px 10px", textAlign: "left", fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", whiteSpace: "nowrap" }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
@@ -1513,10 +1818,10 @@ function ImportModal({ onClose, onImport, existingMatters }) {
                             <td style={{ padding: "7px 10px", fontFamily: "var(--font-serif)", fontWeight: 700, color: B.charcoal }}>{m.name}</td>
                             <td style={{ padding: "7px 10px", fontFamily: "var(--font-ui)", color: B.ink }}>{m.client}</td>
                             <td style={{ padding: "7px 10px", fontFamily: "var(--font-ui)", color: B.inkMid, whiteSpace: "nowrap" }}>{m.practiceArea}</td>
-                            <td style={{ padding: "7px 10px", fontFamily: "var(--font-ui)", color: B.inkMid, whiteSpace: "nowrap", fontSize: "0.72rem" }}>{m.currentStage}</td>
+                            <td style={{ padding: "7px 10px", fontFamily: "var(--font-ui)", color: B.inkMid, whiteSpace: "nowrap", fontSize: "1.15rem" }}>{m.currentStage}</td>
                             <td style={{ padding: "7px 10px" }}><StatusBadge status={m.status} /></td>
                             <td style={{ padding: "7px 10px", fontFamily: "var(--font-ui)", color: B.inkMid, whiteSpace: "nowrap" }}>{m.assignedPartner.name || "—"}</td>
-                            <td style={{ padding: "7px 10px", fontFamily: "var(--font-ui)", fontSize: "0.72rem" }}>
+                            <td style={{ padding: "7px 10px", fontFamily: "var(--font-ui)", fontSize: "1.15rem" }}>
                               {m._isDuplicate
                                 ? <span style={{ color: "#7A6022", fontWeight: 600 }}>⚠ Duplicate — skip</span>
                                 : rowWarns.length > 0
@@ -1534,7 +1839,7 @@ function ImportModal({ onClose, onImport, existingMatters }) {
 
               {/* Reset link */}
               <button onClick={() => { setPreview(null); setParseErr(""); if (fileRef.current) fileRef.current.value = ""; }}
-                style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", color: B.cobalt, background: "transparent", border: "none", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "2px", marginTop: "6px" }}>
+                style={{ fontFamily: "var(--font-ui)", fontSize: "1.0rem", color: B.cobalt, background: "transparent", border: "none", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "2px", marginTop: "6px" }}>
                 ← Choose a different file
               </button>
             </>
@@ -1713,7 +2018,7 @@ function SmartNextActionBadge({ matter }) {
   if (!next) {
     return (
       <span style={{
-        fontFamily: "var(--font-ui)", fontSize: "0.7rem", padding: "2px 8px",
+        fontFamily: "var(--font-ui)", fontSize: "1.15rem", padding: "2px 8px",
         borderRadius: "999px", background: "#EDF7ED", color: "#2A7A34",
         border: "1px solid #A8D5A8", fontWeight: 600,
       }}>✓ All stages complete</span>
@@ -1723,7 +2028,7 @@ function SmartNextActionBadge({ matter }) {
   return (
     <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "6px" }}>
       <span style={{
-        fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 700,
+        fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700,
         padding: "2px 8px", borderRadius: "999px",
         background: isOverdue ? "#FEF2F2" : B.cobaltTint,
         color: isOverdue ? "#991B1B" : B.cobalt,
@@ -1732,13 +2037,13 @@ function SmartNextActionBadge({ matter }) {
         {isOverdue ? "⚠" : "→"} {next.stage}
       </span>
       {next.responsible && (
-        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.7rem", color: B.inkMid }}>
+        <span style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: B.inkMid }}>
           {next.responsible}
         </span>
       )}
       {next.dueDate && (
         <span style={{
-          fontFamily: "var(--font-ui)", fontSize: "0.7rem",
+          fontFamily: "var(--font-ui)", fontSize: "1.15rem",
           color: isOverdue ? "#DC2626" : "#AAA",
           fontWeight: isOverdue ? 700 : 400,
         }}>
@@ -1772,23 +2077,23 @@ function DashSectionCard({ title, icon, items, accentColor, emptyMsg, onOpenMatt
       >
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <span style={{ fontSize: "1rem" }}>{icon}</span>
-          <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.82rem", fontWeight: 700, color: B.charcoal }}>{title}</span>
+          <span style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 700, color: B.charcoal }}>{title}</span>
           <span style={{
-            fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 700,
+            fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700,
             padding: "2px 8px", borderRadius: "999px",
             background: accentColor + "22", color: accentColor,
             border: `1px solid ${accentColor}55`,
           }}>{count}</span>
         </div>
         {expandable && (
-          <span style={{ color: "#AAA", fontSize: "0.8rem" }}>{expanded ? "▲" : "▼"}</span>
+          <span style={{ color: "#AAA", fontSize: "0.92rem" }}>{expanded ? "▲" : "▼"}</span>
         )}
       </div>
       {/* Body */}
       {expanded && (
         <div style={{ maxHeight: "260px", overflowY: "auto" }}>
           {count === 0 ? (
-            <div style={{ padding: "14px 16px", fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "#AAA", fontStyle: "italic" }}>
+            <div style={{ padding: "14px 16px", fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: "#AAA", fontStyle: "italic" }}>
               {emptyMsg}
             </div>
           ) : (
@@ -1815,11 +2120,11 @@ function DashSectionCard({ title, icon, items, accentColor, emptyMsg, onOpenMatt
                 >
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "2px", flexWrap: "wrap" }}>
-                      <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.67rem", fontWeight: 700, letterSpacing: "0.12em", color: B.gold }}>{matter.id}</span>
-                      <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.67rem", padding: "1px 6px", borderRadius: "4px", background: B.cobaltTint, color: B.cobalt, border: "1px solid #BFD0F0" }}>{stage}</span>
+                      <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700, letterSpacing: "0.12em", color: B.gold }}>{matter.id}</span>
+                      <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.92rem", padding: "1px 6px", borderRadius: "4px", background: B.cobaltTint, color: B.cobalt, border: "1px solid #BFD0F0" }}>{stage}</span>
                     </div>
-                    <div style={{ fontFamily: "var(--font-serif)", fontSize: "0.84rem", fontWeight: 700, color: B.charcoal, lineHeight: 1.2 }}>{matter.name}</div>
-                    <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: B.inkMid, marginTop: "2px" }}>
+                    <div style={{ fontFamily: "var(--font-serif)", fontSize: "1.15rem", fontWeight: 700, color: B.charcoal, lineHeight: 1.2 }}>{matter.name}</div>
+                    <div style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: B.inkMid, marginTop: "2px" }}>
                       {matter.client}
                       {sd.responsible && <span style={{ color: "#AAA" }}> · {sd.responsible}</span>}
                     </div>
@@ -1827,7 +2132,7 @@ function DashSectionCard({ title, icon, items, accentColor, emptyMsg, onOpenMatt
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "3px" }}>
                     {sd.dueDate && (
                       <span style={{
-                        fontFamily: "var(--font-ui)", fontSize: "0.72rem",
+                        fontFamily: "var(--font-ui)", fontSize: "1.15rem",
                         color: isOverdue ? "#DC2626" : diff === 0 ? "#B5A06A" : B.inkMid,
                         fontWeight: isOverdue ? 700 : 400,
                         whiteSpace: "nowrap",
@@ -1835,7 +2140,7 @@ function DashSectionCard({ title, icon, items, accentColor, emptyMsg, onOpenMatt
                         {isOverdue ? `${Math.abs(diff)}d overdue` : diff === 0 ? "Due today" : `${diff}d`}
                       </span>
                     )}
-                    <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.65rem", color: "#CCC" }}>View →</span>
+                    <span style={{ fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: "#CCC" }}>View →</span>
                   </div>
                 </div>
               );
@@ -1865,10 +2170,10 @@ function MissingInfoReport({ matters, onOpenMatter }) {
         borderRadius: "12px", border: `1px solid ${B.rule}`,
       }}>
         <div style={{ fontSize: "2rem", marginBottom: "8px" }}>✅</div>
-        <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.05rem", fontWeight: 700, color: B.charcoal, marginBottom: "4px" }}>
+        <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.15rem", fontWeight: 700, color: B.charcoal, marginBottom: "4px" }}>
           No missing information found
         </p>
-        <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: B.inkMid }}>
+        <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: B.inkMid }}>
           All {matters.length} matters passed the data quality check.
         </p>
       </div>
@@ -1879,13 +2184,13 @@ function MissingInfoReport({ matters, onOpenMatter }) {
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
         <span style={{
-          fontFamily: "var(--font-ui)", fontSize: "0.78rem", fontWeight: 700,
+          fontFamily: "var(--font-heading)", fontSize: "1.02rem", fontWeight: 700,
           padding: "4px 12px", borderRadius: "999px",
           background: "#FEF2F2", color: "#991B1B", border: "1px solid #FCA5A5",
         }}>
           {flagged.length} matter{flagged.length !== 1 ? "s" : ""} with incomplete data
         </span>
-        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: "#AAA" }}>
+        <span style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "#AAA" }}>
           Click a row to open the matter and edit it.
         </span>
       </div>
@@ -1897,7 +2202,7 @@ function MissingInfoReport({ matters, onOpenMatter }) {
         }}>
           {["Matter", "Client", "Issues", ""].map((h, i) => (
             <span key={i} style={{
-              fontFamily: "var(--font-ui)", fontSize: "0.67rem", fontWeight: 700,
+              fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700,
               textTransform: "uppercase", letterSpacing: "0.09em", color: "rgba(255,255,255,0.6)",
             }}>{h}</span>
           ))}
@@ -1920,25 +2225,25 @@ function MissingInfoReport({ matters, onOpenMatter }) {
                 onMouseLeave={e => !isOpen && (e.currentTarget.style.background = idx % 2 === 0 ? "#fff" : "#FAFAF7")}
               >
                 <div onClick={() => onOpenMatter(matter)}>
-                  <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.67rem", fontWeight: 700, letterSpacing: "0.12em", color: B.gold }}>{matter.id}</div>
-                  <div style={{ fontFamily: "var(--font-serif)", fontSize: "0.85rem", fontWeight: 700, color: B.charcoal }}>{matter.name || "—"}</div>
+                  <div style={{ fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700, letterSpacing: "0.12em", color: B.gold }}>{matter.id}</div>
+                  <div style={{ fontFamily: "var(--font-serif)", fontSize: "1.15rem", fontWeight: 700, color: B.charcoal }}>{matter.name || "—"}</div>
                 </div>
-                <div onClick={() => onOpenMatter(matter)} style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: B.inkMid }}>{matter.client || "—"}</div>
+                <div onClick={() => onOpenMatter(matter)} style={{ fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: B.inkMid }}>{matter.client || "—"}</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
                   {flags.slice(0, 3).map((f, fi) => (
                     <span key={fi} style={{
-                      fontFamily: "var(--font-ui)", fontSize: "0.67rem", fontWeight: 600,
+                      fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 600,
                       padding: "1px 6px", borderRadius: "4px",
                       background: "#FEF2F2", color: "#991B1B", border: "1px solid #FCA5A5",
                     }}>{f.field}</span>
                   ))}
                   {flags.length > 3 && (
-                    <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.67rem", color: "#AAA" }}>+{flags.length - 3} more</span>
+                    <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.92rem", color: "#AAA" }}>+{flags.length - 3} more</span>
                   )}
                 </div>
                 <button
                   onClick={() => setExpandedId(isOpen ? null : matter.id)}
-                  style={{ background: "transparent", border: "none", cursor: "pointer", color: B.cobalt, fontSize: "0.78rem", fontWeight: 700 }}
+                  style={{ background: "transparent", border: "none", cursor: "pointer", color: B.cobalt, fontSize: "1.02rem", fontWeight: 700 }}
                 >
                   {isOpen ? "▲" : "▼"}
                 </button>
@@ -1946,7 +2251,7 @@ function MissingInfoReport({ matters, onOpenMatter }) {
               {/* Expanded detail */}
               {isOpen && (
                 <div style={{ padding: "10px 16px 14px", background: "#F7F6FF", borderTop: `1px solid ${B.rule}` }}>
-                  <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: B.inkMid, marginBottom: "8px" }}>
+                  <p style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: B.inkMid, marginBottom: "8px" }}>
                     {flags.length} issue{flags.length !== 1 ? "s" : ""} found:
                   </p>
                   <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -1954,8 +2259,8 @@ function MissingInfoReport({ matters, onOpenMatter }) {
                       <li key={fi} style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
                         <span style={{ color: "#DC2626", flexShrink: 0 }}>✕</span>
                         <div>
-                          <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.74rem", fontWeight: 700, color: "#991B1B" }}>{f.field}: </span>
-                          <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.74rem", color: B.inkMid }}>{f.message}</span>
+                          <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.98rem", fontWeight: 700, color: "#991B1B" }}>{f.field}: </span>
+                          <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.98rem", color: B.inkMid }}>{f.message}</span>
                         </div>
                       </li>
                     ))}
@@ -1963,7 +2268,7 @@ function MissingInfoReport({ matters, onOpenMatter }) {
                   <button
                     onClick={() => onOpenMatter(matter)}
                     style={{
-                      marginTop: "10px", fontFamily: "var(--font-ui)", fontSize: "0.76rem", fontWeight: 700,
+                      marginTop: "10px", fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 700,
                       padding: "5px 14px", borderRadius: "8px", cursor: "pointer",
                       background: B.cobalt, color: "#fff", border: "none",
                     }}
@@ -2016,7 +2321,7 @@ function DashboardView({ matters, onOpenMatter }) {
       key={key}
       onClick={() => setActiveTab(key)}
       style={{
-        fontFamily: "var(--font-ui)", fontSize: "0.78rem", fontWeight: activeTab === key ? 700 : 500,
+        fontFamily: "var(--font-ui)", fontSize: "1.02rem", fontWeight: activeTab === key ? 700 : 500,
         padding: "7px 16px", borderRadius: "8px",
         background: activeTab === key ? B.navy : "transparent",
         color: activeTab === key ? "#fff" : B.inkMid,
@@ -2028,7 +2333,7 @@ function DashboardView({ matters, onOpenMatter }) {
       {label}
       {badge > 0 && (
         <span style={{
-          fontFamily: "var(--font-ui)", fontSize: "0.65rem", fontWeight: 700,
+          fontFamily: "var(--font-heading)", fontSize: "1.02rem", fontWeight: 700,
           padding: "1px 6px", borderRadius: "999px",
           background: badgeColor || "#DC2626", color: "#fff",
           minWidth: "18px", textAlign: "center",
@@ -2064,8 +2369,8 @@ function DashboardView({ matters, onOpenMatter }) {
                 background: c.bg, border: `1px solid ${c.border}`,
                 borderRadius: "10px", padding: "12px 14px",
               }}>
-                <div style={{ fontFamily: "var(--font-serif)", fontSize: "1.8rem", fontWeight: 700, color: c.color, lineHeight: 1 }}>{c.val}</div>
-                <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.67rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: c.color, marginTop: "4px", opacity: 0.8 }}>{c.label}</div>
+                <div style={{ fontFamily: "var(--font-serif)", fontSize: "2.2rem", fontWeight: 700, color: c.color, lineHeight: 1 }}>{c.val}</div>
+                <div style={{ fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: c.color, marginTop: "4px", opacity: 0.8 }}>{c.label}</div>
               </div>
             ))}
           </div>
@@ -2083,7 +2388,7 @@ function DashboardView({ matters, onOpenMatter }) {
       {/* ══ TAB: Smart Next Actions ══ */}
       {activeTab === "actions" && (
         <div>
-          <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", color: "#AAA", marginBottom: "12px" }}>
+          <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.0rem", color: "#AAA", marginBottom: "12px" }}>
             Showing the earliest incomplete stage for each active matter, sorted by urgency.
             Completed matters are excluded.
           </p>
@@ -2095,13 +2400,13 @@ function DashboardView({ matters, onOpenMatter }) {
             }}>
               {["Matter ID", "Matter Name", "Client", "Next Action"].map((h, i) => (
                 <span key={i} style={{
-                  fontFamily: "var(--font-ui)", fontSize: "0.67rem", fontWeight: 700,
+                  fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700,
                   textTransform: "uppercase", letterSpacing: "0.09em", color: "rgba(255,255,255,0.6)",
                 }}>{h}</span>
               ))}
             </div>
             {smartActions.length === 0 ? (
-              <div style={{ padding: "32px", textAlign: "center", fontFamily: "var(--font-ui)", fontSize: "0.82rem", color: "#AAA" }}>
+              <div style={{ padding: "32px", textAlign: "center", fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "#AAA" }}>
                 All active matters have no pending stages.
               </div>
             ) : (
@@ -2119,9 +2424,9 @@ function DashboardView({ matters, onOpenMatter }) {
                   onMouseEnter={e => e.currentTarget.style.background = B.cobaltTint}
                   onMouseLeave={e => e.currentTarget.style.background = idx % 2 === 0 ? "#fff" : "#FAFAF7"}
                 >
-                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.12em", color: B.gold }}>{matter.id}</span>
-                  <span style={{ fontFamily: "var(--font-serif)", fontSize: "0.86rem", fontWeight: 700, color: B.charcoal, paddingRight: "12px" }}>{matter.name}</span>
-                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: B.inkMid, paddingRight: "12px" }}>{matter.client}</span>
+                  <span style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 700, letterSpacing: "0.12em", color: B.gold }}>{matter.id}</span>
+                  <span style={{ fontFamily: "var(--font-serif)", fontSize: "0.98rem", fontWeight: 700, color: B.charcoal, paddingRight: "12px" }}>{matter.name}</span>
+                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: B.inkMid, paddingRight: "12px" }}>{matter.client}</span>
                   <SmartNextActionBadge matter={matter} />
                 </div>
               ))
@@ -2285,7 +2590,7 @@ function TodoView({ matters, onOpenMatter }) {
   }, [rawTodos]);
 
   const selStyle = {
-    fontFamily: "var(--font-ui)", fontSize: "0.82rem", color: B.charcoal,
+    fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: B.charcoal,
     border: `1px solid ${B.rule}`, borderRadius: "10px",
     padding: "8px 32px 8px 12px", background: "#fff", outline: "none",
     cursor: "pointer", appearance: "none",
@@ -2325,7 +2630,7 @@ function TodoView({ matters, onOpenMatter }) {
             </svg>
             <input value={searchText} onChange={e => setSearchText(e.target.value)}
               placeholder="Search tasks…"
-              style={{ fontFamily: "var(--font-ui)", fontSize: "0.8rem", color: B.charcoal,
+              style={{ fontFamily: "var(--font-ui)", fontSize: "0.92rem", color: B.charcoal,
                 border: `1px solid ${B.rule}`, borderRadius: "10px",
                 padding: "8px 10px 8px 32px", background: "#fff", outline: "none",
                 width: "100%", boxSizing: "border-box" }} />
@@ -2342,10 +2647,10 @@ function TodoView({ matters, onOpenMatter }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2}
               d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
           </svg>
-          <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.2rem", fontWeight: 700, color: B.charcoal, marginBottom: "6px" }}>
+          <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.55rem", fontWeight: 700, color: B.charcoal, marginBottom: "6px" }}>
             Select a team member
           </p>
-          <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.82rem", color: B.inkMid }}>
+          <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: B.inkMid }}>
             Choose a person from the dropdown above to see their open tasks across all matters.
           </p>
         </div>
@@ -2370,7 +2675,7 @@ function TodoView({ matters, onOpenMatter }) {
                   transition: "box-shadow 0.15s",
                 }}>
                 <div style={{ fontFamily: "var(--font-serif)", fontSize: "2rem", fontWeight: 700, color: c.color, lineHeight: 1 }}>{c.val}</div>
-                <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: c.color, marginTop: "4px", opacity: 0.8 }}>{c.label}</div>
+                <div style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: c.color, marginTop: "4px", opacity: 0.8 }}>{c.label}</div>
               </div>
             ))}
           </div>
@@ -2381,7 +2686,7 @@ function TodoView({ matters, onOpenMatter }) {
               const active = quickFilter === f.key;
               return (
                 <button key={f.key} onClick={() => setQuickFilter(active ? "all" : f.key)} style={{
-                  fontFamily: "var(--font-ui)", fontSize: "0.74rem", fontWeight: active ? 700 : 500,
+                  fontFamily: "var(--font-ui)", fontSize: "0.98rem", fontWeight: active ? 700 : 500,
                   padding: "5px 13px", borderRadius: "999px", cursor: "pointer",
                   background: active ? B.navy : "#fff",
                   color: active ? "#fff" : B.inkMid,
@@ -2392,7 +2697,7 @@ function TodoView({ matters, onOpenMatter }) {
             })}
             {(quickFilter !== "all" || searchText) && (
               <button onClick={() => { setQuickFilter("all"); setSearchText(""); }} style={{
-                fontFamily: "var(--font-ui)", fontSize: "0.74rem", fontWeight: 600,
+                fontFamily: "var(--font-heading)", fontSize: "0.98rem", fontWeight: 600,
                 padding: "5px 13px", borderRadius: "999px", cursor: "pointer",
                 background: "transparent", color: B.cobalt,
                 border: `1px solid ${B.cobaltLight}`,
@@ -2401,7 +2706,7 @@ function TodoView({ matters, onOpenMatter }) {
           </div>
 
           {/* Task count line */}
-          <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", color: "#AAA", marginBottom: "10px" }}>
+          <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.0rem", color: "#AAA", marginBottom: "10px" }}>
             {filtered.length === 0
               ? "No tasks match the current filter."
               : `${filtered.length} task${filtered.length !== 1 ? "s" : ""} for ${selectedUser}${quickFilter !== "all" || searchText ? " (filtered)" : ""}`
@@ -2412,7 +2717,7 @@ function TodoView({ matters, onOpenMatter }) {
           {filtered.length === 0 ? (
             <div style={{ textAlign: "center", padding: "48px 24px", background: "#fff",
               borderRadius: "12px", border: `1px solid ${B.rule}` }}>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.88rem", color: B.inkMid }}>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.0rem", color: B.inkMid }}>
                 🎉 No tasks here — all clear for this filter.
               </p>
             </div>
@@ -2448,26 +2753,26 @@ function TodoView({ matters, onOpenMatter }) {
                     <div>
                       {/* Row 1: matter ID + stage badge */}
                       <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "8px", marginBottom: "5px" }}>
-                        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.14em", color: B.gold }}>{todo.matterId}</span>
-                        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.68rem", fontWeight: 600, padding: "2px 8px", borderRadius: "5px", background: B.cobaltTint, color: B.cobalt, border: "1px solid #BFD0F0" }}>{todo.stage}</span>
-                        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.68rem", padding: "2px 8px", borderRadius: "5px", background: B.goldTint, color: "#7A6022", border: `1px solid ${B.goldLight}` }}>{todo.practiceArea}</span>
+                        <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 700, letterSpacing: "0.14em", color: B.gold }}>{todo.matterId}</span>
+                        <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.92rem", fontWeight: 600, padding: "2px 8px", borderRadius: "5px", background: B.cobaltTint, color: B.cobalt, border: "1px solid #BFD0F0" }}>{todo.stage}</span>
+                        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.92rem", padding: "2px 8px", borderRadius: "5px", background: B.goldTint, color: "#7A6022", border: `1px solid ${B.goldLight}` }}>{todo.practiceArea}</span>
                       </div>
                       {/* Row 2: matter name */}
-                      <h4 style={{ fontFamily: "var(--font-serif)", fontSize: "0.95rem", fontWeight: 700, color: isHovered ? B.cobalt : B.charcoal, marginBottom: "3px", lineHeight: 1.3, transition: "color 0.13s" }}>
+                      <h4 style={{ fontFamily: "var(--font-serif)", fontSize: "1.15rem", fontWeight: 700, color: isHovered ? B.cobalt : B.charcoal, marginBottom: "3px", lineHeight: 1.3, transition: "color 0.13s" }}>
                         {todo.matterName}
                       </h4>
                       {/* Row 3: client + responsible */}
                       <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: todo.notes ? "7px" : "0" }}>
-                        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.76rem", color: B.inkMid }}>
+                        <span style={{ fontFamily: "var(--font-ui)", fontSize: "1.0rem", color: B.inkMid }}>
                           <span style={{ color: "#AAA" }}>Client: </span>{todo.client}
                         </span>
-                        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.76rem", color: B.inkMid }}>
+                        <span style={{ fontFamily: "var(--font-ui)", fontSize: "1.0rem", color: B.inkMid }}>
                           <span style={{ color: "#AAA" }}>Owner: </span>{todo.responsible}
                         </span>
                       </div>
                       {/* Notes */}
                       {todo.notes && (
-                        <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.74rem", color: "#888", fontStyle: "italic", borderLeft: `2px solid ${B.goldLight}`, paddingLeft: "8px", marginTop: "6px", lineHeight: 1.5 }}>
+                        <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.98rem", color: "#888", fontStyle: "italic", borderLeft: `2px solid ${B.goldLight}`, paddingLeft: "8px", marginTop: "6px", lineHeight: 1.5 }}>
                           {todo.notes.length > 120 ? todo.notes.slice(0, 120) + "…" : todo.notes}
                         </p>
                       )}
@@ -2477,18 +2782,18 @@ function TodoView({ matters, onOpenMatter }) {
                       <span style={{
                         display: "inline-flex", alignItems: "center", gap: "5px",
                         borderRadius: "999px", fontWeight: 700, border: `1px solid ${tss.border}`,
-                        padding: "3px 10px", fontSize: "0.7rem",
+                        padding: "3px 10px", fontSize: "1.15rem",
                         background: tss.bg, color: tss.text,
                         fontFamily: "var(--font-ui)", whiteSpace: "nowrap",
                       }}>
                         <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: tss.dot, flexShrink: 0 }} />
                         {ts}
                       </span>
-                      <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.74rem", color: isOverdue ? "#DC2626" : B.inkMid, fontWeight: isOverdue ? 700 : 400, textAlign: "right" }}>
+                      <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.98rem", color: isOverdue ? "#DC2626" : B.inkMid, fontWeight: isOverdue ? 700 : 400, textAlign: "right" }}>
                         {dateLabel}
                       </span>
                       {/* Clickable hint */}
-                      <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.67rem", color: isHovered ? B.cobalt : "#CCC", transition: "color 0.13s" }}>
+                      <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.92rem", color: isHovered ? B.cobalt : "#CCC", transition: "color 0.13s" }}>
                         View matter →
                       </span>
                     </div>
@@ -2499,6 +2804,305 @@ function TodoView({ matters, onOpenMatter }) {
           )}
         </>
       )}
+    </div>
+  );
+}
+
+
+// ─── HELP VIEW ───────────────────────────────────────────────────────────────
+
+const HELP_SECTIONS = [
+  {
+    icon: "⚖️",
+    title: "Kanban Board",
+    color: "#2D4DB5",
+    bg: "#EEF1FB",
+    border: "#BFD0F0",
+    summary: "A visual board showing all matters organised by lifecycle stage.",
+    items: [
+      { action: "View matters by stage", how: "Each column represents one lifecycle stage. Cards show the matter name, client, assigned partner, practice area, associates, due date, and status." },
+      { action: "Move a matter to a new stage", how: "Drag a card from one column and drop it onto another column. The matter's current stage updates immediately." },
+      { action: "Open a matter", how: "Click any card to open the full matter detail panel on the right side of the screen." },
+      { action: "Filter the board", how: "Use the filter bar above the board to narrow by stage, partner, status, or practice area. Use the search box to find a matter by name or client." },
+    ],
+  },
+  {
+    icon: "📋",
+    title: "Table View",
+    color: "#0B1741",
+    bg: "#F0F2F8",
+    border: "#C8CEDF",
+    summary: "A sortable, filterable grid showing all matters at a glance.",
+    items: [
+      { action: "Sort matters", how: "Click any column header — Matter, Client, Stage, Partner, Opened, Status — to sort ascending or descending. An arrow indicates the active sort." },
+      { action: "Filter matters", how: "Use the filter bar above the table to filter by stage, partner, status, or practice area, or type in the search box to find by name or client." },
+      { action: "Open a matter", how: "Click any row to open the full matter detail panel." },
+    ],
+  },
+  {
+    icon: "✅",
+    title: "To-Do List",
+    color: "#3A9A4A",
+    bg: "#EDF7ED",
+    border: "#A8D5A8",
+    summary: "A personal task view showing all open stage items assigned to a selected team member.",
+    items: [
+      { action: "See a person's tasks", how: "Select a name from the dropdown at the top. The list shows every incomplete stage across all matters where that person is listed as Responsible." },
+      { action: "Filter tasks", how: "Click the summary cards (Overdue, Due This Week, No Due Date) or use the quick-filter pills below them to narrow the list." },
+      { action: "Search tasks", how: "Type in the search box to filter by matter name, client, stage, or notes." },
+      { action: "Open the matter", how: "Click any task row to open the full matter detail panel for that matter." },
+      { action: "Task urgency colours", how: "Red left border = Overdue. Gold left border = Due Soon (within 7 days). Blue left border = On Track. Grey left border = No due date set." },
+    ],
+  },
+  {
+    icon: "📊",
+    title: "Dashboard",
+    color: "#7C3AED",
+    bg: "#F5F3FF",
+    border: "#C4B5FD",
+    summary: "A firm-wide overview with three sub-tabs: Today / This Week, Smart Next Actions, and Missing Info Report.",
+    items: [
+      { action: "Today / This Week tab", how: "Shows seven live queues: Overdue Items, Due Today, Due This Week, Partner Review Queue, Client Review Queue, Billing Queue, and stages with no responsible person assigned. Click any row to open that matter." },
+      { action: "Smart Next Actions tab", how: "Lists every active matter alongside its earliest incomplete stage — the thing that needs to happen next. Sorted by urgency with overdue items first." },
+      { action: "Missing Info Report tab", how: "Automatically flags matters with incomplete data — missing matter name, client name, partner, practice area, responsible person, or due date on the active stage. Click the arrow on any row to see the full list of issues, then click Open & Edit Matter to fix them." },
+      { action: "Filter by clicking a summary card", how: "On the Today / This Week tab, click any of the seven stat cards to scroll directly to that section." },
+    ],
+  },
+  {
+    icon: "📁",
+    title: "Matter Detail Panel",
+    color: "#B5A06A",
+    bg: "#F7F3EA",
+    border: "#D4C38F",
+    summary: "Opens when you click any matter card or row. Shows the full matter file including all stage details, update history, and action buttons.",
+    items: [
+      { action: "View stage details", how: "Each stage is shown as a collapsible accordion row. The active stage is highlighted in blue. Completed stages show a green Done badge." },
+      { action: "Edit matter details", how: "Click Edit Details at the top right of the panel. You can update the matter name, client, practice area, current stage, status, workspace link, and assigned legal assistants. Click Save Changes when done." },
+      { action: "Edit a stage", how: "With Edit Details active, each stage accordion shows editable fields for Date Started, Date Completed, Due Date, Responsible person, Email, and Notes." },
+      { action: "Log a progress update", how: "In any stage body, click + Add Update. Enter your name and a progress note, then click Save Update. The entry is added to the Update History timeline with a timestamp. The most recent entry is highlighted in blue." },
+      { action: "View update history", how: "Each stage shows a timeline of all logged updates, newest first. If there are more than 3 entries, click Show all N updates to expand the full history." },
+      { action: "Send a reminder email", how: "Click Send Reminder inside any stage that has a responsible person's email. This opens your default email client pre-filled with the recipient, subject, and a reminder message." },
+      { action: "Add to calendar (.ics)", how: "Click Add to Calendar (.ics) inside any stage that has a due date. This downloads a calendar file compatible with Outlook, Google Calendar, and Apple Calendar." },
+      { action: "Sync to Outlook (placeholder)", how: "Click Sync to Outlook to simulate an Outlook Calendar sync. This is currently a demo placeholder — Microsoft Graph authentication has not been connected yet. A DEMO badge marks this status." },
+      { action: "Open the matter workspace", how: "If a workspace link has been set, a gold Matter Workspace link appears in the header. Click it to open the iManage workspace in a new tab." },
+    ],
+  },
+  {
+    icon: "➕",
+    title: "Adding a New Matter",
+    color: "#0B1741",
+    bg: "#F0F2F8",
+    border: "#C8CEDF",
+    summary: "Click the blue New Matter button in the top right of the header to open a new matter file.",
+    items: [
+      { action: "Required fields", how: "Matter Name and Client Name are required. All other fields are optional at creation and can be filled in later via Edit Details." },
+      { action: "Assigned Partner", how: "Enter the partner's name and email. These are used for reminder emails and displayed throughout the app." },
+      { action: "Associates", how: "Add one or more associates using the + Add Associate button. Each entry takes a name and email." },
+      { action: "Legal Assistants", how: "Add one or more legal assistants using the + Add Legal Assistant button." },
+      { action: "Include Client Review stage", how: "Tick this checkbox to include the Client Review stage in the lifecycle for this matter. Untick it for matters where client review is not needed." },
+      { action: "iManage Workspace Link", how: "Paste the iManage workspace URL for this matter. It will appear as a clickable link in the matter header." },
+    ],
+  },
+  {
+    icon: "📥",
+    title: "Import from Excel or CSV",
+    color: "#7A6022",
+    bg: "#FBF5E6",
+    border: "#D4C38F",
+    summary: "Click the Import Excel button in the header to bulk-import matters from a spreadsheet file.",
+    items: [
+      { action: "Download a template", how: "Click Download Template in the import panel to get a pre-formatted CSV file with all accepted column headers. Fill it in and re-import." },
+      { action: "Upload a file", how: "Drag and drop an .xlsx, .xls, or .csv file onto the drop zone, or click the zone to browse for the file." },
+      { action: "Preview before importing", how: "After uploading, a preview table shows all detected matters with a status of OK, Warnings, or Duplicate — Skipped for each row. Review it before committing." },
+      { action: "Validation warnings", how: "Missing matter name, missing client name, invalid dates, and unrecognised stage names are flagged as warnings in the preview. Duplicate matters (matched by ID or name) are automatically skipped." },
+      { action: "Confirm the import", how: "Click Import N Matters to add all non-duplicate matters to the app. Click Cancel to discard and close the panel." },
+      { action: "Supported columns", how: "Matter ID, Matter Name, Client Name, Practice Area, Current Stage, Status, Date Opened, Partner Name, Partner Email, Associate Name, Associate Email, Stage, Responsible, Responsible Email, Due Date, Date Started, Date Completed, Notes." },
+    ],
+  },
+  {
+    icon: "📅",
+    title: "Reminders & Calendar",
+    color: "#2A7A34",
+    bg: "#EDF7ED",
+    border: "#A8D5A8",
+    summary: "Each stage in a matter has buttons to send reminder emails and download calendar events.",
+    items: [
+      { action: "Send Reminder email", how: "Opens your default email client (Outlook) with the responsible person's email, a pre-written subject line, and a reminder message body. Requires a responsible person email to be set on the stage." },
+      { action: "Add to Calendar (.ics)", how: "Downloads a standard .ics calendar file for the stage's due date. Compatible with Microsoft Outlook, Google Calendar, and Apple Calendar. Double-click the downloaded file to add it to your calendar." },
+      { action: "Download All Deadlines", how: "The Download All Deadlines button in the top header generates one .ics file containing every upcoming stage due date across all matters. Import it into your calendar app to see all deadlines at once." },
+      { action: "Sync to Outlook (coming soon)", how: "The Sync to Outlook button is a placeholder for a future direct Microsoft Graph API integration. It currently simulates a sync but does not create a real Outlook event. A DEMO badge is shown to make this clear." },
+    ],
+  },
+  {
+    icon: "⚠️",
+    title: "Status Badges",
+    color: "#991B1B",
+    bg: "#FEF2F2",
+    border: "#FCA5A5",
+    summary: "Every matter has a status badge that indicates its current health at a glance.",
+    items: [
+      { action: "On Track (blue)", how: "The matter is progressing normally with no overdue stages." },
+      { action: "At Risk (gold)", how: "The matter has a stage approaching its due date or has been flagged manually as At Risk." },
+      { action: "Overdue (red)", how: "One or more stage due dates have passed without completion." },
+      { action: "Completed (grey)", how: "All stages are done and the matter is closed." },
+      { action: "Changing a status", how: "Open the matter, click Edit Details, and change the Status dropdown to the appropriate value. Click Save Changes." },
+    ],
+  },
+  {
+    icon: "💾",
+    title: "Data & Sessions",
+    color: "#555550",
+    bg: "#F3F2EF",
+    border: "#D4D0C8",
+    summary: "Important information about how data is stored in this version of the app.",
+    items: [
+      { action: "Data is session-only", how: "All matters, updates, and changes are stored in the browser's memory for the current session only. Refreshing the page resets everything back to the three sample matters. This is expected behaviour for this version." },
+      { action: "Do not refresh during a session", how: "Complete all work in one sitting without refreshing the browser. If you need to step away, note down any important information first." },
+      { action: "Persistent storage (coming soon)", how: "A future update will connect the app to a database (such as Supabase or SharePoint Lists) so that all matters are saved permanently and shared across the whole team in real time." },
+      { action: "Exporting your data", how: "There is no bulk export feature yet. This is planned for a future update." },
+    ],
+  },
+];
+
+function HelpView() {
+  const [openSection, setOpenSection] = useState(null);
+
+  return (
+    <div style={{ maxWidth: "860px" }}>
+      {/* Intro banner */}
+      <div style={{
+        background: `linear-gradient(135deg, ${B.navy} 0%, ${B.navyMid} 100%)`,
+        borderRadius: "14px", padding: "24px 28px", marginBottom: "24px",
+        border: `1px solid rgba(181,160,106,0.25)`,
+      }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
+          <div style={{
+            width: "44px", height: "44px", borderRadius: "10px", flexShrink: 0,
+            background: B.gold, display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.55rem", fontWeight: 700, color: "#fff", margin: "0 0 6px" }}>
+              FeriaLaw Matter Tracker — Help Guide
+            </h2>
+            <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.05rem", color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.6 }}>
+              This guide summarises every feature in the app. Click any section below to expand it.
+              All data in this version is session-only — refreshing the page resets to sample matters.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick reference chips */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "20px" }}>
+        {HELP_SECTIONS.map((s, i) => (
+          <button key={i} onClick={() => setOpenSection(openSection === i ? null : i)} style={{
+            fontFamily: "var(--font-heading)", fontSize: "0.88rem", fontWeight: 600,
+            padding: "5px 14px", borderRadius: "999px", cursor: "pointer",
+            background: openSection === i ? s.color : s.bg,
+            color: openSection === i ? "#fff" : s.color,
+            border: `1px solid ${s.border}`,
+            transition: "all 0.13s",
+          }}>
+            {s.icon} {s.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Accordion sections */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        {HELP_SECTIONS.map((section, i) => {
+          const isOpen = openSection === i;
+          return (
+            <div key={i} style={{
+              background: "#fff", borderRadius: "12px", overflow: "hidden",
+              border: `1px solid ${isOpen ? section.border : B.rule}`,
+              borderLeft: `4px solid ${section.color}`,
+              boxShadow: isOpen ? `0 2px 12px rgba(0,0,0,0.06)` : "none",
+              transition: "box-shadow 0.13s",
+            }}>
+              {/* Section header */}
+              <div
+                onClick={() => setOpenSection(isOpen ? null : i)}
+                style={{
+                  padding: "14px 18px", display: "flex", alignItems: "center",
+                  justifyContent: "space-between", cursor: "pointer",
+                  background: isOpen ? section.bg : "#fff",
+                  transition: "background 0.13s",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <span style={{ fontSize: "1.2rem" }}>{section.icon}</span>
+                  <div>
+                    <span style={{
+                      fontFamily: "var(--font-heading)", fontSize: "1.05rem",
+                      fontWeight: 700, color: section.color,
+                    }}>{section.title}</span>
+                    {!isOpen && (
+                      <p style={{
+                        fontFamily: "var(--font-ui)", fontSize: "0.90rem",
+                        color: B.inkMid, margin: "2px 0 0",
+                      }}>{section.summary}</p>
+                    )}
+                  </div>
+                </div>
+                <span style={{ color: "#AAA", fontSize: "0.85rem", flexShrink: 0, marginLeft: "12px" }}>
+                  {isOpen ? "▲" : "▼"}
+                </span>
+              </div>
+
+              {/* Section body */}
+              {isOpen && (
+                <div style={{ padding: "0 18px 18px" }}>
+                  <p style={{
+                    fontFamily: "var(--font-ui)", fontSize: "0.97rem",
+                    color: B.inkMid, margin: "0 0 14px", lineHeight: 1.6,
+                    paddingTop: "12px", borderTop: `1px solid ${section.border}`,
+                  }}>{section.summary}</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {section.items.map((item, j) => (
+                      <div key={j} style={{
+                        display: "grid", gridTemplateColumns: "220px 1fr",
+                        gap: "12px", alignItems: "start",
+                        padding: "10px 14px", borderRadius: "8px",
+                        background: j % 2 === 0 ? "#FAFAF7" : "#fff",
+                        border: `1px solid ${B.rule}`,
+                      }}>
+                        <div style={{
+                          fontFamily: "var(--font-heading)", fontSize: "0.92rem",
+                          fontWeight: 700, color: section.color, lineHeight: 1.4,
+                        }}>
+                          {item.action}
+                        </div>
+                        <div style={{
+                          fontFamily: "var(--font-ui)", fontSize: "0.95rem",
+                          color: B.ink, lineHeight: 1.6,
+                        }}>
+                          {item.how}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Footer note */}
+      <div style={{
+        marginTop: "24px", padding: "14px 18px", borderRadius: "10px",
+        background: B.goldTint, border: `1px solid ${B.goldLight}`,
+        fontFamily: "var(--font-ui)", fontSize: "0.92rem", color: "#7A6022",
+        lineHeight: 1.6,
+      }}>
+        <strong style={{ fontFamily: "var(--font-heading)" }}>Need something added or changed?</strong>{" "}
+        This app is actively being developed. Raise any issues, feature requests, or bugs with your system administrator or the person who manages this tool.
+      </div>
     </div>
   );
 }
@@ -2558,11 +3162,12 @@ export default function FeriaLawTracker() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@500;600;700;800&display=swap');
         :root {
-          --font-serif: 'Abhaya Libre', Georgia, serif;
-          --font-ui:    'Avenir Next', 'Avenir', 'Aptos Narrow', 'Segoe UI', system-ui, sans-serif;
+          --font-serif:   'Abhaya Libre', Georgia, serif;
+          --font-ui:      'Aptos Narrow', 'Avenir Next', 'Avenir', 'Segoe UI', system-ui, sans-serif;
+          --font-heading: 'Aptos Narrow', 'Avenir Next', 'Avenir', 'Segoe UI', system-ui, sans-serif;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-ui); background: #F3F2EF; color: #1A1A1A; }
+        body { font-family: var(--font-ui); background: #F3F2EF; color: #1A1A1A; font-size: 15px; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #EDECEA; }
         ::-webkit-scrollbar-thumb { background: rgba(181,160,106,0.4); border-radius: 3px; }
@@ -2579,22 +3184,22 @@ export default function FeriaLawTracker() {
               {/* Logo */}
               <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                 <img src={LOGO_URI} alt="Feria Tantoco Daos"
-                  style={{ height: "46px", width: "auto", objectFit: "contain", filter: "brightness(1.05)" }} />
-                <div style={{ width: "1px", height: "38px", background: "rgba(181,160,106,0.4)" }} />
+                  style={{ height: "96px", width: "auto", objectFit: "contain", filter: "brightness(1.05)" }} />
+                <div style={{ width: "1px", height: "76px", background: "rgba(181,160,106,0.4)" }} />
                 <div>
                   <p style={{
-                    fontFamily: "var(--font-ui)", fontSize: "0.62rem", fontWeight: 700,
+                    fontFamily: "var(--font-heading)", fontSize: "1.0rem", fontWeight: 700,
                     letterSpacing: "0.25em", textTransform: "uppercase",
                     color: B.gold, marginBottom: "2px",
                   }}>Matter Lifecycle Tracker</p>
-                  <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.7rem", color: "rgba(255,255,255,0.45)", letterSpacing: "0.04em" }}>Internal Practice Management Tool</p>
+                  <p style={{ fontFamily: "var(--font-ui)", fontSize: "1.15rem", color: "rgba(255,255,255,0.45)", letterSpacing: "0.04em" }}>Internal Practice Management Tool</p>
                 </div>
               </div>
               {/* Actions */}
               <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                 <button onClick={handleDownloadAllDeadlines} style={{
                   display: "inline-flex", alignItems: "center", gap: "6px",
-                  fontFamily: "var(--font-ui)", fontSize: "0.78rem", fontWeight: 500,
+                  fontFamily: "var(--font-ui)", fontSize: "1.02rem", fontWeight: 500,
                   padding: "8px 14px", borderRadius: "9px", cursor: "pointer",
                   border: `1px solid rgba(181,160,106,0.45)`,
                   background: "transparent", color: B.goldLight,
@@ -2609,7 +3214,7 @@ export default function FeriaLawTracker() {
                     — requires MSAL sign-in flow first (see scaffold comments). */}
                 <button onClick={() => setShowImportModal(true)} style={{
                   display: "inline-flex", alignItems: "center", gap: "6px",
-                  fontFamily: "var(--font-ui)", fontSize: "0.78rem", fontWeight: 500,
+                  fontFamily: "var(--font-ui)", fontSize: "1.02rem", fontWeight: 500,
                   padding: "8px 14px", borderRadius: "9px", cursor: "pointer",
                   border: `1px solid rgba(181,160,106,0.45)`,
                   background: "transparent", color: B.goldLight,
@@ -2619,7 +3224,7 @@ export default function FeriaLawTracker() {
                 </button>
                 <button onClick={() => setShowAddModal(true)} style={{
                   display: "inline-flex", alignItems: "center", gap: "6px",
-                  fontFamily: "var(--font-ui)", fontSize: "0.82rem", fontWeight: 700,
+                  fontFamily: "var(--font-heading)", fontSize: "1.15rem", fontWeight: 700,
                   padding: "8px 18px", borderRadius: "9px", cursor: "pointer",
                   background: B.cobalt, color: "#fff", border: "none",
                   boxShadow: "0 2px 8px rgba(45,77,181,0.35)",
@@ -2643,8 +3248,8 @@ export default function FeriaLawTracker() {
                 { label: "Completed",     val: stats.completed, valColor: "rgba(255,255,255,0.3)" },
               ].map(s => (
                 <div key={s.label} style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
-                  <span style={{ fontFamily: "var(--font-serif)", fontSize: "1.5rem", fontWeight: 700, color: s.valColor, lineHeight: 1 }}>{s.val}</span>
-                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.68rem", textTransform: "uppercase", letterSpacing: "0.07em", color: "rgba(255,255,255,0.42)" }}>{s.label}</span>
+                  <span style={{ fontFamily: "var(--font-serif)", fontSize: "1.8rem", fontWeight: 700, color: s.valColor, lineHeight: 1 }}>{s.val}</span>
+                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.92rem", textTransform: "uppercase", letterSpacing: "0.07em", color: "rgba(255,255,255,0.42)" }}>{s.label}</span>
                 </div>
               ))}
             </div>
@@ -2658,22 +3263,19 @@ export default function FeriaLawTracker() {
           {showBanner && (
             <div style={{
               marginBottom: "18px", borderRadius: "10px", position: "relative", overflow: "hidden",
-              border: `1px solid ${B.goldLight}`, background: B.goldTint, padding: "13px 40px 13px 20px",
+              border: "1px solid #FCA5A5", background: "#FEF2F2", padding: "13px 40px 13px 20px",
             }}>
-              <div style={{ position: "absolute", top: 0, left: 0, width: "3px", height: "100%", background: B.gold }} />
+              <div style={{ position: "absolute", top: 0, left: 0, width: "3px", height: "100%", background: "#DC2626" }} />
               <button onClick={() => setShowBanner(false)} style={{
                 position: "absolute", top: "10px", right: "14px",
                 background: "transparent", border: "none", cursor: "pointer",
-                color: B.gold, fontSize: "1.2rem", lineHeight: 1,
+                color: "#DC2626", fontSize: "1.55rem", lineHeight: 1,
               }}>×</button>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.76rem", fontWeight: 700, color: "#5C4A18", marginBottom: "4px" }}>
-                🔗 Deploy &amp; Share This App With Your Team
-              </p>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: "#7A6022", lineHeight: 1.6 }}>
-                <strong>(1)</strong> Host on <strong>Microsoft Azure Static Web Apps</strong> or embed in SharePoint as a Web Part.&nbsp;
-                <strong>(2)</strong> Deploy to <strong>Vercel or Netlify</strong> (free tier) and share the URL.&nbsp;
-                <strong>(3)</strong> Wrap as a <strong>Microsoft Teams Tab App</strong> via the Teams Developer Portal.&nbsp;
-                For persistent shared data, connect to <strong>Airtable, Supabase, or SharePoint Lists</strong> via API.
+              <p style={{ fontFamily: "var(--font-heading)", fontSize: "1.05rem", fontWeight: 700, color: "#991B1B", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ flexShrink: 0 }}>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                This tracker is for beta testing purposes only. Do NOT input actual client information here.
               </p>
             </div>
           )}
@@ -2694,11 +3296,14 @@ export default function FeriaLawTracker() {
                 ["dashboard", "Dashboard",
                   <svg key="db" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 0a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zm10-3a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1v-7z" /></svg>
                 ],
+                ["help", "Help",
+                  <svg key="h" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                ],
               ].map(([v, label, icon]) => (
                 <button key={v} onClick={() => setView(v)} style={{
                   display: "inline-flex", alignItems: "center", gap: "6px",
                   padding: "7px 16px", borderRadius: "8px",
-                  fontFamily: "var(--font-ui)", fontSize: "0.8rem", fontWeight: v === view ? 700 : 500,
+                  fontFamily: "var(--font-ui)", fontSize: "0.92rem", fontWeight: v === view ? 700 : 500,
                   background: v === view ? B.navy : "transparent",
                   color: v === view ? "#fff" : B.inkMid,
                   border: "none", cursor: "pointer", transition: "all 0.15s",
@@ -2708,12 +3313,12 @@ export default function FeriaLawTracker() {
                 </button>
               ))}
             </div>
-            <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "#AAA" }}>
+            <span style={{ fontFamily: "var(--font-ui)", fontSize: "1.02rem", color: "#AAA" }}>
               {matters.length} matter{matters.length !== 1 ? "s" : ""} on file
             </span>
           </div>
 
-          {view !== "todo" && view !== "dashboard" && (
+          {view !== "todo" && view !== "dashboard" && view !== "help" && (
             <FiltersBar matters={matters} filters={filters} setFilters={setFilters} />
           )}
 
@@ -2728,6 +3333,9 @@ export default function FeriaLawTracker() {
           )}
           {view === "dashboard" && (
             <DashboardView matters={matters} onOpenMatter={setSelectedMatter} />
+          )}
+          {view === "help" && (
+            <HelpView />
           )}
         </main>
 
