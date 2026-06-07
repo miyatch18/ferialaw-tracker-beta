@@ -71,83 +71,446 @@ const genId = () => `M-${String(_nextId++).padStart(4, "0")}`;
 
 const SAMPLE_MATTERS = [
   {
-    id: "M-0001", name: "Delgado vs. Reyes Corporation", client: "Eduardo Delgado",
-    dateOpened: "2025-03-10", practiceArea: "Litigation - Civil", currentStage: "Partner Review",
-    includeClientReview: true, status: "At Risk",
+    id: "M-0001", name: "Villanueva vs. Metro Construction Corp", client: "Atty. Rafael Villanueva",
+    dateOpened: "2026-04-10", practiceArea: "Litigation - Civil", currentStage: "Client Engagement",
+    includeClientReview: true, status: "On Track",
     assignedPartner: { name: "Atty. Maria Santos", email: "m.santos@feriatantoco.com" },
-    assignedAssociates: [
-      { name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com" },
-      { name: "Atty. Bianca Reyes", email: "b.reyes@feriatantoco.com" },
-    ],
+    assignedAssociates: [{ name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com" }, { name: "Atty. Bianca Reyes", email: "b.reyes@feriatantoco.com" }],
     assignedLegalAssistants: [{ name: "Ms. Rosa Cruz", email: "r.cruz@feriatantoco.com" }],
     workspaceLink: "",
-    feeArrangement: "Milestone-Based",
-    billingLog: [
-      { id: "BL-001", description: "Retainer upon engagement", amount: "PHP 150,000", plannedDate: "2025-03-12", dateBilled: "2025-03-12", invoiceRef: "INV-2025-001", status: "Paid", notes: "Initial retainer received.", createdAt: "2025-03-12T10:00:00" },
-      { id: "BL-002", description: "Filing fees and court appearances — Q2", amount: "PHP 80,000", plannedDate: "2025-06-30", dateBilled: "", invoiceRef: "", status: "Pending", notes: "", createdAt: "2025-03-12T10:05:00" },
-    ],
+    feeArrangement: "Retainer",
+    billingLog: [{ id: "BL-001", description: "Initial retainer", amount: "PHP 120,000", plannedDate: "2026-04-10", dateBilled: "2026-04-10", invoiceRef: "INV-2026-001", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }],
     closedDate: "", holdReason: "",
     stages: {
-      "Client Engagement": { dateStarted: "2025-03-10", dateCompleted: "2025-03-12", notes: "Initial consultation completed. Retainer signed.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-12", updateLog: [{ timestamp: "2025-03-10T09:00:00", author: "Atty. Maria Santos", text: "Matter opened. Client Eduardo Delgado attended initial consultation." }, { timestamp: "2025-03-12T14:30:00", author: "Atty. Maria Santos", text: "Retainer agreement signed and filed." }] },
-      "Proposal & Scoping": { dateStarted: "2025-03-13", dateCompleted: "2025-03-20", notes: "Scope defined: breach of contract claim, estimated 6 months.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-20", updateLog: [] },
-      "Matter Intake & Work Assignment": { dateStarted: "2025-03-21", dateCompleted: "2025-03-25", notes: "Assigned to Mendez and Reyes for research and pleadings.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-03-25", updateLog: [] },
-      "Research & Work Output": { dateStarted: "2025-03-26", dateCompleted: "2025-05-15", notes: "Complaint drafted, supporting documents compiled.", responsible: "Atty. Bianca Reyes", responsibleEmail: "b.reyes@feriatantoco.com", dueDate: "2025-05-15", updateLog: [] },
-      "Partner Review": { dateStarted: "2025-05-16", dateCompleted: "", notes: "Reviewing complaint and exhibits. Two rounds of revisions expected.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-06-05", updateLog: [] },
-      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "2025-06-15", updateLog: [] },
-      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
-      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
+      "Client Engagement": { dateStarted: "2026-04-10", dateCompleted: "", notes: "Initial consultation held. Scope: construction defect claim.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-04-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-04-10T09:00:00", author: "Atty. Maria Santos", text: "Client attended consultation. Retainer discussed." }, { timestamp: "2026-04-11T10:00:00", author: "Atty. Carlos Mendez", text: "Document checklist sent to client." }] },
+      "Proposal & Scoping": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
     },
   },
   {
-    id: "M-0002", name: "Sunrise Capital Series A Structuring", client: "Sunrise Capital Partners",
-    dateOpened: "2025-04-01", practiceArea: "Corporate/Transactional", currentStage: "Research & Work Output",
+    id: "M-0002", name: "PhilPower vs. Southern Grid Arbitration", client: "PhilPower Corporation",
+    dateOpened: "2026-03-15", practiceArea: "Arbitration", currentStage: "Proposal & Scoping",
     includeClientReview: false, status: "On Track",
     assignedPartner: { name: "Atty. José Feria", email: "j.feria@feriatantoco.com" },
     assignedAssociates: [{ name: "Atty. Diana Lim", email: "d.lim@feriatantoco.com" }],
     assignedLegalAssistants: [{ name: "Mr. Paolo Santos", email: "p.santos@feriatantoco.com" }],
     workspaceLink: "",
-    feeArrangement: "Fixed Fee",
-    billingLog: [
-      { id: "BL-001", description: "Engagement fee — Series A structuring", amount: "PHP 1,200,000", plannedDate: "2025-04-10", dateBilled: "", invoiceRef: "", status: "Planned", notes: "To be invoiced upon completion of SHA.", createdAt: "2025-04-10T09:00:00" },
-    ],
+    feeArrangement: "Milestone-Based",
+    billingLog: [{ id: "BL-001", description: "Engagement fee — Phase 1", amount: "PHP 500,000", plannedDate: "2026-04-01", dateBilled: "", invoiceRef: "", status: "Planned", notes: "", createdAt: "2025-01-01T09:00:00" }],
     closedDate: "", holdReason: "",
     stages: {
-      "Client Engagement": { dateStarted: "2025-04-01", dateCompleted: "2025-04-03", notes: "Engagement letter executed.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2025-04-03", updateLog: [] },
-      "Proposal & Scoping": { dateStarted: "2025-04-04", dateCompleted: "2025-04-10", notes: "Term sheet reviewed. Full Series A docs scope agreed at PHP 1.2M.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2025-04-10", updateLog: [] },
-      "Matter Intake & Work Assignment": { dateStarted: "2025-04-11", dateCompleted: "2025-04-15", notes: "Assigned to Atty. Lim for primary drafting.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2025-04-15", updateLog: [] },
-      "Research & Work Output": { dateStarted: "2025-04-16", dateCompleted: "", notes: "SHA, SPA, and Board Resolutions in progress. Investor questionnaires sent.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-06-20", updateLog: [] },
-      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-06-30", updateLog: [] },
-      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
-      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
-      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", updateLog: [] },
+      "Client Engagement": { dateStarted: "2026-03-15", dateCompleted: "2026-03-18", notes: "Engagement letter signed. SIAC arbitration scope confirmed.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-03-18", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-03-19", dateCompleted: "", notes: "Drafting proposed arbitration strategy and cost estimate.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-04-05", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-03-20T11:00:00", author: "Atty. Diana Lim", text: "Arbitration clause reviewed. Drafting memo on SIAC rules." }, { timestamp: "2026-03-25T14:00:00", author: "Atty. José Feria", text: "Scope proposal submitted to client for approval." }] },
+      "Matter Intake & Work Assignment": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
     },
   },
   {
-    id: "M-0003", name: "Reyes Family Estate Administration", client: "Reyes Family Estate",
-    dateOpened: "2025-01-15", practiceArea: "Real Estate (Ind)", currentStage: "Client Feedback Request",
-    includeClientReview: true, status: "Completed",
+    id: "M-0003", name: "NovaTech Philippines Inc. Incorporation", client: "NovaTech Holdings Ltd.",
+    dateOpened: "2026-04-01", practiceArea: "Corporate/Transactional", currentStage: "Matter Intake & Work Assignment",
+    includeClientReview: false, status: "On Track",
+    assignedPartner: { name: "Atty. Ricardo Daos", email: "r.daos@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Marco Torres", email: "m.torres@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Ms. Carina Delos Santos", email: "c.delossantos@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [{ id: "BL-001", description: "Corporate incorporation package", amount: "PHP 85,000", plannedDate: "2026-04-30", dateBilled: "", invoiceRef: "", status: "Planned", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-04-01", dateCompleted: "2026-04-03", notes: "Foreign parent confirmed PH subsidiary setup. BI pre-clearance discussed.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-04-03", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-04-04", dateCompleted: "2026-04-08", notes: "Fixed fee agreed. DOLE, SEC, BIR registrations in scope.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-04-08", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-04-09", dateCompleted: "", notes: "Articles and by-laws being prepared. SEC name reservation filed.", responsible: "Atty. Marco Torres", responsibleEmail: "m.torres@feriatantoco.com", dueDate: "2026-04-20", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-04-09T09:00:00", author: "Atty. Marco Torres", text: "SEC name reservation submitted. Awaiting confirmation." }, { timestamp: "2026-04-12T15:00:00", author: "Ms. Carina Delos Santos", text: "Compiled board resolutions template and shareholder list." }] },
+      "Research & Work Output": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0004", name: "Meridian REIT IPO Legal Due Diligence", client: "Meridian Property Fund",
+    dateOpened: "2026-02-01", practiceArea: "Capital Markets Transactions", currentStage: "Research & Work Output",
+    includeClientReview: false, status: "On Track",
     assignedPartner: { name: "Atty. Maria Santos", email: "m.santos@feriatantoco.com" },
-    assignedAssociates: [{ name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com" }],
+    assignedAssociates: [{ name: "Atty. Bianca Reyes", email: "b.reyes@feriatantoco.com" }, { name: "Atty. Sofia Reyes", email: "s.reyes@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Jerome Reyes", email: "j.reyes@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Hourly",
+    billingLog: [{ id: "BL-001", description: "Due diligence Phase 1 — Feb", amount: "PHP 320,000", plannedDate: "2026-03-01", dateBilled: "2026-03-05", invoiceRef: "INV-2026-008", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-002", description: "Due diligence Phase 2 — Mar/Apr", amount: "PHP 280,000", plannedDate: "2026-05-01", dateBilled: "", invoiceRef: "", status: "Pending", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-02-01", dateCompleted: "2026-02-05", notes: "IPO legal workstream scope confirmed. Hourly billing agreed.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-02-05", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-02-06", dateCompleted: "2026-02-12", notes: "Engagement letter executed. PSE and SEC requirements mapped.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-02-12", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-02-13", dateCompleted: "2026-02-15", notes: "Reyes assigned to title due diligence; Sofia Reyes to corporate governance.", responsible: "Atty. Bianca Reyes", responsibleEmail: "b.reyes@feriatantoco.com", dueDate: "2026-02-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2026-02-16", dateCompleted: "", notes: "Phase 1 complete. Phase 2 regulatory analysis ongoing.", responsible: "Atty. Bianca Reyes", responsibleEmail: "b.reyes@feriatantoco.com", dueDate: "2026-05-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-03-01T09:00:00", author: "Atty. Bianca Reyes", text: "Phase 1 due diligence report submitted." }, { timestamp: "2026-04-10T11:30:00", author: "Atty. Sofia Reyes", text: "Regulatory findings memo drafted. Partner review pending." }] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0005", name: "Aquino Family Trust and Estate Plan", client: "Alejandro Aquino",
+    dateOpened: "2026-01-20", practiceArea: "Estate Planning/Settlement", currentStage: "Partner Review",
+    includeClientReview: true, status: "At Risk",
+    assignedPartner: { name: "Atty. José Feria", email: "j.feria@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Marco Torres", email: "m.torres@feriatantoco.com" }, { name: "Atty. Sofia Reyes", email: "s.reyes@feriatantoco.com" }],
     assignedLegalAssistants: [{ name: "Ms. Rosa Cruz", email: "r.cruz@feriatantoco.com" }],
     workspaceLink: "",
     feeArrangement: "Fixed Fee",
-    billingLog: [
-      { id: "BL-001", description: "Flat fee — extrajudicial settlement", amount: "PHP 250,000", plannedDate: "2025-03-26", dateBilled: "2025-04-02", invoiceRef: "INV-2025-015", status: "Paid", notes: "Paid in full.", createdAt: "2025-03-26T08:00:00" },
-    ],
-    closedDate: "2025-04-10", holdReason: "",
+    billingLog: [{ id: "BL-001", description: "Estate planning flat fee", amount: "PHP 180,000", plannedDate: "2026-03-01", dateBilled: "2026-03-10", invoiceRef: "INV-2026-005", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-002", description: "Trust registration fees", amount: "PHP 45,000", plannedDate: "2026-05-01", dateBilled: "", invoiceRef: "", status: "Pending", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
     stages: {
-      "Client Engagement": { dateStarted: "2025-01-15", dateCompleted: "2025-01-16", notes: "Heirs met with partner. Scope: full estate settlement.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-01-16", updateLog: [] },
-      "Proposal & Scoping": { dateStarted: "2025-01-17", dateCompleted: "2025-01-22", notes: "Agreed on flat fee for extrajudicial settlement.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-01-22", updateLog: [] },
-      "Matter Intake & Work Assignment": { dateStarted: "2025-01-23", dateCompleted: "2025-01-25", notes: "Mendez assigned to title research and document compilation.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-01-25", updateLog: [] },
-      "Research & Work Output": { dateStarted: "2025-01-26", dateCompleted: "2025-03-10", notes: "EJS drafted, tax clearances obtained, BIR filings completed.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-03-10", updateLog: [] },
-      "Partner Review": { dateStarted: "2025-03-11", dateCompleted: "2025-03-18", notes: "All documents reviewed and approved.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-18", updateLog: [] },
-      "Client Review": { dateStarted: "2025-03-19", dateCompleted: "2025-03-25", notes: "Heirs reviewed and signed EJS.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-03-25", updateLog: [] },
-      "Billing": { dateStarted: "2025-03-26", dateCompleted: "2025-04-02", notes: "Invoice sent and settled in full.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-04-02", updateLog: [] },
-      "Client Feedback Request": { dateStarted: "2025-04-03", dateCompleted: "2025-04-10", notes: "5-star feedback received. Client expressed satisfaction.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-04-10", updateLog: [] },
+      "Client Engagement": { dateStarted: "2026-01-20", dateCompleted: "2026-01-22", notes: "Consultation with client and spouse. Multi-generational estate plan in scope.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-01-22", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-01-23", dateCompleted: "2026-01-28", notes: "Scope: family trust, wills, and advance healthcare directives.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-01-28", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-01-29", dateCompleted: "2026-02-01", notes: "Torres on trust deed; Sofia Reyes on wills and directives.", responsible: "Atty. Marco Torres", responsibleEmail: "m.torres@feriatantoco.com", dueDate: "2026-02-01", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2026-02-02", dateCompleted: "2026-04-10", notes: "Trust deed, wills, and all ancillary documents completed.", responsible: "Atty. Marco Torres", responsibleEmail: "m.torres@feriatantoco.com", dueDate: "2026-04-10", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "2026-04-11", dateCompleted: "", notes: "Partner reviewing trust structure for tax efficiency. Revision on beneficiary designations.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-04-25", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-04-12T10:00:00", author: "Atty. José Feria", text: "Initial review done. Flagged potential estate tax issue with trust structure." }, { timestamp: "2026-04-18T14:00:00", author: "Atty. Marco Torres", text: "Revised trust deed submitted for re-review." }] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
     },
   },
+  {
+    id: "M-0006", name: "Solaris Renewable Energy EPIRA Compliance", client: "Solaris Energy Corp.",
+    dateOpened: "2025-11-01", practiceArea: "Energy", currentStage: "Client Review",
+    includeClientReview: true, status: "On Track",
+    assignedPartner: { name: "Atty. Ana Tantoco", email: "a.tantoco@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com" }, { name: "Atty. Diana Lim", email: "d.lim@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Paolo Santos", email: "p.santos@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Retainer",
+    billingLog: [{ id: "BL-001", description: "Monthly retainer — Nov 2025", amount: "PHP 95,000", plannedDate: "2025-11-30", dateBilled: "2025-12-05", invoiceRef: "INV-2025-098", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-002", description: "Monthly retainer — Dec 2025", amount: "PHP 95,000", plannedDate: "2025-12-31", dateBilled: "2026-01-08", invoiceRef: "INV-2025-112", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-003", description: "Monthly retainer — Jan 2026", amount: "PHP 95,000", plannedDate: "2026-01-31", dateBilled: "2026-02-05", invoiceRef: "INV-2026-003", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2025-11-01", dateCompleted: "2025-11-03", notes: "Retainer engagement signed. EPIRA audit scope confirmed.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2025-11-03", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2025-11-04", dateCompleted: "2025-11-10", notes: "Scope: ERC compliance review, grid connection agreements.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2025-11-10", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2025-11-11", dateCompleted: "2025-11-14", notes: "Mendez on ERC filings; Lim on grid contracts.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-11-14", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2025-11-15", dateCompleted: "2026-03-15", notes: "All compliance documents and contracts prepared.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-03-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "2026-03-16", dateCompleted: "2026-04-01", notes: "Full review complete. Minor amendments noted.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2026-04-01", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "2026-04-02", dateCompleted: "", notes: "Client reviewing final compliance package and grid agreements.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2026-04-20", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-04-05T09:00:00", author: "Atty. Ana Tantoco", text: "Documents sent to client. Awaiting sign-off from their technical team." }] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0007", name: "Tanaka Corp. Employee Visa Applications", client: "Tanaka Corporation Philippines",
+    dateOpened: "2026-02-15", practiceArea: "Immigration", currentStage: "Billing",
+    includeClientReview: false, status: "On Track",
+    assignedPartner: { name: "Atty. Ricardo Daos", email: "r.daos@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Sofia Reyes", email: "s.reyes@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Ms. Carina Delos Santos", email: "c.delossantos@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [{ id: "BL-001", description: "5 × 9(g) work visa applications", amount: "PHP 210,000", plannedDate: "2026-04-30", dateBilled: "", invoiceRef: "", status: "Pending", notes: "Five Japanese national employees", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-02-15", dateCompleted: "2026-02-17", notes: "Engagement confirmed. 5 work permit applications needed.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-02-17", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-02-18", dateCompleted: "2026-02-22", notes: "Fixed fee per visa application agreed. BI documentary requirements mapped.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-02-22", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-02-23", dateCompleted: "2026-02-25", notes: "Sofia Reyes assigned. Documents checklist sent to HR.", responsible: "Atty. Sofia Reyes", responsibleEmail: "s.reyes@feriatantoco.com", dueDate: "2026-02-25", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2026-02-26", dateCompleted: "2026-04-05", notes: "All 5 visa applications filed and approved. ARCs received.", responsible: "Atty. Sofia Reyes", responsibleEmail: "s.reyes@feriatantoco.com", dueDate: "2026-04-05", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "2026-04-06", dateCompleted: "2026-04-08", notes: "Review confirmed. All approvals in order.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-04-08", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "2026-04-09", dateCompleted: "", notes: "Invoice issued to client. Awaiting payment.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-04-30", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-04-09T10:00:00", author: "Ms. Carina Delos Santos", text: "Invoice INV-2026-021 sent to Tanaka Corp. accounts payable." }] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0008", name: "Lumina Brands Trademark Registration Portfolio", client: "Lumina Consumer Goods Inc.",
+    dateOpened: "2025-10-01", practiceArea: "Intellectual Property", currentStage: "Client Feedback Request",
+    includeClientReview: true, status: "Completed",
+    assignedPartner: { name: "Atty. Maria Santos", email: "m.santos@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Jerome Reyes", email: "j.reyes@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [{ id: "BL-001", description: "Trademark filing fees — 8 marks", amount: "PHP 96,000", plannedDate: "2025-10-20", dateBilled: "2025-10-25", invoiceRef: "INV-2025-075", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-002", description: "Professional fee — prosecution", amount: "PHP 150,000", plannedDate: "2026-02-01", dateBilled: "2026-02-10", invoiceRef: "INV-2026-002", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2025-10-01", dateCompleted: "2025-10-03", notes: "Client engaged for full trademark portfolio in PH.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-10-03", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2025-10-04", dateCompleted: "2025-10-08", notes: "8 trademark applications in scope across 4 classes.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2025-10-08", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2025-10-09", dateCompleted: "2025-10-11", notes: "Mendez assigned. Clearance searches initiated.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-10-11", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2025-10-12", dateCompleted: "2026-01-15", notes: "All 8 marks filed. 2 office actions responded to successfully.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2026-01-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "2026-01-16", dateCompleted: "2026-01-22", notes: "Review complete. All certificates of registration obtained.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-01-22", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "2026-01-23", dateCompleted: "2026-01-28", notes: "Client reviewed and accepted registration certificates.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-01-28", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "2026-01-29", dateCompleted: "2026-02-12", notes: "Final invoice settled.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-02-12", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "2026-02-13", dateCompleted: "", notes: "Feedback request sent. Awaiting client survey.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2026-04-30", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-02-13T09:00:00", author: "Mr. Jerome Reyes", text: "Client satisfaction survey sent via email." }] }
+    },
+  },
+  {
+    id: "M-0009", name: "BCP Retail DOLE Labor Standards Compliance", client: "BCP Retail Corp.",
+    dateOpened: "2026-03-01", practiceArea: "Labor and Employment", currentStage: "Research & Work Output",
+    includeClientReview: false, status: "On Track",
+    assignedPartner: { name: "Atty. José Feria", email: "j.feria@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Marco Torres", email: "m.torres@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Ms. Rosa Cruz", email: "r.cruz@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [{ id: "BL-001", description: "Labor audit and compliance review", amount: "PHP 220,000", plannedDate: "2026-06-01", dateBilled: "", invoiceRef: "", status: "Planned", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-03-01", dateCompleted: "2026-03-03", notes: "Client facing DOLE inspection. Engaged for compliance review.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-03-03", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-03-04", dateCompleted: "2026-03-08", notes: "Scope: 5 store branches. Compliance mapping and corrective action plan.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-03-08", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-03-09", dateCompleted: "2026-03-12", notes: "Torres assigned. DOLE inspection schedule reviewed.", responsible: "Atty. Marco Torres", responsibleEmail: "m.torres@feriatantoco.com", dueDate: "2026-03-12", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2026-03-13", dateCompleted: "", notes: "On-site audits of 3 of 5 branches complete. Compliance gaps identified.", responsible: "Atty. Marco Torres", responsibleEmail: "m.torres@feriatantoco.com", dueDate: "2026-05-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-03-20T10:00:00", author: "Atty. Marco Torres", text: "Branches 1-3 audited. Findings: overtime pay discrepancies." }, { timestamp: "2026-04-05T14:00:00", author: "Ms. Rosa Cruz", text: "DOLE forms prepared and filed for branches 1-3." }] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0010", name: "People vs. Hernandez — Corporate Fraud Defense", client: "Hernandez Family",
+    dateOpened: "2025-12-01", practiceArea: "Litigation - Criminal", currentStage: "Partner Review",
+    includeClientReview: false, status: "At Risk",
+    assignedPartner: { name: "Atty. Ana Tantoco", email: "a.tantoco@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Bianca Reyes", email: "b.reyes@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Jerome Reyes", email: "j.reyes@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Retainer",
+    billingLog: [{ id: "BL-001", description: "Criminal defense retainer — Q4 2025", amount: "PHP 800,000", plannedDate: "2025-12-15", dateBilled: "2025-12-20", invoiceRef: "INV-2025-102", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-002", description: "Criminal defense retainer — Q1 2026", amount: "PHP 800,000", plannedDate: "2026-03-01", dateBilled: "2026-03-08", invoiceRef: "INV-2026-006", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-003", description: "Criminal defense retainer — Q2 2026", amount: "PHP 800,000", plannedDate: "2026-06-01", dateBilled: "", invoiceRef: "", status: "Pending", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2025-12-01", dateCompleted: "2025-12-03", notes: "Family engaged following warrant of arrest. Case review initiated.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2025-12-03", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2025-12-04", dateCompleted: "2025-12-08", notes: "Scope: full criminal defense. Motion to quash and bail petition.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2025-12-08", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2025-12-09", dateCompleted: "2025-12-12", notes: "Bianca Reyes assigned as lead associate.", responsible: "Atty. Bianca Reyes", responsibleEmail: "b.reyes@feriatantoco.com", dueDate: "2025-12-12", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2025-12-13", dateCompleted: "2026-04-20", notes: "Bail granted. Pre-trial conference briefs completed.", responsible: "Atty. Bianca Reyes", responsibleEmail: "b.reyes@feriatantoco.com", dueDate: "2026-04-20", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "2026-04-21", dateCompleted: "", notes: "Reviewing trial brief and witness list.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2026-05-10", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-04-22T09:00:00", author: "Atty. Ana Tantoco", text: "Trial brief reviewed. Requesting supplemental evidence from client." }, { timestamp: "2026-04-28T11:00:00", author: "Atty. Bianca Reyes", text: "Supplemental documents received and incorporated." }] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0011", name: "Greenfield Holdings Acquisition of PacificMart", client: "Greenfield Holdings Corp.",
+    dateOpened: "2026-01-10", practiceArea: "Mergers & Acquisitions", currentStage: "Research & Work Output",
+    includeClientReview: false, status: "On Track",
+    assignedPartner: { name: "Atty. Ricardo Daos", email: "r.daos@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Diana Lim", email: "d.lim@feriatantoco.com" }, { name: "Atty. Sofia Reyes", email: "s.reyes@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Paolo Santos", email: "p.santos@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Hourly",
+    billingLog: [{ id: "BL-001", description: "M&A legal work — Jan 2026", amount: "PHP 450,000", plannedDate: "2026-02-01", dateBilled: "2026-02-10", invoiceRef: "INV-2026-001", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-002", description: "M&A legal work — Feb/Mar 2026", amount: "PHP 520,000", plannedDate: "2026-04-01", dateBilled: "2026-04-08", invoiceRef: "INV-2026-011", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-003", description: "M&A legal work — Apr/May 2026", amount: "PHP 480,000", plannedDate: "2026-06-01", dateBilled: "", invoiceRef: "", status: "Pending", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-01-10", dateCompleted: "2026-01-12", notes: "NDA executed. Preliminary term sheet reviewed.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-01-12", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-01-13", dateCompleted: "2026-01-18", notes: "Full acquisition scope: legal DD, SPA, and regulatory filings.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-01-18", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-01-19", dateCompleted: "2026-01-22", notes: "Lim on DD; Sofia Reyes on regulatory approvals (PCC/BSP).", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-01-22", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2026-01-23", dateCompleted: "", notes: "Legal DD report finalized. SPA under negotiation — 3rd draft circulated.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-05-31", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-02-15T10:00:00", author: "Atty. Diana Lim", text: "DD report Phase 1 submitted. 12 red-flag items flagged." }, { timestamp: "2026-03-28T14:00:00", author: "Atty. Sofia Reyes", text: "PCC merger notification filed." }, { timestamp: "2026-04-20T09:00:00", author: "Atty. Diana Lim", text: "SPA 3rd draft circulated to opposing counsel." }] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0012", name: "Navarra Industries Annual Corporate Secretarial Services", client: "Navarra Industries Inc.",
+    dateOpened: "2026-01-01", practiceArea: "Corporate Secretary Svc", currentStage: "Billing",
+    includeClientReview: false, status: "On Track",
+    assignedPartner: { name: "Atty. Maria Santos", email: "m.santos@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Ms. Carina Delos Santos", email: "c.delossantos@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Retainer",
+    billingLog: [{ id: "BL-001", description: "Annual corp. sec. retainer — Q1", amount: "PHP 60,000", plannedDate: "2026-03-31", dateBilled: "2026-04-02", invoiceRef: "INV-2026-009", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-002", description: "Annual corp. sec. retainer — Q2", amount: "PHP 60,000", plannedDate: "2026-06-30", dateBilled: "", invoiceRef: "", status: "Planned", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-01-01", dateCompleted: "2026-01-03", notes: "Annual retainer renewed. New fiscal year scope confirmed.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-01-03", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-01-04", dateCompleted: "2026-01-07", notes: "Scope: GIS, board meetings, SEC filings, dividend declarations.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-01-07", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-01-08", dateCompleted: "2026-01-10", notes: "Mendez and Carina assigned as corp. sec. team.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2026-01-10", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2026-01-11", dateCompleted: "2026-04-10", notes: "Q1 work complete: GIS filed, 2 board meetings minuted, 1 dividend declared.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2026-04-10", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "2026-04-11", dateCompleted: "2026-04-14", notes: "Q1 deliverables reviewed and approved.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-04-14", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "2026-04-15", dateCompleted: "", notes: "Q2 invoice being prepared.", responsible: "Ms. Carina Delos Santos", responsibleEmail: "c.delossantos@feriatantoco.com", dueDate: "2026-04-30", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-04-15T09:00:00", author: "Ms. Carina Delos Santos", text: "Q2 invoice drafted. Awaiting partner approval before sending." }] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0013", name: "BDR Holdings BIR Assessment Response", client: "BDR Holdings Corporation",
+    dateOpened: "2026-04-08", practiceArea: "Taxation", currentStage: "Client Engagement",
+    includeClientReview: false, status: "On Track",
+    assignedPartner: { name: "Atty. Ana Tantoco", email: "a.tantoco@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Marco Torres", email: "m.torres@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Jerome Reyes", email: "j.reyes@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-04-08", dateCompleted: "", notes: "Client received BIR Final Assessment Notice — PHP 12M deficiency. Urgent response needed.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2026-04-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-04-08T08:30:00", author: "Atty. Ana Tantoco", text: "Emergency meeting with CFO. FAN received for FY2022 income tax." }, { timestamp: "2026-04-09T10:00:00", author: "Mr. Jerome Reyes", text: "FAN and all supporting documents scanned and compiled." }] },
+      "Proposal & Scoping": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0014", name: "HealthSync Philippines Data Privacy Compliance", client: "HealthSync Philippines Inc.",
+    dateOpened: "2026-03-20", practiceArea: "Tech & Data Privacy", currentStage: "Proposal & Scoping",
+    includeClientReview: false, status: "On Track",
+    assignedPartner: { name: "Atty. José Feria", email: "j.feria@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Bianca Reyes", email: "b.reyes@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Paolo Santos", email: "p.santos@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [{ id: "BL-001", description: "Privacy compliance package", amount: "PHP 280,000", plannedDate: "2026-05-31", dateBilled: "", invoiceRef: "", status: "Planned", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-03-20", dateCompleted: "2026-03-22", notes: "Client facing NPC audit. Engaged for DPA compliance and PIB registration.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-03-22", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-03-23", dateCompleted: "", notes: "Drafting compliance roadmap. Gap analysis of current privacy policies ongoing.", responsible: "Atty. Bianca Reyes", responsibleEmail: "b.reyes@feriatantoco.com", dueDate: "2026-04-10", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-03-24T11:00:00", author: "Atty. Bianca Reyes", text: "Initial gap analysis complete. 8 major gaps identified." }, { timestamp: "2026-03-28T14:00:00", author: "Atty. José Feria", text: "Compliance roadmap presented to client." }] },
+      "Matter Intake & Work Assignment": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0015", name: "Alcantara Property Purchase — Bonifacio Global City", client: "Mr. and Mrs. Jose Alcantara",
+    dateOpened: "2026-02-10", practiceArea: "Real Estate (Ind)", currentStage: "Research & Work Output",
+    includeClientReview: true, status: "On Track",
+    assignedPartner: { name: "Atty. Ricardo Daos", email: "r.daos@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Sofia Reyes", email: "s.reyes@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Ms. Rosa Cruz", email: "r.cruz@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [{ id: "BL-001", description: "Title due diligence and deed preparation", amount: "PHP 75,000", plannedDate: "2026-04-15", dateBilled: "", invoiceRef: "", status: "Pending", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-02-10", dateCompleted: "2026-02-12", notes: "Clients purchasing BGC condo unit. Title review and deed preparation in scope.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-02-12", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-02-13", dateCompleted: "2026-02-18", notes: "Fixed fee agreed. Scope: title due diligence, deed of sale, and transfer.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2026-02-18", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-02-19", dateCompleted: "2026-02-21", notes: "Sofia Reyes assigned. Documents obtained from developer.", responsible: "Atty. Sofia Reyes", responsibleEmail: "s.reyes@feriatantoco.com", dueDate: "2026-02-21", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2026-02-22", dateCompleted: "", notes: "Title clean. Deed of absolute sale drafted. BIR zonal valuation verified.", responsible: "Atty. Sofia Reyes", responsibleEmail: "s.reyes@feriatantoco.com", dueDate: "2026-04-20", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-03-05T10:00:00", author: "Atty. Sofia Reyes", text: "Title history clean — no encumbrances. Deed of sale drafted." }, { timestamp: "2026-04-01T09:00:00", author: "Ms. Rosa Cruz", text: "BIR CAR documents prepared. Appointment scheduled." }] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0016", name: "Pacific Bancorp Monthly Legal Retainer — 2026", client: "Pacific Bancorp Philippines",
+    dateOpened: "2026-01-01", practiceArea: "Retainer", currentStage: "Research & Work Output",
+    includeClientReview: false, status: "On Track",
+    assignedPartner: { name: "Atty. Maria Santos", email: "m.santos@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Diana Lim", email: "d.lim@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Ms. Carina Delos Santos", email: "c.delossantos@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Retainer",
+    billingLog: [{ id: "BL-001", description: "Monthly retainer — Jan 2026", amount: "PHP 200,000", plannedDate: "2026-01-31", dateBilled: "2026-02-05", invoiceRef: "INV-2026-004", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-002", description: "Monthly retainer — Feb 2026", amount: "PHP 200,000", plannedDate: "2026-02-28", dateBilled: "2026-03-04", invoiceRef: "INV-2026-007", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-003", description: "Monthly retainer — Mar 2026", amount: "PHP 200,000", plannedDate: "2026-03-31", dateBilled: "2026-04-04", invoiceRef: "INV-2026-013", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }, { id: "BL-004", description: "Monthly retainer — Apr 2026", amount: "PHP 200,000", plannedDate: "2026-04-30", dateBilled: "", invoiceRef: "", status: "Pending", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-01-01", dateCompleted: "2026-01-03", notes: "Annual retainer renewed. Legal advisory scope for 2026 confirmed.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-01-03", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-01-04", dateCompleted: "2026-01-06", notes: "Scope: banking regulatory advice, BSP compliance, contract review.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-01-06", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-01-07", dateCompleted: "2026-01-08", notes: "Lim and Carina designated as day-to-day retainer team.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-01-08", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2026-01-09", dateCompleted: "", notes: "Ongoing. Q1 legal opinions issued: 4 BSP advisories, 12 contract reviews.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-12-31", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-02-01T10:00:00", author: "Atty. Diana Lim", text: "Q1 report sent — 4 BSP advisories, 12 contracts reviewed." }, { timestamp: "2026-04-05T09:00:00", author: "Atty. Diana Lim", text: "April: 2 new matters referred under retainer." }] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0017", name: "Fontaine Cosmetics PH Distribution Agreement", client: "Fontaine International SA",
+    dateOpened: "2026-02-01", practiceArea: "Corporate/Transactional", currentStage: "Research & Work Output",
+    includeClientReview: false, status: "On Hold",
+    assignedPartner: { name: "Atty. José Feria", email: "j.feria@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Marco Torres", email: "m.torres@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Paolo Santos", email: "p.santos@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [{ id: "BL-001", description: "Distribution agreement drafting fee", amount: "PHP 150,000", plannedDate: "2026-04-30", dateBilled: "", invoiceRef: "", status: "Planned", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "Awaiting client final instructions on exclusive territory scope.",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-02-01", dateCompleted: "2026-02-04", notes: "Scope: exclusive distribution agreement for PH market.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-02-04", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-02-05", dateCompleted: "2026-02-10", notes: "Fixed fee agreed for full negotiation and execution.", responsible: "Atty. José Feria", responsibleEmail: "j.feria@feriatantoco.com", dueDate: "2026-02-10", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-02-11", dateCompleted: "2026-02-14", notes: "Torres assigned. Initial draft prepared.", responsible: "Atty. Marco Torres", responsibleEmail: "m.torres@feriatantoco.com", dueDate: "2026-02-14", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2026-02-15", dateCompleted: "", notes: "First draft sent to client. On hold pending client decision on exclusive territory.", responsible: "Atty. Marco Torres", responsibleEmail: "m.torres@feriatantoco.com", dueDate: "2026-04-30", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-02-20T10:00:00", author: "Atty. Marco Torres", text: "First draft submitted to client." }, { timestamp: "2026-03-05T09:00:00", author: "Atty. José Feria", text: "Client requested hold — internal board decision pending." }] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0018", name: "Delrosario vs. Pacific Insurance — Settled", client: "Clara Delrosario",
+    dateOpened: "2025-08-01", practiceArea: "Litigation - Civil", currentStage: "Client Feedback Request",
+    includeClientReview: true, status: "Closed",
+    assignedPartner: { name: "Atty. Ana Tantoco", email: "a.tantoco@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com" }, { name: "Atty. Bianca Reyes", email: "b.reyes@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Mr. Jerome Reyes", email: "j.reyes@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Contingency",
+    billingLog: [{ id: "BL-001", description: "Contingency fee — settlement proceeds", amount: "PHP 350,000", plannedDate: "2026-01-15", dateBilled: "2026-01-20", invoiceRef: "INV-2026-001", status: "Paid", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "2026-02-01", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2025-08-01", dateCompleted: "2025-08-05", notes: "Client engaged for insurance claim dispute.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2025-08-05", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2025-08-06", dateCompleted: "2025-08-12", notes: "Contingency fee arrangement agreed.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2025-08-12", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2025-08-13", dateCompleted: "2025-08-15", notes: "Mendez and Bianca Reyes assigned.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-08-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2025-08-16", dateCompleted: "2025-11-30", notes: "Demand letter sent. Negotiation conducted.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2025-11-30", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "2025-12-01", dateCompleted: "2025-12-05", notes: "Settlement terms approved by partner.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2025-12-05", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "2025-12-06", dateCompleted: "2025-12-12", notes: "Client accepted settlement of PHP 3.5M.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2025-12-12", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "2026-01-10", dateCompleted: "2026-01-20", notes: "Contingency fee invoiced and paid.", responsible: "Atty. Ana Tantoco", responsibleEmail: "a.tantoco@feriatantoco.com", dueDate: "2026-01-20", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "2026-01-21", dateCompleted: "2026-02-01", notes: "5-star feedback received.", responsible: "Atty. Carlos Mendez", responsibleEmail: "c.mendez@feriatantoco.com", dueDate: "2026-02-01", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0019", name: "APEX Logistics Employment Separation Packages", client: "APEX Logistics Philippines",
+    dateOpened: "2025-12-15", practiceArea: "Labor and Employment", currentStage: "Research & Work Output",
+    includeClientReview: false, status: "Overdue",
+    assignedPartner: { name: "Atty. Ricardo Daos", email: "r.daos@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Diana Lim", email: "d.lim@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Ms. Rosa Cruz", email: "r.cruz@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [{ id: "BL-001", description: "Separation package legal review", amount: "PHP 180,000", plannedDate: "2026-03-31", dateBilled: "", invoiceRef: "", status: "Pending", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2025-12-15", dateCompleted: "2025-12-18", notes: "Client engaged for mass separation event — 50 employees.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2025-12-18", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2025-12-19", dateCompleted: "2025-12-23", notes: "Scope: review and prepare QASSEPs for 50 employees.", responsible: "Atty. Ricardo Daos", responsibleEmail: "r.daos@feriatantoco.com", dueDate: "2025-12-23", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2025-12-24", dateCompleted: "2025-12-28", notes: "Lim assigned. Employee roster and separation template prepared.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2025-12-28", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Research & Work Output": { dateStarted: "2025-12-29", dateCompleted: "", notes: "35 of 50 QASSEPs completed. 15 on hold due to pending NLRC clearances.", responsible: "Atty. Diana Lim", responsibleEmail: "d.lim@feriatantoco.com", dueDate: "2026-03-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-01-15T10:00:00", author: "Atty. Diana Lim", text: "First batch of 20 QASSEPs submitted for partner review." }, { timestamp: "2026-02-20T09:00:00", author: "Atty. Diana Lim", text: "Second batch of 15 complete. Waiting on NLRC clearances for remaining 15." }, { timestamp: "2026-04-01T10:00:00", author: "Ms. Rosa Cruz", text: "Follow-up with NLRC — delays due to backlog." }] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  },
+  {
+    id: "M-0020", name: "Pangilinan Holdings Share Redemption", client: "Pangilinan Family Holdings",
+    dateOpened: "2026-03-28", practiceArea: "Corporate/Transactional", currentStage: "Matter Intake & Work Assignment",
+    includeClientReview: false, status: "At Risk",
+    assignedPartner: { name: "Atty. Maria Santos", email: "m.santos@feriatantoco.com" },
+    assignedAssociates: [{ name: "Atty. Marco Torres", email: "m.torres@feriatantoco.com" }],
+    assignedLegalAssistants: [{ name: "Ms. Carina Delos Santos", email: "c.delossantos@feriatantoco.com" }],
+    workspaceLink: "",
+    feeArrangement: "Fixed Fee",
+    billingLog: [{ id: "BL-001", description: "Share redemption legal fee", amount: "PHP 95,000", plannedDate: "2026-05-31", dateBilled: "", invoiceRef: "", status: "Planned", notes: "", createdAt: "2025-01-01T09:00:00" }],
+    closedDate: "", holdReason: "",
+    stages: {
+      "Client Engagement": { dateStarted: "2026-03-28", dateCompleted: "2026-03-30", notes: "Engagement confirmed for share redemption of minority shareholder.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-03-30", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Proposal & Scoping": { dateStarted: "2026-03-31", dateCompleted: "2026-04-02", notes: "Scope: board resolutions, redemption agreement, and BIR CGT computations.", responsible: "Atty. Maria Santos", responsibleEmail: "m.santos@feriatantoco.com", dueDate: "2026-04-02", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Matter Intake & Work Assignment": { dateStarted: "2026-04-03", dateCompleted: "", notes: "Document checklist sent to client. Awaiting shareholder registry and AFS.", responsible: "Atty. Marco Torres", responsibleEmail: "m.torres@feriatantoco.com", dueDate: "2026-04-15", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [{ timestamp: "2026-04-04T10:00:00", author: "Atty. Marco Torres", text: "Documents checklist sent. Client yet to provide shareholder registry." }, { timestamp: "2026-04-10T09:00:00", author: "Ms. Carina Delos Santos", text: "Follow-up email sent to client." }] },
+      "Research & Work Output": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Partner Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Review": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Billing": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] },
+      "Client Feedback Request": { dateStarted: "", dateCompleted: "", notes: "", responsible: "", responsibleEmail: "", dueDate: "", outlookEventId: null, outlookLastSyncedAt: null, outlookSyncStatus: "Not Synced", updateLog: [] }
+    },
+  }
 ];
-
 // ─── UTILITIES ────────────────────────────────────────────────────────────────
 
 function formatDate(d) {
@@ -346,6 +709,33 @@ async function deleteOutlookCalendarEventPlaceholder({ eventId }) {
   console.info("[Outlook Scaffold] deleteEvent (placeholder):", eventId);
   return { success: true };
 }
+
+
+// ─── FIRM PEOPLE DIRECTORY ────────────────────────────────────────────────────
+// Seeded from sample matter data. Admins can edit this list in Settings.
+// Shape: { partners: [{name, email}], associates: [{name, email}], legalAssistants: [{name, email}] }
+
+const DEFAULT_FIRM_PEOPLE = {
+  partners: [
+    { name: "Atty. Maria Santos",  email: "m.santos@feriatantoco.com"  },
+    { name: "Atty. José Feria",    email: "j.feria@feriatantoco.com"   },
+    { name: "Atty. Ricardo Daos",  email: "r.daos@feriatantoco.com"    },
+    { name: "Atty. Ana Tantoco",   email: "a.tantoco@feriatantoco.com" },
+  ],
+  associates: [
+    { name: "Atty. Carlos Mendez", email: "c.mendez@feriatantoco.com"  },
+    { name: "Atty. Bianca Reyes",  email: "b.reyes@feriatantoco.com"   },
+    { name: "Atty. Diana Lim",     email: "d.lim@feriatantoco.com"     },
+    { name: "Atty. Marco Torres",  email: "m.torres@feriatantoco.com"  },
+    { name: "Atty. Sofia Reyes",   email: "s.reyes@feriatantoco.com"   },
+  ],
+  legalAssistants: [
+    { name: "Ms. Rosa Cruz",       email: "r.cruz@feriatantoco.com"    },
+    { name: "Mr. Paolo Santos",    email: "p.santos@feriatantoco.com"  },
+    { name: "Ms. Carina Delos Santos", email: "c.delossantos@feriatantoco.com" },
+    { name: "Mr. Jerome Reyes",    email: "j.reyes@feriatantoco.com"   },
+  ],
+};
 
 // ─── STATUS BADGE ─────────────────────────────────────────────────────────────
 
@@ -1065,7 +1455,7 @@ const blankMatter = () => ({
   // status: "Planned" | "Pending" | "Sent" | "Paid" | "Disputed"
 });
 
-function AddMatterModal({ onClose, onAdd }) {
+function AddMatterModal({ onClose, onAdd, firmPeople }) {
   const [form, setForm] = useState(blankMatter);
   const set = (field, val) => setForm(p => ({ ...p, [field]: val }));
   const setPartner = (f, v) => setForm(p => ({ ...p, assignedPartner: { ...p.assignedPartner, [f]: v } }));
@@ -1147,10 +1537,25 @@ function AddMatterModal({ onClose, onAdd }) {
           </div>
           <div style={{ marginBottom: "12px" }}>
             <label style={labelSt}>Assigned Partner</label>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-              <input value={form.assignedPartner.name} onChange={e => setPartner("name", e.target.value)} placeholder="Partner name" style={inputSt} />
-              <input value={form.assignedPartner.email} onChange={e => setPartner("email", e.target.value)} placeholder="Partner email" type="email" style={inputSt} />
-            </div>
+            <select
+              value={form.assignedPartner.name}
+              onChange={e => {
+                const person = (firmPeople?.partners || []).find(p => p.name === e.target.value);
+                setPartner("name", e.target.value);
+                if (person) setPartner("email", person.email);
+              }}
+              style={selectSt}
+            >
+              <option value="">— Select a partner —</option>
+              {(firmPeople?.partners || []).map(p => (
+                <option key={p.name} value={p.name}>{p.name}</option>
+              ))}
+            </select>
+            {form.assignedPartner.email && (
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", marginTop: "4px", paddingLeft: "2px" }}>
+                {form.assignedPartner.email}
+              </p>
+            )}
           </div>
           <div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
@@ -1161,9 +1566,26 @@ function AddMatterModal({ onClose, onAdd }) {
               </button>
             </div>
             {form.assignedAssociates.map((a, i) => (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "8px" }}>
-                <input value={a.name} onChange={e => setAssoc(i, "name", e.target.value)} placeholder="Associate name" style={inputSt} />
-                <input value={a.email} onChange={e => setAssoc(i, "email", e.target.value)} placeholder="Associate email" type="email" style={inputSt} />
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+                <select
+                  value={a.name}
+                  onChange={e => {
+                    const person = (firmPeople?.associates || []).find(p => p.name === e.target.value);
+                    setAssoc(i, "name", e.target.value);
+                    if (person) setAssoc(i, "email", person.email);
+                    else setAssoc(i, "email", "");
+                  }}
+                  style={{ ...selectSt, flex: 1 }}
+                >
+                  <option value="">— Select an associate —</option>
+                  {(firmPeople?.associates || []).map(p => (
+                    <option key={p.name} value={p.name}>{p.name}</option>
+                  ))}
+                </select>
+                {form.assignedAssociates.length > 1 && (
+                  <button onClick={() => setForm(p => ({ ...p, assignedAssociates: p.assignedAssociates.filter((_,j) => j !== i) }))}
+                    style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#DC2626", background: "transparent", border: "none", cursor: "pointer", flexShrink: 0 }}>✕</button>
+                )}
               </div>
             ))}
           </div>
@@ -1178,17 +1600,26 @@ function AddMatterModal({ onClose, onAdd }) {
               </button>
             </div>
             {(form.assignedLegalAssistants || [{ name: "", email: "" }]).map((a, i) => (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "8px" }}>
-                <input value={a.name} onChange={e => {
-                  const list = [...(form.assignedLegalAssistants || [])];
-                  list[i] = { ...list[i], name: e.target.value };
-                  setForm(p => ({ ...p, assignedLegalAssistants: list }));
-                }} placeholder="Legal Assistant name" style={inputSt} />
-                <input value={a.email} onChange={e => {
-                  const list = [...(form.assignedLegalAssistants || [])];
-                  list[i] = { ...list[i], email: e.target.value };
-                  setForm(p => ({ ...p, assignedLegalAssistants: list }));
-                }} placeholder="Legal Assistant email" type="email" style={inputSt} />
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+                <select
+                  value={a.name}
+                  onChange={e => {
+                    const person = (firmPeople?.legalAssistants || []).find(p => p.name === e.target.value);
+                    const list = [...(form.assignedLegalAssistants || [])];
+                    list[i] = { ...list[i], name: e.target.value, email: person ? person.email : "" };
+                    setForm(p => ({ ...p, assignedLegalAssistants: list }));
+                  }}
+                  style={{ ...selectSt, flex: 1 }}
+                >
+                  <option value="">— Select a legal assistant —</option>
+                  {(firmPeople?.legalAssistants || []).map(p => (
+                    <option key={p.name} value={p.name}>{p.name}</option>
+                  ))}
+                </select>
+                {(form.assignedLegalAssistants || []).length > 1 && (
+                  <button onClick={() => setForm(p => ({ ...p, assignedLegalAssistants: (p.assignedLegalAssistants || []).filter((_,j) => j !== i) }))}
+                    style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#DC2626", background: "transparent", border: "none", cursor: "pointer", flexShrink: 0 }}>✕</button>
+                )}
               </div>
             ))}
           </div>
@@ -1745,12 +2176,34 @@ const DEFAULT_SETTINGS = {
   showStatsBar:          true,
   billingSpecialistName: "Billing & Collections Specialist",
   billingSpecialistEmail:"billing@feriatantoco.com",
+  // Firm people directory — edited in Settings > Team Directory
+  firmPeople: DEFAULT_FIRM_PEOPLE,
+  // Notification preferences
+  notifyOnTagged:        true,   // alert when tagged on a new matter
+  notifyOnStageMove:     true,   // alert when matter moves to a new stage
+  notifyOnNewUpdate:     true,   // alert when a stage receives a new update log entry
+  notifyMethod:          "email", // "email" | "banner" | "both"
 };
 
 function SettingsModal({ settings, onSave, onClose }) {
-  const [draft, setDraft] = useState({ ...settings });
+  const [draft, setDraft]     = useState(() => ({
+    ...DEFAULT_SETTINGS,
+    ...settings,
+    firmPeople: settings.firmPeople
+      ? JSON.parse(JSON.stringify(settings.firmPeople))
+      : JSON.parse(JSON.stringify(DEFAULT_FIRM_PEOPLE)),
+  }));
+  const [activeTab, setActiveTab] = useState("display");
   const set = (k, v) => setDraft(p => ({ ...p, [k]: v }));
 
+  // ── Shared style atoms ────────────────────────────────────────────────────
+  const selSt  = { fontFamily: "var(--font-ui)", fontSize: "0.875rem", border: `1px solid ${B.rule}`, borderRadius: "8px", padding: "5px 10px", background: "#fff", outline: "none", cursor: "pointer", color: B.charcoal };
+  const inpSt  = { ...selSt, cursor: "text" };
+  const Toggle = ({ val, k }) => (
+    <div onClick={() => set(k, !val)} style={{ width: "36px", height: "19px", borderRadius: "999px", cursor: "pointer", background: val ? B.cobalt : "#D4D0C8", position: "relative", transition: "background 0.2s", flexShrink: 0 }}>
+      <div style={{ position: "absolute", top: "2px", left: val ? "18px" : "2px", width: "15px", height: "15px", borderRadius: "50%", background: "#fff", transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }} />
+    </div>
+  );
   const Row = ({ label, desc, children }) => (
     <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", padding: "11px 0", borderBottom: `1px solid ${B.rule}`, gap: "16px" }}>
       <div style={{ flex: 1 }}>
@@ -1760,68 +2213,190 @@ function SettingsModal({ settings, onSave, onClose }) {
       <div style={{ flexShrink: 0 }}>{children}</div>
     </div>
   );
-  const selSt = { fontFamily: "var(--font-ui)", fontSize: "0.875rem", border: `1px solid ${B.rule}`, borderRadius: "8px", padding: "5px 10px", background: "#fff", outline: "none", cursor: "pointer", color: B.charcoal };
-  const Toggle = ({ val, k }) => (
-    <div onClick={() => set(k, !val)} style={{ width: "36px", height: "19px", borderRadius: "999px", cursor: "pointer", background: val ? B.cobalt : "#D4D0C8", position: "relative", transition: "background 0.2s" }}>
-      <div style={{ position: "absolute", top: "2px", left: val ? "18px" : "2px", width: "15px", height: "15px", borderRadius: "50%", background: "#fff", transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }} />
+
+  // ── Team directory helpers ────────────────────────────────────────────────
+  const fp = draft.firmPeople || DEFAULT_FIRM_PEOPLE;
+  const updatePerson = (role, idx, field, val) => {
+    const list = [...fp[role]];
+    list[idx] = { ...list[idx], [field]: val };
+    setDraft(p => ({ ...p, firmPeople: { ...fp, [role]: list } }));
+  };
+  const addPerson  = (role) => setDraft(p => ({ ...p, firmPeople: { ...fp, [role]: [...fp[role], { name: "", email: "" }] } }));
+  const removePerson = (role, idx) => setDraft(p => ({ ...p, firmPeople: { ...fp, [role]: fp[role].filter((_,i) => i !== idx) } }));
+
+  const PeopleSection = ({ role, label }) => (
+    <div style={{ marginBottom: "18px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+        <p style={{ fontFamily: "var(--font-heading)", fontSize: "0.9375rem", fontWeight: 700, color: B.charcoal, margin: 0 }}>{label}</p>
+        <button onClick={() => addPerson(role)} style={{ fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 600, color: B.cobalt, background: "transparent", border: "none", cursor: "pointer" }}>+ Add</button>
+      </div>
+      {(fp[role] || []).map((person, idx) => (
+        <div key={idx} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 28px", gap: "6px", marginBottom: "6px", alignItems: "center" }}>
+          <input
+            value={person.name} placeholder="Full name"
+            onChange={e => updatePerson(role, idx, "name", e.target.value)}
+            style={{ ...inpSt, width: "100%", padding: "6px 10px", boxSizing: "border-box" }}
+          />
+          <input
+            type="email" value={person.email} placeholder="email@feriatantoco.com"
+            onChange={e => updatePerson(role, idx, "email", e.target.value)}
+            style={{ ...inpSt, width: "100%", padding: "6px 10px", boxSizing: "border-box" }}
+          />
+          <button onClick={() => removePerson(role, idx)} style={{ background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: "6px", color: "#DC2626", cursor: "pointer", width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "0.875rem" }}>✕</button>
+        </div>
+      ))}
+      {(fp[role] || []).length === 0 && (
+        <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#BBB", fontStyle: "italic" }}>No {label.toLowerCase()} added yet.</p>
+      )}
     </div>
   );
+
+  const TABS = [
+    { key: "display",       label: "Display",       icon: "🎨" },
+    { key: "team",          label: "Team Directory", icon: "👥" },
+    { key: "notifications", label: "Notifications",  icon: "🔔" },
+  ];
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}>
       <div style={{ position: "absolute", inset: 0, background: "rgba(11,23,65,0.55)", backdropFilter: "blur(3px)" }} onClick={onClose} />
-      <div style={{ position: "relative", background: "#fff", borderRadius: "12px", width: "100%", maxWidth: "460px", maxHeight: "90vh", display: "flex", flexDirection: "column", boxShadow: "0 20px 60px rgba(11,23,65,0.2)", border: `1px solid ${B.rule}`, overflow: "hidden" }}>
-        <div style={{ padding: "16px 20px 12px", background: `linear-gradient(135deg, ${B.navy}, ${B.navyMid})`, borderBottom: `1px solid rgba(181,160,106,0.25)` }}>
-          <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1rem", fontWeight: 700, color: "#fff", margin: 0 }}>App Settings</h3>
-          <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "rgba(255,255,255,0.55)", marginTop: "3px" }}>Customise how the tracker looks and behaves</p>
+      <div style={{ position: "relative", background: "#fff", borderRadius: "12px", width: "100%", maxWidth: "580px", maxHeight: "90vh", display: "flex", flexDirection: "column", boxShadow: "0 20px 60px rgba(11,23,65,0.2)", border: `1px solid ${B.rule}`, overflow: "hidden" }}>
+
+        {/* Header */}
+        <div style={{ padding: "16px 20px 0", background: `linear-gradient(135deg, ${B.navy}, ${B.navyMid})` }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
+            <div>
+              <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.1rem", fontWeight: 700, color: "#fff", margin: 0 }}>App Settings</h3>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "rgba(255,255,255,0.55)", marginTop: "2px" }}>Manage display, team, and notification preferences</p>
+            </div>
+            <button onClick={onClose} style={{ background: "transparent", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.5)", display: "flex" }}>
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          </div>
+          {/* Tab bar */}
+          <div style={{ display: "flex", gap: "2px" }}>
+            {TABS.map(t => (
+              <button key={t.key} onClick={() => setActiveTab(t.key)} style={{
+                fontFamily: "var(--font-ui)", fontSize: "0.875rem", fontWeight: activeTab === t.key ? 700 : 500,
+                padding: "8px 16px", border: "none", cursor: "pointer",
+                background: activeTab === t.key ? "#fff" : "transparent",
+                color: activeTab === t.key ? B.navy : "rgba(255,255,255,0.65)",
+                borderRadius: "8px 8px 0 0",
+                borderBottom: activeTab === t.key ? "none" : "none",
+              }}>
+                {t.icon} {t.label}
+              </button>
+            ))}
+          </div>
         </div>
-        <div style={{ flex: 1, overflowY: "auto", padding: "0 20px 4px", background: "#fff" }}>
-          <Row label="Font Size" desc="Adjust text size across the whole app">
-            <select value={draft.fontSize} onChange={e => set("fontSize", e.target.value)} style={selSt}>
-              <option value="small">Small</option>
-              <option value="medium">Medium (default)</option>
-              <option value="large">Large</option>
-            </select>
-          </Row>
-          <Row label="Default View" desc="Which view opens first when you load the app">
-            <select value={draft.defaultView} onChange={e => set("defaultView", e.target.value)} style={selSt}>
-              <option value="kanban">Kanban Board</option>
-              <option value="table">Table View</option>
-              <option value="todo">To-Do List</option>
-              <option value="dashboard">Dashboard</option>
-            </select>
-          </Row>
-          <Row label="Kanban Card Width" desc="Width of each column on the Kanban board">
-            <select value={draft.kanbanWidth} onChange={e => set("kanbanWidth", e.target.value)} style={selSt}>
-              <option value="200">Narrow (200px)</option>
-              <option value="232">Default (232px)</option>
-              <option value="280">Wide (280px)</option>
-              <option value="320">Extra Wide (320px)</option>
-            </select>
-          </Row>
-          <Row label="Show Notes on Cards" desc="Display stage notes on Kanban cards">
-            <Toggle val={draft.showNotes} k="showNotes" />
-          </Row>
-          <Row label="Show Associates on Cards" desc="Display associate name badges on Kanban cards">
-            <Toggle val={draft.showAssociates} k="showAssociates" />
-          </Row>
-          <Row label="Compact Table Rows" desc="Reduce row height in Table view">
-            <Toggle val={draft.tableCompact} k="tableCompact" />
-          </Row>
-          <Row label="Show Stats Bar" desc="Show the matter count numbers in the header">
-            <Toggle val={draft.showStatsBar} k="showStatsBar" />
-          </Row>
-          <Row label="Billing Specialist Name" desc="Name shown in invoice reminder emails">
-            <input value={draft.billingSpecialistName || ""} onChange={e => set("billingSpecialistName", e.target.value)}
-              style={{ ...selSt, width: "180px", padding: "5px 10px" }} placeholder="Specialist name" />
-          </Row>
-          <Row label="Billing Specialist Email" desc="Recipient of all invoice reminder emails">
-            <input type="email" value={draft.billingSpecialistEmail || ""} onChange={e => set("billingSpecialistEmail", e.target.value)}
-              style={{ ...selSt, width: "200px", padding: "5px 10px" }} placeholder="billing@feriatantoco.com" />
-          </Row>
+
+        {/* Body */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px 4px", background: "#fff" }}>
+
+          {/* ── DISPLAY TAB ── */}
+          {activeTab === "display" && <>
+            <Row label="Font Size" desc="Adjust text size across the whole app">
+              <select value={draft.fontSize} onChange={e => set("fontSize", e.target.value)} style={selSt}>
+                <option value="small">Small</option>
+                <option value="medium">Medium (default)</option>
+                <option value="large">Large</option>
+              </select>
+            </Row>
+            <Row label="Default View" desc="Which view opens first when you load the app">
+              <select value={draft.defaultView} onChange={e => set("defaultView", e.target.value)} style={selSt}>
+                <option value="kanban">Kanban Board</option>
+                <option value="table">Table View</option>
+                <option value="todo">To-Do List</option>
+                <option value="dashboard">Dashboard</option>
+              </select>
+            </Row>
+            <Row label="Kanban Card Width" desc="Width of each column on the Kanban board">
+              <select value={draft.kanbanWidth} onChange={e => set("kanbanWidth", e.target.value)} style={selSt}>
+                <option value="200">Narrow (200px)</option>
+                <option value="232">Default (232px)</option>
+                <option value="280">Wide (280px)</option>
+                <option value="320">Extra Wide (320px)</option>
+              </select>
+            </Row>
+            <Row label="Show Notes on Cards" desc="Display stage notes on Kanban cards">
+              <Toggle val={draft.showNotes} k="showNotes" />
+            </Row>
+            <Row label="Show Associates on Cards" desc="Display associate name badges on Kanban cards">
+              <Toggle val={draft.showAssociates} k="showAssociates" />
+            </Row>
+            <Row label="Compact Table Rows" desc="Reduce row height in Table view">
+              <Toggle val={draft.tableCompact} k="tableCompact" />
+            </Row>
+            <Row label="Show Stats Bar" desc="Show the matter count numbers in the header">
+              <Toggle val={draft.showStatsBar} k="showStatsBar" />
+            </Row>
+            <Row label="Billing Specialist Name" desc="Name shown in invoice reminder emails">
+              <input value={draft.billingSpecialistName || ""} onChange={e => set("billingSpecialistName", e.target.value)}
+                style={{ ...inpSt, width: "180px", padding: "5px 10px" }} placeholder="Specialist name" />
+            </Row>
+            <Row label="Billing Specialist Email" desc="Recipient of all invoice reminder emails">
+              <input type="email" value={draft.billingSpecialistEmail || ""} onChange={e => set("billingSpecialistEmail", e.target.value)}
+                style={{ ...inpSt, width: "200px", padding: "5px 10px" }} placeholder="billing@feriatantoco.com" />
+            </Row>
+          </>}
+
+          {/* ── TEAM DIRECTORY TAB ── */}
+          {activeTab === "team" && (
+            <div style={{ paddingTop: "4px" }}>
+              <div style={{ padding: "10px 12px", background: B.cobaltTint, borderRadius: "8px", border: "1px solid #BFD0F0", marginBottom: "16px" }}>
+                <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: B.cobalt, margin: 0 }}>
+                  <strong>Admin only.</strong> Changes here update the dropdown menus in the New Matter form and the To-Do List person selector. Names and emails auto-fill when selecting a person.
+                </p>
+              </div>
+              <PeopleSection role="partners"       label="Partners"         />
+              <PeopleSection role="associates"     label="Associates"       />
+              <PeopleSection role="legalAssistants" label="Legal Assistants" />
+            </div>
+          )}
+
+          {/* ── NOTIFICATIONS TAB ── */}
+          {activeTab === "notifications" && <>
+            <div style={{ padding: "10px 12px", background: "#FBF5E6", borderRadius: "8px", border: `1px solid ${B.goldLight}`, marginBottom: "14px", marginTop: "4px" }}>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#7A6022", margin: 0 }}>
+                <strong>Note:</strong> Notifications currently open a pre-filled email in Outlook. Full in-app push notifications require a backend connection (future update).
+              </p>
+            </div>
+            <Row label="Notify when tagged on a matter" desc="Receive an alert when you are assigned as Partner, Associate, or Legal Assistant on a new matter">
+              <Toggle val={draft.notifyOnTagged ?? true} k="notifyOnTagged" />
+            </Row>
+            <Row label="Notify when a matter moves stage" desc="Receive an alert when a matter you are assigned to advances to a new lifecycle stage">
+              <Toggle val={draft.notifyOnStageMove ?? true} k="notifyOnStageMove" />
+            </Row>
+            <Row label="Notify on new stage update" desc="Receive an alert when someone adds a progress update to a stage you are responsible for">
+              <Toggle val={draft.notifyOnNewUpdate ?? true} k="notifyOnNewUpdate" />
+            </Row>
+            <Row label="Notification method" desc="How you would like to receive alerts">
+              <select value={draft.notifyMethod || "email"} onChange={e => set("notifyMethod", e.target.value)} style={selSt}>
+                <option value="email">Email (Outlook mailto)</option>
+                <option value="banner">In-app banner only</option>
+                <option value="both">Both email and banner</option>
+              </select>
+            </Row>
+            <div style={{ marginTop: "16px", padding: "14px", background: B.mist, borderRadius: "8px", border: `1px solid ${B.rule}` }}>
+              <p style={{ fontFamily: "var(--font-heading)", fontSize: "0.9375rem", fontWeight: 700, color: B.charcoal, marginBottom: "6px" }}>Your notification email address</p>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: B.inkMid, marginBottom: "8px" }}>Alerts will be sent from the app to this address via your default mail client.</p>
+              <input
+                type="email"
+                value={draft.myEmail || ""}
+                onChange={e => set("myEmail", e.target.value)}
+                placeholder="your.email@feriatantoco.com"
+                style={{ ...inpSt, width: "100%", padding: "7px 12px", boxSizing: "border-box" }}
+              />
+            </div>
+          </>}
         </div>
+
+        {/* Footer */}
         <div style={{ padding: "12px 20px", borderTop: `1px solid ${B.rule}`, background: "#FAFAF7", display: "flex", justifyContent: "space-between", gap: "8px" }}>
-          <button onClick={() => setDraft({ ...DEFAULT_SETTINGS })} style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", background: "transparent", border: "none", cursor: "pointer", textDecoration: "underline" }}>Reset to defaults</button>
+          <button onClick={() => setDraft({ ...DEFAULT_SETTINGS, firmPeople: JSON.parse(JSON.stringify(DEFAULT_FIRM_PEOPLE)) })}
+            style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", background: "transparent", border: "none", cursor: "pointer", textDecoration: "underline" }}>
+            Reset to defaults
+          </button>
           <div style={{ display: "flex", gap: "8px" }}>
             <button onClick={onClose} style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", padding: "6px 14px", borderRadius: "8px", background: "#fff", color: B.ink, border: `1px solid ${B.rule}`, cursor: "pointer" }}>Cancel</button>
             <button onClick={() => { onSave(draft); onClose(); }} style={{ fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 700, padding: "6px 14px", borderRadius: "8px", background: B.cobalt, color: "#fff", border: "none", cursor: "pointer" }}>Save Settings</button>
@@ -4248,7 +4823,7 @@ export default function FeriaLawTracker() {
         </main>
 
         {selectedMatter && <MatterDrawer matter={selectedMatter} onClose={() => setSelectedMatter(null)} onUpdate={handleUpdateMatter} />}
-        {showAddModal && <AddMatterModal onClose={() => setShowAddModal(false)} onAdd={handleAddMatter} />}
+        {showAddModal && <AddMatterModal onClose={() => setShowAddModal(false)} onAdd={handleAddMatter} firmPeople={settings.firmPeople || DEFAULT_FIRM_PEOPLE} />}
         {showImportModal && <ImportModal onClose={() => setShowImportModal(false)} onImport={handleImportMatters} existingMatters={matters} />}
         {showDeadlinesModal && <DownloadDeadlinesModal matters={matters} onClose={() => setShowDeadlinesModal(false)} />}
         {showSettingsModal && <SettingsModal settings={settings} onSave={setSettings} onClose={() => setShowSettingsModal(false)} />}
