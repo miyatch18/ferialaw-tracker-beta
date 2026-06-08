@@ -949,7 +949,8 @@ function ReminderCalendarButtons({ matter, stage, onStageUpdate }) {
 
 function StageUpdateLog({ log, onAddEntry, stageName }) {
   const [showForm, setShowForm]   = useState(false);
-  const [author,   setAuthor]     = useState("");
+  // Pre-fill author from Settings > Notifications > Your Name
+  const [author,   setAuthor]     = useState(() => window.__ftdSettings?.myName || "");
   const [text,     setText]       = useState("");
   const [expanded, setExpanded]   = useState(false);
 
@@ -1203,6 +1204,9 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
           <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", marginTop: "12px", fontFamily: "var(--font-ui)", fontSize: "0.9375rem", color: "rgba(255,255,255,0.5)" }}>
             <span>Opened: <strong style={{ color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{formatDate(matter.dateOpened)}</strong></span>
             <span>Partner: <strong style={{ color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{matter.assignedPartner.name}</strong></span>
+            {(matter.additionalPartners||[]).filter(p => p.name).map((p, i) => (
+              <span key={i}>Co-Partner: <strong style={{ color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{p.name}</strong></span>
+            ))}
             <span>Stage: <strong style={{ color: B.gold, fontWeight: 600 }}>{matter.currentStage}</strong></span>
             {(matter.assignedLegalAssistants || []).filter(a => a.name).map((a, i) => (
               <span key={i}>Legal Assistant: <strong style={{ color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{a.name}</strong></span>
@@ -1272,6 +1276,45 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
                   placeholder="iManage Workspace link"
                   style={{ ...inputSt }}
                 />
+              </div>
+              {/* Co-Partners */}
+              <div style={{ gridColumn: "1 / -1" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                  <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: B.inkMid, fontFamily: "var(--font-heading)" }}>Co-Partners</label>
+                  <button onClick={() => setDraft(p => ({ ...p, additionalPartners: [...(p.additionalPartners||[]), { name: "", email: "" }] }))}
+                    style={{ fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 600, color: B.cobalt, background: "transparent", border: "none", cursor: "pointer" }}>
+                    + Add
+                  </button>
+                </div>
+                {(draft.additionalPartners||[]).length === 0 && (
+                  <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#BBB", fontStyle: "italic", margin: "0 0 6px" }}>No co-partners assigned.</p>
+                )}
+                {(draft.additionalPartners||[]).map((ap, i) => (
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 28px", gap: "6px", marginBottom: "6px", alignItems: "center" }}>
+                    <select
+                      value={ap.name}
+                      onChange={e => {
+                        const allP = window.__ftdSettings?.firmPeople?.partners || [];
+                        const person = allP.find(p => p.name === e.target.value);
+                        const list = [...(draft.additionalPartners||[])];
+                        list[i] = { name: e.target.value, email: person ? person.email : "" };
+                        setDraft(p => ({ ...p, additionalPartners: list }));
+                      }}
+                      style={{
+                        ...inputSt, appearance: "none", paddingRight: "32px", cursor: "pointer",
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232D4DB5' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E")`,
+                        backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center",
+                      }}
+                    >
+                      <option value="">— Select a partner —</option>
+                      {(window.__ftdSettings?.firmPeople?.partners || []).map(p => (
+                        <option key={p.name} value={p.name}>{p.name}</option>
+                      ))}
+                    </select>
+                    <button onClick={() => setDraft(p => ({ ...p, additionalPartners: (p.additionalPartners||[]).filter((_,j) => j !== i) }))}
+                      style={{ background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: "6px", color: "#DC2626", cursor: "pointer", width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+                  </div>
+                ))}
               </div>
               {/* Legal Assistants */}
               <div style={{ gridColumn: "1 / -1" }}>
@@ -1350,12 +1393,63 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
                 <div style={{ padding: "12px 14px", background: "#fff" }}>
                   {editing ? (
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-                      {[["dateStarted","Date Started","date"],["dateCompleted","Date Completed","date"],["dueDate","Due Date","date"],["responsible","Responsible","text"],["responsibleEmail","Email","email"]].map(([f, lbl, type]) => (
-                        <div key={f} style={{ gridColumn: (f === "responsible" || f === "responsibleEmail") ? "1 / -1" : "auto" }}>
+                      {[["dateStarted","Date Started","date"],["dateCompleted","Date Completed","date"],["dueDate","Due Date","date"]].map(([f, lbl]) => (
+                        <div key={f}>
                           <label style={{ ...labelSt, color: "#AAA" }}>{lbl}</label>
-                          <input type={type} value={sd[f] || ""} onChange={e => updateDraftStage(stage, f, e.target.value)} style={{ ...inputSt, fontSize: "0.875rem" }} />
+                          <input type="date" value={sd[f] || ""} onChange={e => updateDraftStage(stage, f, e.target.value)} style={{ ...inputSt, fontSize: "0.875rem" }} />
                         </div>
                       ))}
+                      {/* Responsible person — dropdown from firm directory */}
+                      <div style={{ gridColumn: "1 / -1" }}>
+                        <label style={{ ...labelSt, color: "#AAA" }}>Responsible Person</label>
+                        <select
+                          value={sd.responsible || ""}
+                          onChange={e => {
+                            const allPeople = [
+                              ...(window.__ftdSettings?.firmPeople?.partners || []),
+                              ...(window.__ftdSettings?.firmPeople?.associates || []),
+                              ...(window.__ftdSettings?.firmPeople?.legalAssistants || []),
+                            ];
+                            const person = allPeople.find(p => p.name === e.target.value);
+                            updateDraftStage(stage, "responsible", e.target.value);
+                            if (person) updateDraftStage(stage, "responsibleEmail", person.email);
+                          }}
+                          style={{
+                            ...inputSt, fontSize: "0.875rem", appearance: "none",
+                            paddingRight: "32px", cursor: "pointer",
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232D4DB5' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E")`,
+                            backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center",
+                          }}
+                        >
+                          <option value="">— Select responsible person —</option>
+                          {(window.__ftdSettings?.firmPeople?.partners || []).length > 0 && (
+                            <optgroup label="Partners">
+                              {(window.__ftdSettings?.firmPeople?.partners || []).map(p => (
+                                <option key={p.name} value={p.name}>{p.name}</option>
+                              ))}
+                            </optgroup>
+                          )}
+                          {(window.__ftdSettings?.firmPeople?.associates || []).length > 0 && (
+                            <optgroup label="Associates">
+                              {(window.__ftdSettings?.firmPeople?.associates || []).map(p => (
+                                <option key={p.name} value={p.name}>{p.name}</option>
+                              ))}
+                            </optgroup>
+                          )}
+                          {(window.__ftdSettings?.firmPeople?.legalAssistants || []).length > 0 && (
+                            <optgroup label="Legal Assistants">
+                              {(window.__ftdSettings?.firmPeople?.legalAssistants || []).map(p => (
+                                <option key={p.name} value={p.name}>{p.name}</option>
+                              ))}
+                            </optgroup>
+                          )}
+                        </select>
+                        {sd.responsibleEmail && (
+                          <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", marginTop: "3px", paddingLeft: "2px" }}>
+                            {sd.responsibleEmail}
+                          </p>
+                        )}
+                      </div>
                       <div style={{ gridColumn: "1 / -1" }}>
                         <label style={{ ...labelSt, color: "#AAA" }}>Notes</label>
                         <textarea value={sd.notes || ""} onChange={e => updateDraftStage(stage, "notes", e.target.value)} rows={2}
@@ -1435,7 +1529,8 @@ const blankMatter = () => ({
   practiceArea: "Litigation - Civil", currentStage: "Client Engagement",
   includeClientReview: true, status: "On Track",
   workspaceLink: "",                             // iManage workspace URL for this matter
-  assignedPartner: { name: "", email: "" },
+  assignedPartner: { name: "", email: "" },           // primary / lead partner
+  additionalPartners: [],                              // [{name, email}] — co-partners
   assignedAssociates: [{ name: "", email: "" }],
   assignedLegalAssistants: [{ name: "", email: "" }],  // Legal Assistants assigned to the matter
   feeArrangement: "Fixed Fee",   // Fixed Fee | Retainer | Milestone-Based | Hourly | Contingency | Pro Bono
@@ -1536,26 +1631,66 @@ function AddMatterModal({ onClose, onAdd, firmPeople }) {
             <label htmlFor="crNew" style={{ fontFamily: "var(--font-ui)", fontSize: "0.9375rem", color: B.ink, cursor: "pointer" }}>Include Client Review stage</label>
           </div>
           <div style={{ marginBottom: "12px" }}>
-            <label style={labelSt}>Assigned Partner</label>
-            <select
-              value={form.assignedPartner.name}
-              onChange={e => {
-                const person = (firmPeople?.partners || []).find(p => p.name === e.target.value);
-                setPartner("name", e.target.value);
-                if (person) setPartner("email", person.email);
-              }}
-              style={selectSt}
-            >
-              <option value="">— Select a partner —</option>
-              {(firmPeople?.partners || []).map(p => (
-                <option key={p.name} value={p.name}>{p.name}</option>
-              ))}
-            </select>
-            {form.assignedPartner.email && (
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", marginTop: "4px", paddingLeft: "2px" }}>
-                {form.assignedPartner.email}
-              </p>
-            )}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+              <label style={labelSt}>Partner{(form.additionalPartners||[]).length > 0 ? "s" : ""}</label>
+              <button
+                onClick={() => setForm(p => ({ ...p, additionalPartners: [...(p.additionalPartners||[]), { name: "", email: "" }] }))}
+                style={{ fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 600, color: B.cobalt, background: "transparent", border: "none", cursor: "pointer" }}
+              >+ Add Partner</button>
+            </div>
+            {/* Lead / primary partner */}
+            <div style={{ marginBottom: "6px" }}>
+              {(form.additionalPartners||[]).length > 0 && (
+                <p style={{ fontFamily: "var(--font-heading)", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: B.inkMid, marginBottom: "3px" }}>Lead Partner</p>
+              )}
+              <select
+                value={form.assignedPartner.name}
+                onChange={e => {
+                  const person = (firmPeople?.partners || []).find(p => p.name === e.target.value);
+                  setPartner("name", e.target.value);
+                  if (person) setPartner("email", person.email);
+                }}
+                style={selectSt}
+              >
+                <option value="">— Select a partner —</option>
+                {(firmPeople?.partners || []).map(p => (
+                  <option key={p.name} value={p.name}>{p.name}</option>
+                ))}
+              </select>
+              {form.assignedPartner.email && (
+                <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", marginTop: "3px", paddingLeft: "2px" }}>{form.assignedPartner.email}</p>
+              )}
+            </div>
+            {/* Additional partners */}
+            {(form.additionalPartners||[]).map((ap, i) => (
+              <div key={i} style={{ marginBottom: "6px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "3px" }}>
+                  <p style={{ fontFamily: "var(--font-heading)", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: B.inkMid, margin: 0 }}>Co-Partner {i + 1}</p>
+                  <button
+                    onClick={() => setForm(p => ({ ...p, additionalPartners: (p.additionalPartners||[]).filter((_,j) => j !== i) }))}
+                    style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#DC2626", background: "transparent", border: "none", cursor: "pointer" }}
+                  >✕ Remove</button>
+                </div>
+                <select
+                  value={ap.name}
+                  onChange={e => {
+                    const person = (firmPeople?.partners || []).find(p => p.name === e.target.value);
+                    const list = [...(form.additionalPartners||[])];
+                    list[i] = { name: e.target.value, email: person ? person.email : "" };
+                    setForm(p => ({ ...p, additionalPartners: list }));
+                  }}
+                  style={selectSt}
+                >
+                  <option value="">— Select a partner —</option>
+                  {(firmPeople?.partners || []).map(p => (
+                    <option key={p.name} value={p.name}>{p.name}</option>
+                  ))}
+                </select>
+                {ap.email && (
+                  <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", marginTop: "3px", paddingLeft: "2px" }}>{ap.email}</p>
+                )}
+              </div>
+            ))}
           </div>
           <div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
@@ -1775,6 +1910,14 @@ function KanbanCard({ matter, onClick, onDragStart }) {
           </span>
         </div>
       )}
+      {/* Quick-edit hint visible on hover */}
+      {hovered && (
+        <div style={{ marginTop: "7px", borderTop: `1px dashed ${B.rule}`, paddingTop: "6px", display: "flex", justifyContent: "flex-end" }}>
+          <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: B.cobalt }}>
+            ✏ Click to edit matter →
+          </span>
+        </div>
+      )}
     </div>
   );
 }
@@ -1801,7 +1944,10 @@ function KanbanBoard({ matters, filters, onCardClick, onMoveMatter }) {
       if (!allText.includes(q)) return false;
     }
     if ((filters.stages||[]).length && !filters.stages.includes(m.currentStage)) return false;
-    if ((filters.partners||[]).length && !filters.partners.includes(m.assignedPartner?.name)) return false;
+    if ((filters.partners||[]).length) {
+      const allPartnerNames = [m.assignedPartner?.name, ...(m.additionalPartners||[]).map(p => p.name)].filter(Boolean);
+      if (!filters.partners.some(fp => allPartnerNames.includes(fp))) return false;
+    }
     if ((filters.statuses||[]).length && !filters.statuses.includes(m.status)) return false;
     if ((filters.practiceAreas||[]).length && !filters.practiceAreas.includes(m.practiceArea)) return false;
     if ((filters.associates||[]).length) {
@@ -2183,6 +2329,8 @@ const DEFAULT_SETTINGS = {
   notifyOnStageMove:     true,   // alert when matter moves to a new stage
   notifyOnNewUpdate:     true,   // alert when a stage receives a new update log entry
   notifyMethod:          "email", // "email" | "banner" | "both"
+  myName:                "",     // your name — pre-fills update log author field
+  myEmail:               "",     // your email — used for notification routing
 };
 
 function SettingsModal({ settings, onSave, onClose }) {
@@ -2378,15 +2526,22 @@ function SettingsModal({ settings, onSave, onClose }) {
               </select>
             </Row>
             <div style={{ marginTop: "16px", padding: "14px", background: B.mist, borderRadius: "8px", border: `1px solid ${B.rule}` }}>
-              <p style={{ fontFamily: "var(--font-heading)", fontSize: "0.9375rem", fontWeight: 700, color: B.charcoal, marginBottom: "6px" }}>Your notification email address</p>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: B.inkMid, marginBottom: "8px" }}>Alerts will be sent from the app to this address via your default mail client.</p>
-              <input
-                type="email"
-                value={draft.myEmail || ""}
-                onChange={e => set("myEmail", e.target.value)}
-                placeholder="your.email@feriatantoco.com"
-                style={{ ...inpSt, width: "100%", padding: "7px 12px", boxSizing: "border-box" }}
-              />
+              <p style={{ fontFamily: "var(--font-heading)", fontSize: "0.9375rem", fontWeight: 700, color: B.charcoal, marginBottom: "4px" }}>Your identity</p>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: B.inkMid, marginBottom: "10px" }}>Your name pre-fills the author field every time you log a stage update. Your email routes notification alerts.</p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                <div>
+                  <label style={{ display: "block", fontFamily: "var(--font-heading)", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: B.inkMid, marginBottom: "3px" }}>Your Name</label>
+                  <input value={draft.myName || ""} onChange={e => set("myName", e.target.value)}
+                    placeholder="e.g. Atty. Maria Santos"
+                    style={{ ...inpSt, width: "100%", padding: "7px 10px", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontFamily: "var(--font-heading)", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: B.inkMid, marginBottom: "3px" }}>Your Email</label>
+                  <input type="email" value={draft.myEmail || ""} onChange={e => set("myEmail", e.target.value)}
+                    placeholder="your.email@feriatantoco.com"
+                    style={{ ...inpSt, width: "100%", padding: "7px 10px", boxSizing: "border-box" }} />
+                </div>
+              </div>
             </div>
           </>}
         </div>
@@ -2410,7 +2565,10 @@ function SettingsModal({ settings, onSave, onClose }) {
 // ─── FILTERS BAR ─────────────────────────────────────────────────────────────
 
 function FiltersBar({ matters, filters, setFilters }) {
-  const partners        = [...new Set(matters.map(m => m.assignedPartner.name).filter(Boolean))].sort();
+  const partners        = [...new Set(matters.flatMap(m => [
+    m.assignedPartner?.name,
+    ...(m.additionalPartners||[]).map(p => p.name)
+  ]).filter(Boolean))].sort();
   const associates      = [...new Set(matters.flatMap(m => (m.assignedAssociates || []).map(a => a.name)).filter(Boolean))].sort();
   const legalAssistants = [...new Set(matters.flatMap(m => (m.assignedLegalAssistants || []).map(a => a.name)).filter(Boolean))].sort();
 
@@ -3500,6 +3658,7 @@ function getAllUsers(matters) {
   const names = new Set();
   matters.forEach(m => {
     if (m.assignedPartner?.name)            names.add(m.assignedPartner.name);
+    (m.additionalPartners||[]).forEach(p => { if (p.name) names.add(p.name); });
     m.assignedAssociates?.forEach(a => { if (a.name) names.add(a.name); });
     STAGES.forEach(stage => {
       const r = m.stages?.[stage]?.responsible;
@@ -3868,12 +4027,14 @@ const HELP_SECTIONS = [
     color: "#2D4DB5",
     bg: "#EEF1FB",
     border: "#BFD0F0",
-    summary: "A visual board showing all matters organised by lifecycle stage.",
+    summary: "A visual board showing all matters organised by their current lifecycle stage, with real-time urgency cues.",
     items: [
-      { action: "View matters by stage", how: "Each column represents one lifecycle stage. Cards show the matter name, client, assigned partner, practice area, associates, due date, and status." },
-      { action: "Move a matter to a new stage", how: "Drag a card from one column and drop it onto another column. The matter's current stage updates immediately." },
-      { action: "Open a matter", how: "Click any card to open the full matter detail panel on the right side of the screen." },
-      { action: "Filter the board", how: "Use the filter bar above the board to narrow by stage, partner, status, or practice area. Use the search box to find a matter by name or client." },
+      { action: "View matters by stage", how: "Each column represents one lifecycle stage. Cards show the matter name, client, assigned partner, practice area, status badge, due date, and billing count." },
+      { action: "Move a matter to a new stage", how: "Drag a card from one column and drop it onto another column. You will be prompted: 'Mark [previous stage] as complete today?' — click OK to auto-fill the completion date, or Cancel to skip. The new stage's start date is also set automatically." },
+      { action: "Open and edit a matter", how: "Click any card to open the full matter detail panel. When hovering over a card you will see an '✏ Click to edit matter →' hint at the bottom." },
+      { action: "Filter the board", how: "Use the filter bar above the board to narrow by stage, partner, associate, legal assistant, status, or practice area. Use the search box to find a matter by any text — name, client, notes, responsible person, and more." },
+      { action: "On Hold matters", how: "Matters placed on hold appear faded at 70% opacity with a ⏸ badge showing the hold reason. They remain on the board but are visually de-emphasised." },
+      { action: "Closed matters", how: "Closed matters are hidden from the Kanban board entirely. They move to the Archive tab." },
     ],
   },
   {
@@ -3882,10 +4043,10 @@ const HELP_SECTIONS = [
     color: "#0B1741",
     bg: "#F0F2F8",
     border: "#C8CEDF",
-    summary: "A sortable, filterable grid showing all matters at a glance.",
+    summary: "A sortable, filterable grid showing all active matters at a glance.",
     items: [
-      { action: "Sort matters", how: "Click any column header — Matter, Client, Stage, Partner, Opened, Status — to sort ascending or descending. An arrow indicates the active sort." },
-      { action: "Filter matters", how: "Use the filter bar above the table to filter by stage, partner, status, or practice area, or type in the search box to find by name or client." },
+      { action: "Sort matters", how: "Click any column header — Matter, Client, Stage, Partner, Opened, Status — to sort ascending or descending." },
+      { action: "Filter matters", how: "Use the filter bar above the table. All multi-select dropdowns support choosing more than one value at a time." },
       { action: "Open a matter", how: "Click any row to open the full matter detail panel." },
     ],
   },
@@ -3895,13 +4056,13 @@ const HELP_SECTIONS = [
     color: "#3A9A4A",
     bg: "#EDF7ED",
     border: "#A8D5A8",
-    summary: "A personal task view showing all open stage items assigned to a selected team member.",
+    summary: "A personal task view showing all open stage items assigned to a selected team member as the Responsible person.",
     items: [
-      { action: "See a person's tasks", how: "Select a name from the dropdown at the top. The list shows every incomplete stage across all matters where that person is listed as Responsible." },
-      { action: "Filter tasks", how: "Click the summary cards (Overdue, Due This Week, No Due Date) or use the quick-filter pills below them to narrow the list." },
-      { action: "Search tasks", how: "Type in the search box to filter by matter name, client, stage, or notes." },
-      { action: "Open the matter", how: "Click any task row to open the full matter detail panel for that matter." },
-      { action: "Task urgency colours", how: "Red left border = Overdue. Gold left border = Due Soon (within 7 days). Blue left border = On Track. Grey left border = No due date set." },
+      { action: "See a person's tasks", how: "Select a name from the dropdown at the top. The list shows every incomplete stage across all matters where that person is listed as the stage Responsible person." },
+      { action: "Filter tasks", how: "Click the summary cards (Overdue, Due This Week, No Due Date) or the quick-filter pills below them." },
+      { action: "Task urgency colours", how: "Red left border = Overdue. Gold left border = Due within 7 days. Blue = On Track. Grey = No due date." },
+      { action: "Open the matter", how: "Click any task row to open the full matter detail panel." },
+      { action: "How to assign a responsible person", how: "Open the matter drawer → Edit Details → expand any stage → select from the Responsible Person dropdown (drawn from the firm directory in Settings)." },
     ],
   },
   {
@@ -3912,10 +4073,9 @@ const HELP_SECTIONS = [
     border: "#C4B5FD",
     summary: "A firm-wide overview with three sub-tabs: Today / This Week, Smart Next Actions, and Missing Info Report.",
     items: [
-      { action: "Today / This Week tab", how: "Shows seven live queues: Overdue Items, Due Today, Due This Week, Partner Review Queue, Client Review Queue, Billing Queue, and stages with no responsible person assigned. Click any row to open that matter." },
-      { action: "Smart Next Actions tab", how: "Lists every active matter alongside its earliest incomplete stage — the thing that needs to happen next. Sorted by urgency with overdue items first." },
-      { action: "Missing Info Report tab", how: "Automatically flags matters with incomplete data — missing matter name, client name, partner, practice area, responsible person, or due date on the active stage. Click the arrow on any row to see the full list of issues, then click Open & Edit Matter to fix them." },
-      { action: "Filter by clicking a summary card", how: "On the Today / This Week tab, click any of the seven stat cards to scroll directly to that section." },
+      { action: "Today / This Week tab", how: "Shows seven live queues: Overdue Items, Due Today, Due This Week, Partner Review Queue, Client Review Queue, Billing Queue, and stages missing a responsible person. Click any row to open that matter." },
+      { action: "Smart Next Actions tab", how: "Lists every active matter with its earliest incomplete stage — the next thing that needs to happen — sorted by urgency. Overdue items appear first." },
+      { action: "Missing Info Report tab", how: "Automatically flags matters with incomplete data — missing name, client, partner, practice area, responsible person on the active stage, or due date. Click ▼ to expand the issue list, then Open & Edit to fix it." },
     ],
   },
   {
@@ -3924,17 +4084,34 @@ const HELP_SECTIONS = [
     color: "#B5A06A",
     bg: "#F7F3EA",
     border: "#D4C38F",
-    summary: "Opens when you click any matter card or row. Shows the full matter file including all stage details, update history, and action buttons.",
+    summary: "Opens when you click any matter card or row. Shows the full matter file including all stage details, update history, billing log, and status controls.",
     items: [
-      { action: "View stage details", how: "Each stage is shown as a collapsible accordion row. The active stage is highlighted in blue. Completed stages show a green Done badge." },
-      { action: "Edit matter details", how: "Click Edit Details at the top right of the panel. You can update the matter name, client, practice area, current stage, status, workspace link, and assigned legal assistants. Click Save Changes when done." },
-      { action: "Edit a stage", how: "With Edit Details active, each stage accordion shows editable fields for Date Started, Date Completed, Due Date, Responsible person, Email, and Notes." },
-      { action: "Log a progress update", how: "In any stage body, click + Add Update. Enter your name and a progress note, then click Save Update. The entry is added to the Update History timeline with a timestamp. The most recent entry is highlighted in blue." },
-      { action: "View update history", how: "Each stage shows a timeline of all logged updates, newest first. If there are more than 3 entries, click Show all N updates to expand the full history." },
-      { action: "Send a reminder email", how: "Click Send Reminder inside any stage that has a responsible person's email. This opens your default email client pre-filled with the recipient, subject, and a reminder message." },
-      { action: "Add to calendar (.ics)", how: "Click Add to Calendar (.ics) inside any stage that has a due date. This downloads a calendar file compatible with Outlook, Google Calendar, and Apple Calendar." },
-      { action: "Sync to Outlook (placeholder)", how: "Click Sync to Outlook to simulate an Outlook Calendar sync. This is currently a demo placeholder — Microsoft Graph authentication has not been connected yet. A DEMO badge marks this status." },
-      { action: "Open the matter workspace", how: "If a workspace link has been set, a gold Matter Workspace link appears in the header. Click it to open the iManage workspace in a new tab." },
+      { action: "View stage details", how: "Each stage is shown as a collapsible accordion. The active stage is highlighted in blue with an Active badge. Completed stages show a green Done badge." },
+      { action: "Edit matter details", how: "Click Edit Details at the top right. Update the matter name, client, practice area, current stage, status, workspace link, and assigned people. Click Save Changes when done." },
+      { action: "Assign responsible person to a stage", how: "In Edit Details, expand any stage accordion. The Responsible Person field is now a dropdown grouped into Partners, Associates, and Legal Assistants. Selecting a person auto-fills their email address." },
+      { action: "Log a progress update", how: "In any stage, click + Add Update. Your name is pre-filled from Settings → Notifications → Your Name. Add a note and click Save Update. The entry is timestamped and added to the timeline." },
+      { action: "View update history", how: "Each stage shows a timeline of all logged updates, newest first. If there are more than 3, click Show all N updates to expand." },
+      { action: "Send a reminder email", how: "Click Send Reminder inside any stage that has a responsible person's email. Opens Outlook pre-filled." },
+      { action: "Add to calendar", how: "Click Add to Calendar (.ics) inside any stage with a due date. Downloads a file compatible with Outlook, Google Calendar, and Apple Calendar." },
+      { action: "Open the iManage workspace", how: "If a workspace link is set, a gold Matter Workspace link appears in the header. Click it to open in a new tab." },
+      { action: "Place on hold", how: "Click ⏸ Place on Hold at the bottom of the panel. You will be prompted for an optional reason. The card on the Kanban board becomes faded. Click ▶ Resume Matter to lift the hold." },
+      { action: "Close and archive", how: "Click 🗄️ Close & Archive Matter. A confirmation prompt appears. The matter moves to the Archive tab and disappears from the Kanban board and Table View." },
+    ],
+  },
+  {
+    icon: "💰",
+    title: "Billing Log",
+    color: "#7A6022",
+    bg: "#FBF5E6",
+    border: "#D4C38F",
+    summary: "Each matter has its own billing log for tracking milestone invoices independently of the lifecycle stages.",
+    items: [
+      { action: "Add a billing entry", how: "Open the matter drawer, scroll to the Billing Log section, and click + Add Entry. Fill in the description, amount, status, planned date, date billed, and invoice reference." },
+      { action: "Status flow", how: "Each entry moves through: Planned → Pending → Sent → Paid (or Disputed). Update the status by clicking Edit on any entry." },
+      { action: "Send Invoice Reminder", how: "Click the Remind button on any billing entry. This opens Outlook pre-filled with your Billing Specialist's email (set in Settings), the matter name, invoice reference, amount, and status." },
+      { action: "Set the Billing Specialist", how: "Go to Settings → Display tab → Billing Specialist Name and Billing Specialist Email. All Remind emails go to this person." },
+      { action: "Add billing milestones at matter creation", how: "In the New Matter form, scroll to the Fee Arrangement & Billing Schedule section. Choose the fee type (Fixed Fee, Retainer, Milestone-Based, etc.) and click + Add Milestone to pre-populate planned entries from your engagement proposal." },
+      { action: "Billing badge on Kanban cards", how: "If a matter has billing entries, a gold 💰 badge appears on the Kanban card showing the entry count and a red 'N pending' pill if any entries are awaiting action." },
     ],
   },
   {
@@ -3943,14 +4120,41 @@ const HELP_SECTIONS = [
     color: "#0B1741",
     bg: "#F0F2F8",
     border: "#C8CEDF",
-    summary: "Click the blue New Matter button in the top right of the header to open a new matter file.",
+    summary: "Click the blue New Matter button in the top right header to open a new matter file.",
     items: [
-      { action: "Required fields", how: "Matter Name and Client Name are required. All other fields are optional at creation and can be filled in later via Edit Details." },
-      { action: "Assigned Partner", how: "Enter the partner's name and email. These are used for reminder emails and displayed throughout the app." },
-      { action: "Associates", how: "Add one or more associates using the + Add Associate button. Each entry takes a name and email." },
-      { action: "Legal Assistants", how: "Add one or more legal assistants using the + Add Legal Assistant button." },
-      { action: "Include Client Review stage", how: "Tick this checkbox to include the Client Review stage in the lifecycle for this matter. Untick it for matters where client review is not needed." },
-      { action: "iManage Workspace Link", how: "Paste the iManage workspace URL for this matter. It will appear as a clickable link in the matter header." },
+      { action: "Required fields", how: "Matter Name and Client Name are the only required fields. Everything else can be filled in later via Edit Details." },
+      { action: "Partner, Associates, Legal Assistants", how: "All three are now dropdown menus populated from the firm directory in Settings → Team Directory. Selecting a person auto-fills their email address. Use the + Add Associate and + Add Legal Assistant buttons to add multiple people." },
+      { action: "Include Client Review stage", how: "Tick this checkbox to include the Client Review stage in the lifecycle. Untick for matters where client review is not needed." },
+      { action: "iManage Workspace Link", how: "Paste the iManage workspace URL. It appears as a clickable link in the matter header panel." },
+      { action: "Fee Arrangement & Billing Schedule", how: "Choose the fee type and pre-populate planned billing milestones from your engagement proposal. These appear in the Billing Log as Planned entries." },
+    ],
+  },
+  {
+    icon: "📅",
+    title: "Download Deadlines & Calendar",
+    color: "#2A7A34",
+    bg: "#EDF7ED",
+    border: "#A8D5A8",
+    summary: "Download deadline reminders as .ics calendar files, filterable by stage, week, or month.",
+    items: [
+      { action: "Download Deadlines button", how: "Click the Download Deadlines button in the header. A modal opens with four options: All Upcoming, By Stage (pick a specific stage), By Week (navigate with ← → arrows), or By Month (pick any month). A live count shows how many deadlines will be included before you download." },
+      { action: "Send Reminder email", how: "Opens Outlook with the responsible person's email, matter name, and a reminder message. Requires a responsible person email to be set on the stage." },
+      { action: "Add to Calendar (.ics)", how: "Downloads a standard calendar file for the stage's due date. Double-click it to add to Outlook, Google Calendar, or Apple Calendar." },
+      { action: "Sync to Outlook (DEMO)", how: "The Sync to Outlook button is a placeholder for a future Microsoft Graph API integration. It simulates a sync but does not create a real Outlook event. The DEMO badge marks this clearly." },
+    ],
+  },
+  {
+    icon: "🗄️",
+    title: "Archive",
+    color: "#374151",
+    bg: "#F3F2EF",
+    border: "#D4D0C8",
+    summary: "A dedicated holding space for all closed matters. Every detail remains accessible and matters can be reopened.",
+    items: [
+      { action: "View closed matters", how: "Click the Archive tab in the view toggle. The table shows all closed matters with their ID, name, client, practice area, partner, date opened, date closed, and total amount paid." },
+      { action: "Open a closed matter", how: "Click any row in the Archive table to open the full matter detail panel in read-only mode. All stage history, billing logs, and update history are preserved." },
+      { action: "Reopen a matter", how: "Click the ↩ Reopen button on any archived matter row. The matter returns to the active Kanban board with status set to On Track and the closed date cleared." },
+      { action: "How matters get here", how: "Click Close & Archive Matter at the bottom of any matter detail panel. A confirmation prompt appears before archiving." },
     ],
   },
   {
@@ -3959,28 +4163,41 @@ const HELP_SECTIONS = [
     color: "#7A6022",
     bg: "#FBF5E6",
     border: "#D4C38F",
-    summary: "Click the Import Excel button in the header to bulk-import matters from a spreadsheet file.",
+    summary: "Bulk-import matters from a spreadsheet file using the Import Excel button in the header.",
     items: [
-      { action: "Download a template", how: "Click Download Template in the import panel to get a pre-formatted CSV file with all accepted column headers. Fill it in and re-import." },
-      { action: "Upload a file", how: "Drag and drop an .xlsx, .xls, or .csv file onto the drop zone, or click the zone to browse for the file." },
-      { action: "Preview before importing", how: "After uploading, a preview table shows all detected matters with a status of OK, Warnings, or Duplicate — Skipped for each row. Review it before committing." },
-      { action: "Validation warnings", how: "Missing matter name, missing client name, invalid dates, and unrecognised stage names are flagged as warnings in the preview. Duplicate matters (matched by ID or name) are automatically skipped." },
-      { action: "Confirm the import", how: "Click Import N Matters to add all non-duplicate matters to the app. Click Cancel to discard and close the panel." },
-      { action: "Supported columns", how: "Matter ID, Matter Name, Client Name, Practice Area, Current Stage, Status, Date Opened, Partner Name, Partner Email, Associate Name, Associate Email, Stage, Responsible, Responsible Email, Due Date, Date Started, Date Completed, Notes." },
+      { action: "Download a template", how: "Click Download Template in the import panel to get a pre-formatted CSV with all accepted column headers." },
+      { action: "Upload a file", how: "Drag and drop an .xlsx, .xls, or .csv file onto the drop zone, or click to browse." },
+      { action: "Preview before importing", how: "A preview table shows all detected matters with OK, Warnings, or Duplicate — Skipped status for each row. Review before confirming." },
+      { action: "Confirm the import", how: "Click Import N Matters to add all non-duplicate matters. Click Cancel to discard." },
     ],
   },
   {
-    icon: "📅",
-    title: "Reminders & Calendar",
+    icon: "📤",
+    title: "Export to Excel",
     color: "#2A7A34",
     bg: "#EDF7ED",
     border: "#A8D5A8",
-    summary: "Each stage in a matter has buttons to send reminder emails and download calendar events.",
+    summary: "Export all matter data to a multi-sheet Excel workbook using the spreadsheet icon in the header.",
     items: [
-      { action: "Send Reminder email", how: "Opens your default email client (Outlook) with the responsible person's email, a pre-written subject line, and a reminder message body. Requires a responsible person email to be set on the stage." },
-      { action: "Add to Calendar (.ics)", how: "Downloads a standard .ics calendar file for the stage's due date. Compatible with Microsoft Outlook, Google Calendar, and Apple Calendar. Double-click the downloaded file to add it to your calendar." },
-      { action: "Download All Deadlines", how: "The Download All Deadlines button in the top header generates one .ics file containing every upcoming stage due date across all matters. Import it into your calendar app to see all deadlines at once." },
-      { action: "Sync to Outlook (coming soon)", how: "The Sync to Outlook button is a placeholder for a future direct Microsoft Graph API integration. It currently simulates a sync but does not create a real Outlook event. A DEMO badge is shown to make this clear." },
+      { action: "Export button", how: "Click the spreadsheet icon (📊) in the header, to the left of the Settings gear. The file downloads automatically." },
+      { action: "What is exported", how: "The workbook contains four sheets: Matters (one row per matter), Stage Details (one row per stage per matter), Billing Log (all billing entries), and Update History (all stage update log entries)." },
+      { action: "Filter-aware export", how: "If filters are active in the filter bar, only matching matters are exported. Clear all filters first to export everything." },
+      { action: "Important limitation", how: "The export is a snapshot only. The file cannot be re-imported to restore full app state including billing logs and update histories. Use it to back up your data before closing the browser." },
+    ],
+  },
+  {
+    icon: "⚙️",
+    title: "Settings",
+    color: "#555550",
+    bg: "#F3F2EF",
+    border: "#D4D0C8",
+    summary: "Click the gear icon in the header to open the three-tab Settings panel.",
+    items: [
+      { action: "Display tab", how: "Adjust font size (Small / Medium / Large), the default opening view, Kanban card width, whether to show notes and associates on cards, compact table rows, the stats bar visibility, and the Billing Specialist name and email." },
+      { action: "Team Directory tab", how: "Admin-only. Add, edit, or remove Partners, Associates, and Legal Assistants from the firm directory. Changes here update all dropdown menus across the app — the New Matter form, the stage Responsible Person field, and the To-Do List person selector. Each entry stores a name and email." },
+      { action: "Notifications tab — Your Name", how: "Enter your own name here. It will pre-fill the author field every time you click + Add Update on a stage, so you do not need to type your name each time." },
+      { action: "Notifications tab — notification preferences", how: "Toggle alerts for: being tagged on a new matter, a matter moving stage, or a new update being logged. Set the notification method (email via Outlook, in-app banner, or both). Note: full in-app push notifications require a backend connection (future update)." },
+      { action: "Reset to defaults", how: "Click Reset to defaults in the footer of the Settings panel to restore all settings to their original values. This does not affect matter data." },
     ],
   },
   {
@@ -3989,30 +4206,54 @@ const HELP_SECTIONS = [
     color: "#991B1B",
     bg: "#FEF2F2",
     border: "#FCA5A5",
-    summary: "Every matter has a status badge that indicates its current health at a glance.",
+    summary: "Every matter has a status badge indicating its current health.",
     items: [
-      { action: "On Track (blue)", how: "The matter is progressing normally with no overdue stages." },
-      { action: "At Risk (gold)", how: "The matter has a stage approaching its due date or has been flagged manually as At Risk." },
+      { action: "On Track (blue)", how: "The matter is progressing normally." },
+      { action: "At Risk (gold)", how: "The matter is approaching a deadline or has been flagged manually." },
       { action: "Overdue (red)", how: "One or more stage due dates have passed without completion." },
-      { action: "Completed (grey)", how: "All stages are done and the matter is closed." },
-      { action: "Changing a status", how: "Open the matter, click Edit Details, and change the Status dropdown to the appropriate value. Click Save Changes." },
+      { action: "On Hold (grey)", how: "The matter is temporarily paused. The card on the Kanban board appears faded with the hold reason shown." },
+      { action: "Completed (grey)", how: "All stages are done. The matter is still visible on the board." },
+      { action: "Closed (dark)", how: "The matter has been archived. It no longer appears on the Kanban board or Table View — find it in the Archive tab." },
+      { action: "Changing a status", how: "Open the matter → Edit Details → change the Status dropdown → Save Changes. Or use the Place on Hold / Close & Archive buttons at the bottom of the drawer." },
+    ],
+  },
+  {
+    icon: "📆",
+    title: "Calendar View",
+    color: "#2D4DB5",
+    bg: "#EEF1FB",
+    border: "#BFD0F0",
+    summary: "A visual calendar showing all stage due dates across all active matters in month or week layout, filterable by Partner, Associate, Legal Assistant, or Status.",
+    items: [
+      { action: "Switch between Month and Week view", how: "Use the Month and Week toggle buttons at the top left. Month shows the full grid. Week shows a day-by-day view with more space per day." },
+      { action: "Navigate between periods", how: "Use the ← and → arrows to move one month or week at a time. Click Today to return to the current period." },
+      { action: "Filter by Partner, Associate, Legal Assistant, or Status", how: "Click the Filter button to expand the filter bar. Each dropdown is a multi-select checklist — tick as many people or statuses as you need. The calendar immediately updates to show only deadlines from matching matters. A filter count badge appears on the Filter button, and active selections are shown as blue chips. Click Clear all or ✕ Clear on any dropdown to remove filters." },
+      { action: "Reading a calendar entry", how: "Each coloured pill shows a two-letter stage abbreviation (CE = Client Engagement, P&S = Proposal & Scoping, MIWA = Matter Intake & Work Assignment, RWO = Research & Work Output, PR = Partner Review, CR = Client Review, BIL = Billing, CFR = Client Feedback Request) followed by the matter name. Hover to see the full matter name, stage, and responsible person." },
+      { action: "Colour coding", how: "Red = Overdue (deadline has passed). Gold = Due soon (within 3 days). Blue = Upcoming (more than 3 days away)." },
+      { action: "Click a day cell", how: "Clicking any day with events opens a detail panel below the calendar showing each deadline for that day with matter name, client, stage, and responsible person." },
+      { action: "Open the matter", how: "Click any event pill or any row in the day detail panel to open the full matter detail drawer." },
+      { action: "+N more", how: "In month view, days with more than 3 events show a '+N more' link. Click the day cell to see all events for that day." },
+      { action: "No results state", how: "If your filters produce no deadlines in the current view, an empty state appears with a Clear filters button." },
     ],
   },
   {
     icon: "💾",
-    title: "Data & Sessions",
-    color: "#555550",
-    bg: "#F3F2EF",
-    border: "#D4D0C8",
-    summary: "Important information about how data is stored in this version of the app.",
+    title: "Data & Sessions — Important",
+    color: "#991B1B",
+    bg: "#FEF2F2",
+    border: "#FCA5A5",
+    summary: "⚠ Critical information about how data is stored in this beta version of the app.",
     items: [
-      { action: "Data is session-only", how: "All matters, updates, and changes are stored in the browser's memory for the current session only. Refreshing the page resets everything back to the three sample matters. This is expected behaviour for this version." },
-      { action: "Do not refresh during a session", how: "Complete all work in one sitting without refreshing the browser. If you need to step away, note down any important information first." },
-      { action: "Persistent storage (coming soon)", how: "A future update will connect the app to a database (such as Supabase or SharePoint Lists) so that all matters are saved permanently and shared across the whole team in real time." },
-      { action: "Exporting your data", how: "There is no bulk export feature yet. This is planned for a future update." },
+      { action: "Data is session-only", how: "All matters, billing entries, updates, and changes are stored only in your browser's memory for the current session. Refreshing the page resets everything back to the 20 demo matters. This is by design for the beta testing phase." },
+      { action: "Do not refresh during a session", how: "Complete all testing in one sitting without refreshing the browser. If you need to step away, use Export to Excel to save a snapshot of your work first." },
+      { action: "Multiple users each see separate data", how: "Because there is no shared backend, two people opening the app at the same time are working on entirely separate copies of the data. Changes one person makes are invisible to everyone else." },
+      { action: "No login or access control", how: "Anyone with the Azure URL can open the app. Do not enter actual client information until authentication and a persistent database are connected." },
+      { action: "Persistent storage — coming soon", how: "The next major upgrade will connect the app to a database (Supabase) so all matters are saved permanently and shared across the team in real time. Authentication via Microsoft 365 is also planned." },
+      { action: "Export before closing", how: "Before ending your session, click the spreadsheet export icon in the header to download a complete Excel snapshot of all current matters, stages, billing entries, and update history." },
     ],
   },
 ];
+
 
 function HelpView() {
   const [openSection, setOpenSection] = useState(null);
@@ -4449,7 +4690,10 @@ async function exportToExcel(matters, filters) {
       if (!allText.includes(q)) return false;
     }
     if ((filters.stages||[]).length && !filters.stages.includes(m.currentStage)) return false;
-    if ((filters.partners||[]).length && !filters.partners.includes(m.assignedPartner?.name)) return false;
+    if ((filters.partners||[]).length) {
+      const allPartnerNames = [m.assignedPartner?.name, ...(m.additionalPartners||[]).map(p => p.name)].filter(Boolean);
+      if (!filters.partners.some(fp => allPartnerNames.includes(fp))) return false;
+    }
     if ((filters.statuses||[]).length && !filters.statuses.includes(m.status)) return false;
     if ((filters.practiceAreas||[]).length && !filters.practiceAreas.includes(m.practiceArea)) return false;
     return true;
@@ -4469,8 +4713,9 @@ async function exportToExcel(matters, filters) {
     "Fee Arrangement":    m.feeArrangement || "",
     "Date Opened":        m.dateOpened || "",
     "Closed Date":        m.closedDate || "",
-    "Partner Name":       m.assignedPartner?.name || "",
-    "Partner Email":      m.assignedPartner?.email || "",
+    "Lead Partner Name":  m.assignedPartner?.name || "",
+    "Lead Partner Email": m.assignedPartner?.email || "",
+    "Co-Partners":        (m.additionalPartners||[]).map(p=>p.name).filter(Boolean).join("; "),
     "Associates":         (m.assignedAssociates||[]).map(a=>a.name).filter(Boolean).join("; "),
     "Legal Assistants":   (m.assignedLegalAssistants||[]).map(a=>a.name).filter(Boolean).join("; "),
     "Workspace Link":     m.workspaceLink || "",
@@ -4550,6 +4795,451 @@ async function exportToExcel(matters, filters) {
   XLSX.writeFile(wb, `FTD-Matters-Export-${label}-${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 
+
+// ─── CALENDAR VIEW ────────────────────────────────────────────────────────────
+
+/**
+ * Collect all incomplete stage due dates across all matters into a flat list
+ * of calendar events, grouped by ISO date string.
+ */
+function buildCalendarEvents(matters) {
+  const byDate = {};          // { "YYYY-MM-DD": [event, ...] }
+  matters.forEach(m => {
+    if (m.status === "Closed") return;
+    const active = m.includeClientReview ? STAGES : STAGES.filter(s => s !== "Client Review");
+    active.forEach(stage => {
+      const sd = m.stages?.[stage];
+      if (!sd?.dueDate || sd.dateCompleted) return;
+      const key = sd.dueDate;
+      if (!byDate[key]) byDate[key] = [];
+      byDate[key].push({
+        matterId:    m.id,
+        matterName:  m.name,
+        client:      m.client,
+        stage,
+        responsible: sd.responsible || "",
+        status:      m.status,
+        _matter:     m,
+      });
+    });
+  });
+  return byDate;
+}
+
+// Colour per stage urgency on the calendar
+function calEventColor(event, today) {
+  const d = new Date(event.dueDate || event.stage); // fallback
+  const due = new Date(event._matter?.stages?.[event.stage]?.dueDate);
+  due.setHours(0,0,0,0);
+  if (due < today) return { bg: "#FEF2F2", text: "#991B1B", border: "#FCA5A5" };
+  const diff = Math.ceil((due - today) / 86400000);
+  if (diff <= 3)  return { bg: "#FBF5E6", text: "#7A6022", border: "#D4C38F" };
+  return { bg: B.cobaltTint, text: B.cobalt, border: "#BFD0F0" };
+}
+
+// Stage abbreviation for compact calendar display
+const STAGE_ABBREV = {
+  "Client Engagement":                "CE",
+  "Proposal & Scoping":               "P&S",
+  "Matter Intake & Work Assignment":  "MIWA",
+  "Research & Work Output":           "RWO",
+  "Partner Review":                   "PR",
+  "Client Review":                    "CR",
+  "Billing":                          "BIL",
+  "Client Feedback Request":          "CFR",
+};
+
+function CalendarView({ matters, onOpenMatter }) {
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // ── View / navigation state ───────────────────────────────────────────────
+  const [calMode,       setCalMode]       = useState("month");
+  const [anchor,        setAnchor]        = useState(() => new Date(today));
+  const [hoveredEvent,  setHoveredEvent]  = useState(null);
+  const [selectedDay,   setSelectedDay]   = useState(null);
+
+  // ── Filter state ──────────────────────────────────────────────────────────
+  const [filterPartners,  setFilterPartners]  = useState([]);
+  const [filterAssocs,    setFilterAssocs]    = useState([]);
+  const [filterLAs,       setFilterLAs]       = useState([]);
+  const [filterStatuses,  setFilterStatuses]  = useState([]);
+  const [showFilters,     setShowFilters]     = useState(false);
+
+  const hasFilters = filterPartners.length || filterAssocs.length || filterLAs.length || filterStatuses.length;
+
+  const clearFilters = () => {
+    setFilterPartners([]); setFilterAssocs([]);
+    setFilterLAs([]);      setFilterStatuses([]);
+  };
+
+  // ── Build option lists from matters ───────────────────────────────────────
+  const partners  = useMemo(() => [...new Set(matters.map(m => m.assignedPartner?.name).filter(Boolean))].sort(), [matters]);
+  const associates = useMemo(() => [...new Set(matters.flatMap(m => (m.assignedAssociates||[]).map(a => a.name)).filter(Boolean))].sort(), [matters]);
+  const legalAssts = useMemo(() => [...new Set(matters.flatMap(m => (m.assignedLegalAssistants||[]).map(a => a.name)).filter(Boolean))].sort(), [matters]);
+
+  // ── Filter matters before building events ─────────────────────────────────
+  const filteredMatters = useMemo(() => {
+    let list = matters;
+    if (filterPartners.length) {
+      list = list.filter(m => {
+        const allP = [m.assignedPartner?.name, ...(m.additionalPartners||[]).map(p => p.name)].filter(Boolean);
+        return filterPartners.some(fp => allP.includes(fp));
+      });
+    }
+    if (filterAssocs.length)
+      list = list.filter(m => (m.assignedAssociates||[]).some(a => filterAssocs.includes(a.name)));
+    if (filterLAs.length)
+      list = list.filter(m => (m.assignedLegalAssistants||[]).some(a => filterLAs.includes(a.name)));
+    if (filterStatuses.length)
+      list = list.filter(m => filterStatuses.includes(m.status));
+    return list;
+  }, [matters, filterPartners, filterAssocs, filterLAs, filterStatuses]);
+
+  const events = useMemo(() => buildCalendarEvents(filteredMatters), [filteredMatters]);
+
+  // ── Navigation ────────────────────────────────────────────────────────────
+  const goBack    = () => { const d = new Date(anchor); calMode === "month" ? d.setMonth(d.getMonth()-1) : d.setDate(d.getDate()-7); setAnchor(d); };
+  const goForward = () => { const d = new Date(anchor); calMode === "month" ? d.setMonth(d.getMonth()+1) : d.setDate(d.getDate()+7); setAnchor(d); };
+  const goToday   = () => setAnchor(new Date(today));
+
+  // ── Day grid ──────────────────────────────────────────────────────────────
+  const getDays = () => {
+    if (calMode === "week") {
+      const day = anchor.getDay();
+      const mon = new Date(anchor);
+      mon.setDate(anchor.getDate() - (day === 0 ? 6 : day - 1));
+      return Array.from({ length: 7 }, (_, i) => { const d = new Date(mon); d.setDate(mon.getDate()+i); return d; });
+    }
+    const firstDay = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
+    const lastDay  = new Date(anchor.getFullYear(), anchor.getMonth()+1, 0);
+    const startPad = firstDay.getDay() === 0 ? 6 : firstDay.getDay()-1;
+    const endPad   = lastDay.getDay()  === 0 ? 0 : 7 - lastDay.getDay();
+    const gridStart = new Date(firstDay); gridStart.setDate(firstDay.getDate()-startPad);
+    return Array.from({ length: startPad+lastDay.getDate()+endPad }, (_, i) => {
+      const d = new Date(gridStart); d.setDate(gridStart.getDate()+i); return d;
+    });
+  };
+
+  const days      = getDays();
+  const DAY_LABELS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  const toKey = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  const isToday   = (d) => toKey(d) === toKey(today);
+  const thisMonth = (d) => d.getMonth() === anchor.getMonth();
+
+  const monthName = anchor.toLocaleString("en-PH", { month: "long", year: "numeric" });
+  const weekLabel = (() => {
+    if (calMode !== "week" || !days.length) return "";
+    const sm = days[0].toLocaleString("en-PH", { month: "short", day: "numeric" });
+    const em = days[6].toLocaleString("en-PH", { month: "short", day: "numeric", year: "numeric" });
+    return `${sm} – ${em}`;
+  })();
+
+  const totalInView = days.reduce((sum, d) => sum + (events[toKey(d)]?.length || 0), 0);
+  const MAX_VISIBLE = calMode === "month" ? 3 : 8;
+
+  const btnSt = (active) => ({
+    fontFamily: "var(--font-ui)", fontSize: "0.875rem", fontWeight: active ? 700 : 500,
+    padding: "6px 14px", borderRadius: "8px", border: "none", cursor: "pointer",
+    background: active ? B.navy : "#fff", color: active ? "#fff" : B.inkMid,
+    transition: "all 0.13s",
+  });
+
+  // ── Reusable inline multi-select for calendar filter bar ──────────────────
+  const CalFilterChips = ({ label, options, selected, onToggle, onClear }) => {
+    const [open, setOpen] = useState(false);
+    const ref = useRef(null);
+    useEffect(() => {
+      const h = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+      document.addEventListener("mousedown", h);
+      return () => document.removeEventListener("mousedown", h);
+    }, []);
+    const count = selected.length;
+    return (
+      <div ref={ref} style={{ position: "relative" }}>
+        <button onClick={() => setOpen(o => !o)} style={{
+          fontFamily: "var(--font-ui)", fontSize: "0.875rem",
+          color: count > 0 ? B.cobalt : B.charcoal,
+          border: `1px solid ${count > 0 ? B.cobalt : B.rule}`, borderRadius: "8px",
+          padding: "5px 26px 5px 10px", background: count > 0 ? B.cobaltTint : "#fff",
+          outline: "none", cursor: "pointer", whiteSpace: "nowrap", textAlign: "left",
+          minWidth: "110px",
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232D4DB5' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E")`,
+          backgroundRepeat: "no-repeat", backgroundPosition: "right 8px center",
+        }}>
+          {count > 0 ? `${label} (${count})` : label}
+        </button>
+        {open && (
+          <div style={{
+            position: "absolute", top: "calc(100% + 4px)", left: 0, zIndex: 300,
+            background: "#fff", border: `1px solid ${B.rule}`, borderRadius: "10px",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.13)", minWidth: "200px",
+            maxHeight: "220px", overflowY: "auto", padding: "6px 0",
+          }}>
+            {count > 0 && (
+              <button onClick={() => { onClear(); }} style={{ width: "100%", textAlign: "left", padding: "5px 12px", fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#DC2626", background: "transparent", border: "none", cursor: "pointer", borderBottom: `1px solid ${B.rule}`, marginBottom: "4px" }}>✕ Clear</button>
+            )}
+            {options.map(opt => (
+              <label key={opt} style={{ display: "flex", alignItems: "center", gap: "8px", padding: "5px 12px", cursor: "pointer", fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: B.charcoal, background: selected.includes(opt) ? B.cobaltTint : "transparent" }}>
+                <input type="checkbox" checked={selected.includes(opt)} onChange={() => onToggle(opt)} style={{ accentColor: B.cobalt, flexShrink: 0 }} />
+                {opt}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const toggleFilter = (setter, val) =>
+    setter(prev => prev.includes(val) ? prev.filter(v => v !== val) : [...prev, val]);
+
+  return (
+    <div>
+      {/* ── Toolbar row 1: mode + nav ── */}
+      <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "10px", marginBottom: "10px" }}>
+        {/* Month/Week toggle */}
+        <div style={{ display: "flex", background: "#fff", border: `1px solid ${B.rule}`, borderRadius: "10px", padding: "3px", boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
+          <button onClick={() => setCalMode("month")} style={btnSt(calMode === "month")}>Month</button>
+          <button onClick={() => setCalMode("week")}  style={btnSt(calMode === "week")}>Week</button>
+        </div>
+
+        {/* Navigation */}
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <button onClick={goBack} style={{ width: "32px", height: "32px", borderRadius: "8px", border: `1px solid ${B.rule}`, background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: B.ink }}>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <span style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", fontWeight: 700, color: B.charcoal, minWidth: "200px", textAlign: "center" }}>
+            {calMode === "month" ? monthName : weekLabel}
+          </span>
+          <button onClick={goForward} style={{ width: "32px", height: "32px", borderRadius: "8px", border: `1px solid ${B.rule}`, background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: B.ink }}>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </button>
+          <button onClick={goToday} style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", padding: "5px 12px", borderRadius: "8px", border: `1px solid ${B.rule}`, background: "#fff", cursor: "pointer", color: B.inkMid }}>Today</button>
+        </div>
+
+        {/* Filter toggle button */}
+        <button onClick={() => setShowFilters(f => !f)} style={{
+          display: "inline-flex", alignItems: "center", gap: "5px",
+          fontFamily: "var(--font-ui)", fontSize: "0.875rem",
+          padding: "5px 12px", borderRadius: "8px", cursor: "pointer",
+          border: `1px solid ${hasFilters ? B.cobalt : B.rule}`,
+          background: hasFilters ? B.cobaltTint : "#fff",
+          color: hasFilters ? B.cobalt : B.inkMid,
+        }}>
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707l-6.414 6.414A1 1 0 0014 13.828V19a1 1 0 01-.553.894l-4 2A1 1 0 018 21v-7.172a1 1 0 00-.293-.707L1.293 6.707A1 1 0 011 6V4z" /></svg>
+          {hasFilters ? `Filters (${(filterPartners.length+filterAssocs.length+filterLAs.length+filterStatuses.length)})` : "Filter"}
+        </button>
+
+        {hasFilters && (
+          <button onClick={clearFilters} style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#DC2626", background: "transparent", border: "none", cursor: "pointer", textDecoration: "underline" }}>✕ Clear all</button>
+        )}
+
+        {/* Event count */}
+        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", marginLeft: "auto" }}>
+          {totalInView} deadline{totalInView !== 1 ? "s" : ""}{hasFilters ? " (filtered)" : ""}
+        </span>
+      </div>
+
+      {/* ── Filter bar (collapsible) ── */}
+      {showFilters && (
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px", padding: "10px 14px", background: "#fff", borderRadius: "10px", border: `1px solid ${B.rule}`, marginBottom: "12px" }}>
+          <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: B.inkMid, marginRight: "4px" }}>Show deadlines for:</span>
+          <CalFilterChips
+            label="Partner"
+            options={partners}
+            selected={filterPartners}
+            onToggle={v => toggleFilter(setFilterPartners, v)}
+            onClear={() => setFilterPartners([])}
+          />
+          <CalFilterChips
+            label="Associate"
+            options={associates}
+            selected={filterAssocs}
+            onToggle={v => toggleFilter(setFilterAssocs, v)}
+            onClear={() => setFilterAssocs([])}
+          />
+          <CalFilterChips
+            label="Legal Assistant"
+            options={legalAssts}
+            selected={filterLAs}
+            onToggle={v => toggleFilter(setFilterLAs, v)}
+            onClear={() => setFilterLAs([])}
+          />
+          <CalFilterChips
+            label="Status"
+            options={STATUS_OPTIONS.filter(s => s !== "Closed")}
+            selected={filterStatuses}
+            onToggle={v => toggleFilter(setFilterStatuses, v)}
+            onClear={() => setFilterStatuses([])}
+          />
+          {/* Active filter chips summary */}
+          {hasFilters && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginLeft: "4px" }}>
+              {[...filterPartners, ...filterAssocs, ...filterLAs, ...filterStatuses].map(f => (
+                <span key={f} style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", fontWeight: 600, padding: "2px 8px", borderRadius: "999px", background: B.cobaltTint, color: B.cobalt, border: "1px solid #BFD0F0" }}>
+                  {f}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Legend ── */}
+      <div style={{ display: "flex", gap: "12px", marginBottom: "12px", flexWrap: "wrap" }}>
+        {[
+          { label: "Overdue",            bg: "#FEF2F2", text: "#991B1B", border: "#FCA5A5" },
+          { label: "Due soon (≤3 days)", bg: "#FBF5E6", text: "#7A6022", border: "#D4C38F" },
+          { label: "Upcoming",           bg: B.cobaltTint, text: B.cobalt, border: "#BFD0F0" },
+        ].map(c => (
+          <span key={c.label} style={{ display: "inline-flex", alignItems: "center", gap: "5px", fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: c.text }}>
+            <span style={{ width: "10px", height: "10px", borderRadius: "3px", background: c.bg, border: `1px solid ${c.border}`, flexShrink: 0 }} />
+            {c.label}
+          </span>
+        ))}
+      </div>
+
+      {/* ── Calendar grid ── */}
+      <div style={{ background: "#fff", borderRadius: "12px", border: `1px solid ${B.rule}`, overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+        {/* Day-of-week headers */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", background: B.navy }}>
+          {DAY_LABELS.map(lbl => (
+            <div key={lbl} style={{ padding: "8px 10px", textAlign: "center", fontFamily: "var(--font-heading)", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.55)" }}>
+              {lbl}
+            </div>
+          ))}
+        </div>
+
+        {/* Day cells */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)" }}>
+          {days.map((day, idx) => {
+            const key       = toKey(day);
+            const dayEvents = events[key] || [];
+            const visible   = dayEvents.slice(0, MAX_VISIBLE);
+            const overflow  = dayEvents.length - MAX_VISIBLE;
+            const isTod     = isToday(day);
+            const inMonth   = calMode === "week" ? true : thisMonth(day);
+            const isSelected = selectedDay === key;
+            const isWeekend  = day.getDay() === 0 || day.getDay() === 6;
+
+            return (
+              <div key={idx}
+                onClick={() => setSelectedDay(isSelected ? null : key)}
+                style={{
+                  minHeight: calMode === "month" ? "110px" : "200px",
+                  padding: "6px 7px",
+                  borderRight:  (idx+1) % 7 !== 0 ? `1px solid ${B.rule}` : "none",
+                  borderBottom: idx < days.length-7 ? `1px solid ${B.rule}` : "none",
+                  background: isSelected ? B.cobaltTint
+                    : isTod     ? "#FFFBF0"
+                    : !inMonth  ? "#FAFAF7"
+                    : isWeekend ? "#FCFBF9"
+                    : "#fff",
+                  cursor: dayEvents.length > 0 ? "pointer" : "default",
+                  transition: "background 0.1s",
+                }}
+              >
+                {/* Date number */}
+                <div style={{
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  width: "24px", height: "24px", borderRadius: "50%", marginBottom: "4px",
+                  background: isTod ? B.cobalt : "transparent",
+                  fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: isTod ? 700 : 500,
+                  color: isTod ? "#fff" : !inMonth ? "#CCC" : B.charcoal,
+                }}>
+                  {day.getDate()}
+                </div>
+
+                {/* Event pills */}
+                {visible.map((ev, ei) => {
+                  const col  = calEventColor(ev, today);
+                  const isHov = hoveredEvent === `${key}-${ei}`;
+                  return (
+                    <div key={ei}
+                      onClick={e => { e.stopPropagation(); onOpenMatter(ev._matter); }}
+                      onMouseEnter={() => setHoveredEvent(`${key}-${ei}`)}
+                      onMouseLeave={() => setHoveredEvent(null)}
+                      style={{
+                        background: isHov ? col.text : col.bg,
+                        color: isHov ? "#fff" : col.text,
+                        border: `1px solid ${col.border}`,
+                        borderRadius: "4px", padding: "2px 5px", marginBottom: "2px",
+                        cursor: "pointer", transition: "all 0.1s",
+                        overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis",
+                        display: "flex", alignItems: "center", gap: "4px",
+                      }}
+                      title={`${ev.matterName} — ${ev.stage}${ev.responsible ? " · " + ev.responsible : ""}`}
+                    >
+                      <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.72rem", fontWeight: 700, flexShrink: 0 }}>
+                        {STAGE_ABBREV[ev.stage] || ev.stage.slice(0,4)}
+                      </span>
+                      <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", overflow: "hidden", textOverflow: "ellipsis" }}>
+                        {ev.matterName.length > (calMode === "week" ? 28 : 16)
+                          ? ev.matterName.slice(0, calMode === "week" ? 28 : 16) + "…"
+                          : ev.matterName}
+                      </span>
+                    </div>
+                  );
+                })}
+                {overflow > 0 && (
+                  <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: B.cobalt, cursor: "pointer", paddingLeft: "4px" }}>
+                    +{overflow} more
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Day detail panel ── */}
+      {selectedDay && events[selectedDay] && events[selectedDay].length > 0 && (
+        <div style={{ marginTop: "12px", background: "#fff", borderRadius: "12px", border: `1px solid ${B.cobaltLight}`, boxShadow: "0 4px 16px rgba(45,77,181,0.1)", padding: "14px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
+            <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.9375rem", fontWeight: 700, color: B.charcoal }}>
+              {new Date(selectedDay + "T12:00:00").toLocaleDateString("en-PH", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+            </span>
+            <button onClick={() => setSelectedDay(null)} style={{ background: "transparent", border: "none", cursor: "pointer", color: "#AAA", fontSize: "1rem" }}>✕</button>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {events[selectedDay].map((ev, i) => {
+              const col = calEventColor(ev, today);
+              return (
+                <div key={i}
+                  onClick={() => onOpenMatter(ev._matter)}
+                  style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "10px", alignItems: "center", padding: "10px 12px", borderRadius: "8px", background: col.bg, border: `1px solid ${col.border}`, cursor: "pointer" }}
+                  onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+                  onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+                >
+                  <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.72rem", fontWeight: 700, padding: "3px 8px", borderRadius: "6px", background: col.text, color: "#fff", whiteSpace: "nowrap" }}>
+                    {STAGE_ABBREV[ev.stage] || ev.stage}
+                  </span>
+                  <div>
+                    <div style={{ fontFamily: "var(--font-heading)", fontSize: "0.9375rem", fontWeight: 700, color: col.text }}>{ev.matterName}</div>
+                    <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: B.inkMid }}>
+                      {ev.client}{ev.responsible && <span style={{ color: "#AAA" }}> · {ev.responsible}</span>}
+                    </div>
+                    <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA" }}>{ev.stage}</div>
+                  </div>
+                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: col.text, opacity: 0.7 }}>Open →</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ── Empty state when filters produce no events in view ── */}
+      {totalInView === 0 && hasFilters && (
+        <div style={{ textAlign: "center", padding: "40px 24px", background: "#fff", borderRadius: "12px", border: `1px solid ${B.rule}`, marginTop: "12px" }}>
+          <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.1rem", fontWeight: 700, color: B.charcoal, marginBottom: "6px" }}>No deadlines match the current filters</p>
+          <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: B.inkMid, marginBottom: "12px" }}>Try changing the month or clearing your filters.</p>
+          <button onClick={clearFilters} style={{ fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 700, padding: "7px 18px", borderRadius: "8px", background: B.cobalt, color: "#fff", border: "none", cursor: "pointer" }}>Clear filters</button>
+        </div>
+      )}
+    </div>
+  );
+}
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
 
 export default function FeriaLawTracker() {
@@ -4575,7 +5265,41 @@ export default function FeriaLawTracker() {
     setSelectedMatter(updated);
   }, []);
   const handleMoveMatter = useCallback((matterId, newStage) => {
-    setMatters(prev => prev.map(m => m.id === matterId ? { ...m, currentStage: newStage } : m));
+    setMatters(prev => prev.map(m => {
+      if (m.id !== matterId) return m;
+      const oldStage = m.currentStage;
+      const today = new Date().toISOString().split("T")[0];
+      let updatedStages = { ...m.stages };
+
+      // Prompt to complete previous stage if it has no dateCompleted yet
+      if (oldStage && oldStage !== newStage) {
+        const prevSd = updatedStages[oldStage] || {};
+        if (!prevSd.dateCompleted) {
+          const confirmComplete = window.confirm(
+            `Mark "${oldStage}" as complete today (${today})?
+
+Click OK to set completion date. Click Cancel to skip.`
+          );
+          if (confirmComplete) {
+            updatedStages = {
+              ...updatedStages,
+              [oldStage]: { ...prevSd, dateCompleted: today },
+            };
+          }
+        }
+      }
+
+      // Auto-set dateStarted on the new stage if not already set
+      const newSd = updatedStages[newStage] || {};
+      if (!newSd.dateStarted) {
+        updatedStages = {
+          ...updatedStages,
+          [newStage]: { ...newSd, dateStarted: today },
+        };
+      }
+
+      return { ...m, currentStage: newStage, stages: updatedStages };
+    }));
   }, []);
   const handleDownloadAllDeadlines = () => {
     const events = [];
@@ -4762,6 +5486,9 @@ export default function FeriaLawTracker() {
                 ["todo", "To-Do List",
                   <svg key="td" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
                 ],
+                ["calendar", "Calendar",
+                  <svg key="cal" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                ],
                 ["dashboard", "Dashboard",
                   <svg key="db" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 0a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zm10-3a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1v-7z" /></svg>
                 ],
@@ -4790,7 +5517,7 @@ export default function FeriaLawTracker() {
             </span>
           </div>
 
-          {view !== "todo" && view !== "dashboard" && view !== "help" && view !== "archive" && (
+          {view !== "todo" && view !== "dashboard" && view !== "help" && view !== "archive" && view !== "calendar" && (
             <FiltersBar matters={matters} filters={filters} setFilters={setFilters} />
           )}
 
@@ -4802,6 +5529,9 @@ export default function FeriaLawTracker() {
           )}
           {view === "todo" && (
             <TodoView matters={matters} onOpenMatter={setSelectedMatter} />
+          )}
+          {view === "calendar" && (
+            <CalendarView matters={matters} onOpenMatter={setSelectedMatter} />
           )}
           {view === "dashboard" && (
             <DashboardView matters={matters} onOpenMatter={setSelectedMatter} />
