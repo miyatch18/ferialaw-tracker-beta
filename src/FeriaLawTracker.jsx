@@ -947,31 +947,84 @@ function ReminderCalendarButtons({ matter, stage, onStageUpdate }) {
 
 // ─── STAGE UPDATE LOG ────────────────────────────────────────────────────────
 
-function StageUpdateLog({ log, onAddEntry, stageName }) {
-  const [showForm, setShowForm]   = useState(false);
-  // Pre-fill author from Settings > Notifications > Your Name
-  const [author,   setAuthor]     = useState(() => window.__ftdSettings?.myName || "");
-  const [text,     setText]       = useState("");
-  const [expanded, setExpanded]   = useState(false);
+function StageUpdateLog({ log, onUpdateLog, stageName }) {
+  const [showForm,   setShowForm]   = useState(false);
+  const [editIdx,    setEditIdx]    = useState(null);   // index in sorted array being edited
+  const [author,     setAuthor]     = useState(() => window.__ftdSettings?.myName || "");
+  const [text,       setText]       = useState("");
+  const [expanded,   setExpanded]   = useState(false);
 
   const entries = Array.isArray(log) ? log : [];
-  const sorted  = [...entries].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  // Keep a stable sorted order (newest first) for display, track original indices
+  const sorted = entries
+    .map((e, origIdx) => ({ ...e, _origIdx: origIdx }))
+    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
   const preview = expanded ? sorted : sorted.slice(0, 3);
 
-  const handleAdd = () => {
-    if (!text.trim()) return;
-    const entry = {
-      timestamp: new Date().toISOString(),
-      author:    author.trim() || "Unknown",
-      text:      text.trim(),
-    };
-    onAddEntry(entry);
+  const resetForm = () => {
+    setEditIdx(null);
     setText("");
+    setAuthor(window.__ftdSettings?.myName || "");
     setShowForm(false);
+  };
+
+  const openAdd = () => {
+    setEditIdx(null);
+    setAuthor(window.__ftdSettings?.myName || "");
+    setText("");
+    setShowForm(true);
+  };
+
+  const openEdit = (sortedItem) => {
+    setEditIdx(sortedItem._origIdx);
+    setAuthor(sortedItem.author || "");
+    setText(sortedItem.text || "");
+    setShowForm(true);
+  };
+
+  const handleSave = () => {
+    if (!text.trim()) return;
+    if (editIdx !== null) {
+      // Edit existing entry — preserve original timestamp, note the edit time
+      const updated = entries.map((e, i) =>
+        i === editIdx
+          ? { ...e, author: author.trim() || "Unknown", text: text.trim(), editedAt: new Date().toISOString() }
+          : e
+      );
+      onUpdateLog(updated);
+    } else {
+      // Add new entry
+      const newEntry = {
+        timestamp: new Date().toISOString(),
+        author:    author.trim() || "Unknown",
+        text:      text.trim(),
+      };
+      onUpdateLog([...entries, newEntry]);
+    }
+    resetForm();
+  };
+
+  const handleDelete = (origIdx) => {
+    if (!window.confirm("Delete this update entry? This cannot be undone.")) return;
+    onUpdateLog(entries.filter((_, i) => i !== origIdx));
+  };
+
+  const inpSt = (extra = {}) => ({
+    width: "100%", border: `1px solid #BFD0F0`, borderRadius: "6px",
+    padding: "6px 12px", fontSize: "0.875rem", fontFamily: "var(--font-ui)",
+    color: B.charcoal, background: "#fff", outline: "none", boxSizing: "border-box",
+    ...extra,
+  });
+
+  const lblSt = {
+    display: "block", fontFamily: "var(--font-heading)", fontSize: "0.9375rem",
+    fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em",
+    color: B.inkMid, marginBottom: "4px",
   };
 
   return (
     <div style={{ marginTop: "10px", borderTop: `1px solid ${B.rule}`, paddingTop: "10px" }}>
+      {/* Header row */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
         <span style={{
           fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 700,
@@ -992,87 +1045,88 @@ function StageUpdateLog({ log, onAddEntry, stageName }) {
           )}
         </span>
         <button
-          onClick={() => setShowForm(s => !s)}
+          onClick={() => { if (showForm && editIdx === null) { resetForm(); } else { openAdd(); } }}
           style={{
             fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 700,
             padding: "5px 10px", borderRadius: "6px", cursor: "pointer",
-            background: showForm ? "#fff" : B.cobalt,
-            color: showForm ? B.ink : "#fff",
-            border: `1px solid ${showForm ? B.rule : B.cobalt}`,
+            background: (showForm && editIdx === null) ? "#fff" : B.cobalt,
+            color:      (showForm && editIdx === null) ? B.ink  : "#fff",
+            border: `1px solid ${(showForm && editIdx === null) ? B.rule : B.cobalt}`,
           }}
         >
-          {showForm ? "Cancel" : "+ Add Update"}
+          {(showForm && editIdx === null) ? "Cancel" : "+ Add Update"}
         </button>
       </div>
 
+      {/* Add / Edit form */}
       {showForm && (
         <div style={{
-          background: B.cobaltTint, border: `1px solid #BFD0F0`,
+          background: editIdx !== null ? "#FFF8EC" : B.cobaltTint,
+          border: `1px solid ${editIdx !== null ? B.goldLight : "#BFD0F0"}`,
           borderRadius: "8px", padding: "12px", marginBottom: "10px",
         }}>
+          {editIdx !== null && (
+            <p style={{ fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 700, color: "#7A6022", marginBottom: "8px" }}>
+              ✏ Editing update
+            </p>
+          )}
           <div style={{ marginBottom: "8px" }}>
-            <label style={{
-              display: "block", fontFamily: "var(--font-heading)", fontSize: "0.9375rem",
-              fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em",
-              color: B.inkMid, marginBottom: "4px",
-            }}>Your Name</label>
+            <label style={lblSt}>Your Name</label>
             <input
               value={author}
               onChange={e => setAuthor(e.target.value)}
               placeholder="e.g. Atty. Maria Santos"
-              style={{
-                width: "100%", border: `1px solid #BFD0F0`, borderRadius: "6px",
-                padding: "6px 12px", fontSize: "0.875rem", fontFamily: "var(--font-ui)",
-                color: B.charcoal, background: "#fff", outline: "none", boxSizing: "border-box",
-              }}
+              style={inpSt()}
             />
           </div>
           <div style={{ marginBottom: "10px" }}>
-            <label style={{
-              display: "block", fontFamily: "var(--font-heading)", fontSize: "0.9375rem",
-              fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em",
-              color: B.inkMid, marginBottom: "4px",
-            }}>Update / Progress Note</label>
+            <label style={lblSt}>Update / Progress Note</label>
             <textarea
               value={text}
               onChange={e => setText(e.target.value)}
               placeholder={`What happened in the ${stageName} stage?`}
               rows={3}
-              style={{
-                width: "100%", border: `1px solid #BFD0F0`, borderRadius: "6px",
-                padding: "6px 12px", fontSize: "0.875rem", fontFamily: "var(--font-ui)",
-                color: B.charcoal, background: "#fff", outline: "none",
-                resize: "vertical", boxSizing: "border-box",
-              }}
+              autoFocus
+              style={inpSt({ resize: "vertical" })}
             />
           </div>
           <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
-            <button onClick={() => setShowForm(false)} style={{
+            <button onClick={resetForm} style={{
               fontFamily: "var(--font-ui)", fontSize: "0.9375rem", padding: "6px 14px",
               borderRadius: "6px", cursor: "pointer",
               background: "#fff", color: B.ink, border: `1px solid ${B.rule}`,
             }}>Cancel</button>
-            <button onClick={handleAdd} disabled={!text.trim()} style={{
+            <button onClick={handleSave} disabled={!text.trim()} style={{
               fontFamily: "var(--font-heading)", fontSize: "0.9375rem", fontWeight: 700,
-              padding: "6px 14px", borderRadius: "6px", cursor: text.trim() ? "pointer" : "not-allowed",
-              background: text.trim() ? B.cobalt : "#C8C4BC", color: "#fff", border: "none",
-            }}>Save Update</button>
+              padding: "6px 14px", borderRadius: "6px",
+              cursor: text.trim() ? "pointer" : "not-allowed",
+              background: text.trim() ? (editIdx !== null ? B.gold : B.cobalt) : "#C8C4BC",
+              color: "#fff", border: "none",
+            }}>
+              {editIdx !== null ? "Save Changes" : "Save Update"}
+            </button>
           </div>
         </div>
       )}
 
+      {/* Empty state */}
       {entries.length === 0 && !showForm && (
         <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.9375rem", color: "#BBB", fontStyle: "italic" }}>
           No updates logged yet. Click "+ Add Update" to record progress.
         </p>
       )}
 
+      {/* Entry timeline */}
       {preview.map((entry, i) => {
-        const d = new Date(entry.timestamp);
+        const d       = new Date(entry.timestamp);
         const dateStr = d.toLocaleDateString("en-PH", { year: "numeric", month: "short", day: "numeric" });
         const timeStr = d.toLocaleTimeString("en-PH", { hour: "2-digit", minute: "2-digit" });
+        const isEditing = showForm && editIdx === entry._origIdx;
+
         return (
-          <div key={i} style={{ display: "flex", gap: "10px", marginBottom: i < preview.length - 1 ? "8px" : "0" }}>
+          <div key={entry._origIdx}
+            style={{ display: "flex", gap: "10px", marginBottom: i < preview.length - 1 ? "8px" : "0" }}>
+            {/* Timeline dot + connector */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
               <div style={{
                 width: "8px", height: "8px", borderRadius: "50%", marginTop: "5px",
@@ -1082,20 +1136,56 @@ function StageUpdateLog({ log, onAddEntry, stageName }) {
                 <div style={{ width: "1px", flex: 1, background: "#E4E1D8", marginTop: "3px" }} />
               )}
             </div>
+
+            {/* Entry card */}
             <div style={{
               flex: 1,
-              background: i === 0 ? "#F7F8FF" : "#FAFAF7",
-              border: `1px solid ${i === 0 ? "#D8E0FF" : B.rule}`,
-              borderRadius: "8px", padding: "7px 14px", marginBottom: "2px",
+              background: isEditing ? "#FFF8EC" : i === 0 ? "#F7F8FF" : "#FAFAF7",
+              border: `1px solid ${isEditing ? B.goldLight : i === 0 ? "#D8E0FF" : B.rule}`,
+              borderRadius: "8px", padding: "7px 12px", marginBottom: "2px",
             }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "4px", marginBottom: "4px" }}>
-                <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.9375rem", fontWeight: 700, color: B.charcoal }}>
-                  {entry.author || "Unknown"}
-                </span>
-                <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", whiteSpace: "nowrap" }}>
-                  {dateStr} · {timeStr}
-                </span>
+              {/* Top row: author + timestamp + action buttons */}
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "6px", marginBottom: "4px" }}>
+                <div>
+                  <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.9375rem", fontWeight: 700, color: B.charcoal }}>
+                    {entry.author || "Unknown"}
+                  </span>
+                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", marginLeft: "8px", whiteSpace: "nowrap" }}>
+                    {dateStr} · {timeStr}
+                  </span>
+                  {entry.editedAt && (
+                    <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#BBB", marginLeft: "6px", fontStyle: "italic" }}>
+                      (edited)
+                    </span>
+                  )}
+                </div>
+                {/* Edit + Delete buttons */}
+                {!showForm && (
+                  <div style={{ display: "flex", gap: "4px", flexShrink: 0 }}>
+                    <button
+                      onClick={() => openEdit(entry)}
+                      title="Edit this update"
+                      style={{
+                        fontFamily: "var(--font-ui)", fontSize: "0.72rem", fontWeight: 600,
+                        padding: "2px 8px", borderRadius: "4px", cursor: "pointer",
+                        background: B.cobaltTint, color: B.cobalt,
+                        border: `1px solid #BFD0F0`,
+                      }}
+                    >Edit</button>
+                    <button
+                      onClick={() => handleDelete(entry._origIdx)}
+                      title="Delete this update"
+                      style={{
+                        fontFamily: "var(--font-ui)", fontSize: "0.72rem", fontWeight: 600,
+                        padding: "2px 8px", borderRadius: "4px", cursor: "pointer",
+                        background: "#FEF2F2", color: "#DC2626",
+                        border: "1px solid #FCA5A5",
+                      }}
+                    >Delete</button>
+                  </div>
+                )}
               </div>
+              {/* Update text */}
               <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.9375rem", color: B.ink, margin: 0, lineHeight: 1.5 }}>
                 {entry.text}
               </p>
@@ -1104,6 +1194,7 @@ function StageUpdateLog({ log, onAddEntry, stageName }) {
         );
       })}
 
+      {/* Show more / less */}
       {entries.length > 3 && (
         <button onClick={() => setExpanded(e => !e)} style={{
           fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 600,
@@ -1131,22 +1222,21 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
     onUpdate(updatedMatter);
   }, [matter, onUpdate]);
 
-  // handleAddUpdateLogEntry: adds a new entry to a stage's update history log
-  const handleAddUpdateLogEntry = useCallback((stageName, newEntry) => {
-    const existing = matter.stages[stageName]?.updateLog || [];
+  // handleUpdateLog: replaces the full updateLog array for a stage
+  // Used by StageUpdateLog for add, edit, and delete operations
+  const handleUpdateLog = useCallback((stageName, updatedLog) => {
     const updatedStage = {
       ...matter.stages[stageName],
-      updateLog: [...existing, newEntry],
+      updateLog: updatedLog,
     };
     const updatedMatter = {
       ...matter,
       stages: { ...matter.stages, [stageName]: updatedStage },
     };
     onUpdate(updatedMatter);
-    // Also update draft so UI refreshes without closing the drawer
     setDraft(prev => ({
       ...prev,
-      stages: { ...prev.stages, [stageName]: { ...prev.stages[stageName], updateLog: [...existing, newEntry] } },
+      stages: { ...prev.stages, [stageName]: { ...prev.stages[stageName], updateLog: updatedLog } },
     }));
   }, [matter, onUpdate]);
   const [editing, setEditing] = useState(false);
@@ -1469,7 +1559,7 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
                       <StageUpdateLog
                         log={sd.updateLog || []}
                         stageName={stage}
-                        onAddEntry={(entry) => handleAddUpdateLogEntry(stage, entry)}
+                        onUpdateLog={(updatedLog) => handleUpdateLog(stage, updatedLog)}
                       />
                     </div>
                   )}
