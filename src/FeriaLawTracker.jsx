@@ -1840,9 +1840,169 @@ function AddMatterModal({ onClose, onAdd, firmPeople }) {
   );
 }
 
+
+// ─── QUICK EDIT POPUP ────────────────────────────────────────────────────────
+// Lightweight floating panel for editing a stage's due date, responsible person,
+// and notes directly from the Kanban card or To-Do List — no drawer needed.
+
+function QuickEditPopup({ matter, stage, onSave, onClose, anchorRef }) {
+  const sd = matter.stages?.[stage] || {};
+  const [dueDate,     setDueDate]     = useState(sd.dueDate || "");
+  const [responsible, setResponsible] = useState(sd.responsible || "");
+  const [notes,       setNotes]       = useState(sd.notes || "");
+  const [saved,       setSaved]       = useState(false);
+  const popupRef = useRef(null);
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e) => {
+      if (
+        popupRef.current && !popupRef.current.contains(e.target) &&
+        (!anchorRef?.current || !anchorRef.current.contains(e.target))
+      ) {
+        onClose();
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [onClose, anchorRef]);
+
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  const allPeople = [
+    ...(window.__ftdSettings?.firmPeople?.partners || []),
+    ...(window.__ftdSettings?.firmPeople?.associates || []),
+    ...(window.__ftdSettings?.firmPeople?.legalAssistants || []),
+  ];
+
+  const handleSave = () => {
+    const updatedStage = {
+      ...sd,
+      dueDate,
+      responsible,
+      responsibleEmail: allPeople.find(p => p.name === responsible)?.email || sd.responsibleEmail || "",
+      notes,
+    };
+    const updatedMatter = {
+      ...matter,
+      stages: { ...matter.stages, [stage]: updatedStage },
+    };
+    onSave(updatedMatter);
+    setSaved(true);
+    setTimeout(() => onClose(), 600);
+  };
+
+  const inpSt = {
+    width: "100%", border: `1px solid ${B.rule}`, borderRadius: "8px",
+    padding: "6px 10px", fontSize: "0.9375rem", fontFamily: "var(--font-ui)",
+    color: B.charcoal, background: "#fff", outline: "none", boxSizing: "border-box",
+  };
+  const lblSt = {
+    display: "block", fontFamily: "var(--font-heading)", fontSize: "0.72rem",
+    fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em",
+    color: B.inkMid, marginBottom: "3px",
+  };
+
+  return (
+    <div
+      ref={popupRef}
+      onClick={e => e.stopPropagation()}
+      style={{
+        position: "absolute", zIndex: 999,
+        top: "calc(100% + 6px)", left: 0, right: 0,
+        background: "#fff", borderRadius: "12px",
+        border: `1px solid ${B.cobaltLight}`,
+        boxShadow: "0 8px 32px rgba(11,23,65,0.18)",
+        padding: "14px",
+        minWidth: "260px",
+      }}
+    >
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+        <div>
+          <p style={{ fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 700, color: B.cobalt, margin: 0 }}>Quick Edit</p>
+          <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA", margin: "1px 0 0" }}>{stage}</p>
+        </div>
+        <button onClick={onClose} style={{ background: "transparent", border: "none", cursor: "pointer", color: "#AAA", fontSize: "1rem", lineHeight: 1, padding: "2px" }}>✕</button>
+      </div>
+
+      {/* Due Date */}
+      <div style={{ marginBottom: "10px" }}>
+        <label style={lblSt}>Due Date</label>
+        <input
+          type="date"
+          value={dueDate}
+          onChange={e => setDueDate(e.target.value)}
+          style={inpSt}
+          autoFocus
+        />
+      </div>
+
+      {/* Responsible Person */}
+      <div style={{ marginBottom: "10px" }}>
+        <label style={lblSt}>Responsible Person</label>
+        <select
+          value={responsible}
+          onChange={e => setResponsible(e.target.value)}
+          style={{
+            ...inpSt,
+            appearance: "none", paddingRight: "32px", cursor: "pointer",
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232D4DB5' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "no-repeat", backgroundPosition: "right 10px center",
+          }}
+        >
+          <option value="">— Select person —</option>
+          {[
+            { group: "Partners",         list: window.__ftdSettings?.firmPeople?.partners        || [] },
+            { group: "Associates",       list: window.__ftdSettings?.firmPeople?.associates      || [] },
+            { group: "Legal Assistants", list: window.__ftdSettings?.firmPeople?.legalAssistants || [] },
+          ].map(({ group, list }) => list.length > 0 && (
+            <optgroup key={group} label={group}>
+              {list.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
+            </optgroup>
+          ))}
+        </select>
+      </div>
+
+      {/* Notes */}
+      <div style={{ marginBottom: "12px" }}>
+        <label style={lblSt}>Notes</label>
+        <textarea
+          value={notes}
+          onChange={e => setNotes(e.target.value)}
+          rows={2}
+          placeholder="Stage notes…"
+          style={{ ...inpSt, resize: "none" }}
+        />
+      </div>
+
+      {/* Footer */}
+      <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+        <button onClick={onClose} style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", padding: "6px 14px", borderRadius: "8px", background: "#fff", color: B.ink, border: `1px solid ${B.rule}`, cursor: "pointer" }}>
+          Cancel
+        </button>
+        <button onClick={handleSave} style={{
+          fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 700,
+          padding: "6px 14px", borderRadius: "8px", cursor: "pointer",
+          background: saved ? "#3A9A4A" : B.cobalt, color: "#fff", border: "none",
+          transition: "background 0.2s",
+          display: "inline-flex", alignItems: "center", gap: "5px",
+        }}>
+          {saved ? "✓ Saved" : "Save"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── KANBAN CARD ─────────────────────────────────────────────────────────────
 
-function KanbanCard({ matter, onClick, onDragStart }) {
+function KanbanCard({ matter, onClick, onDragStart, onQuickSave }) {
   const currentStageData = matter.stages[matter.currentStage];
   const dueDate = currentStageData?.dueDate;
   const isOverdueDue = dueDate && new Date(dueDate) < new Date() && matter.status !== "Completed";
@@ -1856,19 +2016,23 @@ function KanbanCard({ matter, onClick, onDragStart }) {
     : B.cobalt;
   const billingCount = (matter.billingLog || []).length;
   const pendingBilling = (matter.billingLog || []).filter(e => e.status === "Pending" || e.status === "Planned").length;
-  const [hovered, setHovered] = useState(false);
+  const [hovered,       setHovered]       = useState(false);
+  const [quickEditOpen, setQuickEditOpen] = useState(false);
+  const cardRef = useRef(null);
   return (
-    <div draggable onDragStart={onDragStart} onClick={onClick}
+    <div ref={cardRef} draggable onDragStart={onDragStart}
+      onClick={e => { if (!quickEditOpen) onClick(); }}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       style={{
         background: isOnHold ? "#F9F9F9" : isClosed ? "#F0F0F0" : "#fff",
         borderRadius: "10px", marginBottom: "10px", cursor: "pointer",
         padding: "13px 13px 11px",
-        border: `1px solid ${hovered ? B.cobaltLight : B.rule}`,
+        border: `1px solid ${quickEditOpen ? B.cobalt : hovered ? B.cobaltLight : B.rule}`,
         borderLeft: `3px solid ${leftColor}`,
         boxShadow: hovered ? `0 4px 16px rgba(11,23,65,0.12)` : `0 1px 3px rgba(0,0,0,0.04)`,
         transition: "box-shadow 0.15s, border-color 0.15s",
         opacity: isOnHold ? 0.72 : isClosed ? 0.55 : 1,
+        position: "relative",
       }}>
       {isOnHold && matter.holdReason && (
         <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: "#6B6B6B", background: "#F0F0F0", borderRadius: "4px", padding: "2px 6px", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "3px" }}>
@@ -1889,8 +2053,43 @@ function KanbanCard({ matter, onClick, onDragStart }) {
       </div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "var(--font-ui)", fontSize: "0.9375rem", color: "#999" }}>
         <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "130px" }}>{matter.assignedPartner.name}</span>
-        {dueDate && <span style={{ color: isOverdueDue ? "#DC2626" : "#AAA", fontWeight: isOverdueDue ? 700 : 400 }}>{formatDate(dueDate)}</span>}
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          {dueDate
+            ? <span style={{ color: isOverdueDue ? "#DC2626" : "#AAA", fontWeight: isOverdueDue ? 700 : 400 }}>{formatDate(dueDate)}</span>
+            : <span style={{ color: "#CCC", fontStyle: "italic" }}>No due date</span>
+          }
+          {/* Pencil quick-edit button — always shown on hover */}
+          {(hovered || quickEditOpen) && (
+            <button
+              onClick={e => { e.stopPropagation(); setQuickEditOpen(o => !o); }}
+              title="Quick edit due date & responsible person"
+              style={{
+                background: quickEditOpen ? B.cobalt : B.cobaltTint,
+                border: `1px solid ${quickEditOpen ? B.cobalt : "#BFD0F0"}`,
+                borderRadius: "5px", cursor: "pointer",
+                width: "20px", height: "20px", display: "inline-flex",
+                alignItems: "center", justifyContent: "center", flexShrink: 0,
+                color: quickEditOpen ? "#fff" : B.cobalt,
+              }}
+            >
+              <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2}
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+          )}
+        </div>
       </div>
+      {/* Quick Edit Popup */}
+      {quickEditOpen && onQuickSave && (
+        <QuickEditPopup
+          matter={matter}
+          stage={matter.currentStage}
+          anchorRef={cardRef}
+          onSave={(updatedMatter) => { onQuickSave(updatedMatter); setQuickEditOpen(false); }}
+          onClose={() => setQuickEditOpen(false)}
+        />
+      )}
       {matter.assignedAssociates.length > 0 && (
         <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginTop: "7px" }}>
           {matter.assignedAssociates.map((a, i) => (
@@ -1910,11 +2109,14 @@ function KanbanCard({ matter, onClick, onDragStart }) {
           </span>
         </div>
       )}
-      {/* Quick-edit hint visible on hover */}
-      {hovered && (
-        <div style={{ marginTop: "7px", borderTop: `1px dashed ${B.rule}`, paddingTop: "6px", display: "flex", justifyContent: "flex-end" }}>
+      {/* Hover hint */}
+      {hovered && !quickEditOpen && (
+        <div style={{ marginTop: "7px", borderTop: `1px dashed ${B.rule}`, paddingTop: "6px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: "#AAA" }}>
+            ✏ pencil = quick edit date
+          </span>
           <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: B.cobalt }}>
-            ✏ Click to edit matter →
+            click = open matter →
           </span>
         </div>
       )}
@@ -1924,7 +2126,7 @@ function KanbanCard({ matter, onClick, onDragStart }) {
 
 // ─── KANBAN BOARD ─────────────────────────────────────────────────────────────
 
-function KanbanBoard({ matters, filters, onCardClick, onMoveMatter }) {
+function KanbanBoard({ matters, filters, onCardClick, onMoveMatter, onQuickSave }) {
   const [dragId, setDragId] = useState(null);
   const [dragOver, setDragOver] = useState(null);
 
@@ -2002,7 +2204,7 @@ function KanbanBoard({ matters, filters, onCardClick, onMoveMatter }) {
               </div>
               <div style={{ minHeight: "100px" }}>
                 {cards.map(m => (
-                  <KanbanCard key={m.id} matter={m} onClick={() => onCardClick(m)} onDragStart={() => setDragId(m.id)} />
+                  <KanbanCard key={m.id} matter={m} onClick={() => onCardClick(m)} onDragStart={() => setDragId(m.id)} onQuickSave={onQuickSave} />
                 ))}
                 {cards.length === 0 && (
                   <div style={{
@@ -3744,11 +3946,12 @@ const TODO_QUICK_FILTERS = [
 
 // ─── TODO VIEW ────────────────────────────────────────────────────────────────
 
-function TodoView({ matters, onOpenMatter }) {
+function TodoView({ matters, onOpenMatter, onUpdateMatter }) {
   const [selectedUser,  setSelectedUser]  = useState("");
   const [quickFilter,   setQuickFilter]   = useState("all");
   const [searchText,    setSearchText]    = useState("");
   const [hoveredRow,    setHoveredRow]    = useState(null);
+  const [quickEditRow,  setQuickEditRow]  = useState(null);
 
   const allUsers = useMemo(() => getAllUsers(matters), [matters]);
   const rawTodos = useMemo(() => getTodosForUser(matters, selectedUser), [matters, selectedUser]);
@@ -3986,8 +4189,8 @@ function TodoView({ matters, onOpenMatter }) {
                         </p>
                       )}
                     </div>
-                    {/* Right: status + due date */}
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "6px", flexShrink: 0, minWidth: "100px" }}>
+                    {/* Right: status + due date + quick edit */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "6px", flexShrink: 0, minWidth: "110px", position: "relative" }}>
                       <span style={{
                         display: "inline-flex", alignItems: "center", gap: "5px",
                         borderRadius: "999px", fontWeight: 700, border: `1px solid ${tss.border}`,
@@ -3998,10 +4201,47 @@ function TodoView({ matters, onOpenMatter }) {
                         <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: tss.dot, flexShrink: 0 }} />
                         {ts}
                       </span>
-                      <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.9375rem", color: isOverdue ? "#DC2626" : B.inkMid, fontWeight: isOverdue ? 700 : 400, textAlign: "right" }}>
-                        {dateLabel}
-                      </span>
-                      {/* Clickable hint */}
+                      {/* Due date + pencil edit button */}
+                      <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                        <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.9375rem", color: isOverdue ? "#DC2626" : B.inkMid, fontWeight: isOverdue ? 700 : 400, textAlign: "right" }}>
+                          {dateLabel}
+                        </span>
+                        {isHovered && (
+                          <button
+                            onClick={e => {
+                              e.stopPropagation();
+                              setQuickEditRow(quickEditRow === idx ? null : idx);
+                            }}
+                            title="Quick edit due date & responsible person"
+                            style={{
+                              background: quickEditRow === idx ? B.cobalt : B.cobaltTint,
+                              border: `1px solid ${quickEditRow === idx ? B.cobalt : "#BFD0F0"}`,
+                              borderRadius: "5px", cursor: "pointer",
+                              width: "20px", height: "20px", display: "inline-flex",
+                              alignItems: "center", justifyContent: "center", flexShrink: 0,
+                              color: quickEditRow === idx ? "#fff" : B.cobalt,
+                            }}
+                          >
+                            <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2}
+                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                      {/* Quick-edit popup for this row */}
+                      {quickEditRow === idx && (
+                        <QuickEditPopup
+                          matter={todo._matter}
+                          stage={todo.stage}
+                          onSave={(updatedMatter) => {
+                            onUpdateMatter(updatedMatter);
+                            setQuickEditRow(null);
+                          }}
+                          onClose={() => setQuickEditRow(null)}
+                        />
+                      )}
+                      {/* View hint */}
                       <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: isHovered ? B.cobalt : "#CCC", transition: "color 0.13s" }}>
                         View matter →
                       </span>
@@ -4031,7 +4271,8 @@ const HELP_SECTIONS = [
     items: [
       { action: "View matters by stage", how: "Each column represents one lifecycle stage. Cards show the matter name, client, assigned partner, practice area, status badge, due date, and billing count." },
       { action: "Move a matter to a new stage", how: "Drag a card from one column and drop it onto another column. You will be prompted: 'Mark [previous stage] as complete today?' — click OK to auto-fill the completion date, or Cancel to skip. The new stage's start date is also set automatically." },
-      { action: "Open and edit a matter", how: "Click any card to open the full matter detail panel. When hovering over a card you will see an '✏ Click to edit matter →' hint at the bottom." },
+      { action: "Quick-edit a deadline or responsible person", how: "Hover over any card — a small ✏ pencil button appears beside the due date. Clicking it opens a Quick Edit popup directly on the card with three fields: Due Date, Responsible Person (dropdown from the firm directory), and Notes. Click Save to apply the change instantly without opening the full matter drawer. Press Escape or click Cancel to close without saving." },
+      { action: "Open and edit a matter", how: "Click anywhere on the card body (not the pencil button) to open the full matter detail panel." },
       { action: "Filter the board", how: "Use the filter bar above the board to narrow by stage, partner, associate, legal assistant, status, or practice area. Use the search box to find a matter by any text — name, client, notes, responsible person, and more." },
       { action: "On Hold matters", how: "Matters placed on hold appear faded at 70% opacity with a ⏸ badge showing the hold reason. They remain on the board but are visually de-emphasised." },
       { action: "Closed matters", how: "Closed matters are hidden from the Kanban board entirely. They move to the Archive tab." },
@@ -4061,7 +4302,8 @@ const HELP_SECTIONS = [
       { action: "See a person's tasks", how: "Select a name from the dropdown at the top. The list shows every incomplete stage across all matters where that person is listed as the stage Responsible person." },
       { action: "Filter tasks", how: "Click the summary cards (Overdue, Due This Week, No Due Date) or the quick-filter pills below them." },
       { action: "Task urgency colours", how: "Red left border = Overdue. Gold left border = Due within 7 days. Blue = On Track. Grey = No due date." },
-      { action: "Open the matter", how: "Click any task row to open the full matter detail panel." },
+      { action: "Quick-edit a deadline from the To-Do List", how: "Hover over any task row — a small ✏ pencil button appears beside the due date on the right side. Click it to open a Quick Edit popup for that stage with Due Date, Responsible Person, and Notes fields. Save applies the change immediately. The task list refreshes to reflect the new date and urgency status." },
+      { action: "Open the matter", how: "Click any task row (not the pencil) to open the full matter detail panel." },
       { action: "How to assign a responsible person", how: "Open the matter drawer → Edit Details → expand any stage → select from the Responsible Person dropdown (drawn from the firm directory in Settings)." },
     ],
   },
@@ -5522,13 +5764,13 @@ Click OK to set completion date. Click Cancel to skip.`
           )}
 
           {view === "kanban" && (
-            <KanbanBoard matters={matters} filters={filters} onCardClick={setSelectedMatter} onMoveMatter={handleMoveMatter} />
+            <KanbanBoard matters={matters} filters={filters} onCardClick={setSelectedMatter} onMoveMatter={handleMoveMatter} onQuickSave={handleUpdateMatter} />
           )}
           {view === "table" && (
             <TableView matters={matters} filters={filters} onRowClick={setSelectedMatter} />
           )}
           {view === "todo" && (
-            <TodoView matters={matters} onOpenMatter={setSelectedMatter} />
+            <TodoView matters={matters} onOpenMatter={setSelectedMatter} onUpdateMatter={handleUpdateMatter} />
           )}
           {view === "calendar" && (
             <CalendarView matters={matters} onOpenMatter={setSelectedMatter} />
