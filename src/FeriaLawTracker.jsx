@@ -772,7 +772,7 @@ const OUTLOOK_SYNC_BADGE = {
  *   const payload = buildGraphEventPayload({ matter, stage, stageData });
  *   const res = await fetch("https://graph.microsoft.com/v1.0/me/events", {
  *     method: "POST",
- *     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+ *     headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
  *     body: JSON.stringify(payload),
  *   });
  *   const event = await res.json();
@@ -807,9 +807,9 @@ async function updateOutlookCalendarEventPlaceholder({ eventId, matter, stage, s
  * PLACEHOLDER - simulates deleting an Outlook calendar event.
  *
  * REAL IMPLEMENTATION:
- *   await fetch(`https://graph.microsoft.com/v1.0/me/events/${eventId}`, {
+ *   await fetch("https://graph.microsoft.com/v1.0/me/events/" + eventId, {
  *     method: "DELETE",
- *     headers: { Authorization: `Bearer ${token}` },
+ *     headers: { Authorization: "Bearer " + token },
  *   });
  */
 async function deleteOutlookCalendarEventPlaceholder({ eventId }) {
