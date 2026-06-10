@@ -3749,7 +3749,7 @@ function DashSectionCard({ title, icon, items, accentColor, emptyMsg, onOpenMatt
                         {isOverdue ? `${Math.abs(diff)}d overdue` : diff === 0 ? "Due today" : `${diff}d`}
                       </span>
                     )}
-                    <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#CCC" }}>View -></span>
+                    <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#CCC" }}>View</span>
                   </div>
                 </div>
               );
@@ -4847,9 +4847,9 @@ const BILLING_STATUS_OPTIONS = ["Planned", "Pending", "Sent", "Paid", "Disputed"
 const BILLING_STATUS_STYLES = {
   "Planned":  { bg: "#F3F2EF", color: "#777",    border: "#D4D0C8", icon: "o" },
   "Pending":  { bg: "#FBF5E6", color: "#7A6022", border: "#D4C38F", icon: "o" },
-  "Sent":     { bg: "#EEF1FB", color: "#1A3282", border: "#BFD0F0", icon: "->" },
-  "Paid":     { bg: "#EDF7ED", color: "#2A7A34", border: "#A8D5A8", icon: "?" },
-  "Disputed": { bg: "#FEF2F2", color: "#991B1B", border: "#FCA5A5", icon: "(!)" },
+  "Sent":     { bg: "#EEF1FB", color: "#1A3282", border: "#BFD0F0", icon: ">" },
+  "Paid":     { bg: "#EDF7ED", color: "#2A7A34", border: "#A8D5A8", icon: "v" },
+  "Disputed": { bg: "#FEF2F2", color: "#991B1B", border: "#FCA5A5", icon: "!" },
 };
 
 function BillingLog({ matter, onUpdateMatter, settings }) {
