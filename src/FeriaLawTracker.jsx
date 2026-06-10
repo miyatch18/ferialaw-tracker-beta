@@ -2678,12 +2678,12 @@ function DownloadDeadlinesModal({ matters, onClose }) {
               <label style={{ display: "block", fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: B.inkMid, marginBottom: "5px" }}>Select Week</label>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <button onClick={() => setWeekOffset(w => Math.max(0, w - 1))} disabled={weekOffset === 0}
-                  style={{ ...btnSt, background: weekOffset === 0 ? "#eee" : B.cobaltTint, color: weekOffset === 0 ? "#aaa" : B.cobalt, border: `1px solid ${weekOffset === 0 ? "#ddd" : "#BFD0F0"}`, padding: "5px 10px" }}><-</button>
+                  style={{ ...btnSt, background: weekOffset === 0 ? "#eee" : B.cobaltTint, color: weekOffset === 0 ? "#aaa" : B.cobalt, border: `1px solid ${weekOffset === 0 ? "#ddd" : "#BFD0F0"}`, padding: "5px 10px" }}>{"<"}</button>
                 <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.9375rem", color: B.ink, flex: 1, textAlign: "center" }}>
                   {weekOffset === 0 ? "This week" : weekOffset === 1 ? "Next week" : `${weekOffset} weeks ahead`}
                   <br /><span style={{ color: "#AAA" }}>{fmtD(start)} - {fmtD(end)}</span>
                 </span>
-                <button onClick={() => setWeekOffset(w => w + 1)} style={{ ...btnSt, background: B.cobaltTint, color: B.cobalt, border: "1px solid #BFD0F0", padding: "5px 10px" }}>-></button>
+                <button onClick={() => setWeekOffset(w => w + 1)} style={{ ...btnSt, background: B.cobaltTint, color: B.cobalt, border: "1px solid #BFD0F0", padding: "5px 10px" }}>{">"}</button>
               </div>
             </div>
           )}
