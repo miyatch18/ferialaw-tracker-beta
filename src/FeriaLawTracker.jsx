@@ -1698,7 +1698,7 @@ function MatterDrawer({ matter, onClose, onUpdate }) {
                   const updated = { ...draft, status: "On Track", holdReason: "" };
                   setDraft(updated); onUpdate(updated);
                 }} style={{ fontFamily: "var(--font-heading)", fontSize: "0.875rem", fontWeight: 600, padding: "6px 14px", borderRadius: "8px", cursor: "pointer", background: B.cobaltTint, color: B.cobalt, border: "1px solid #BFD0F0", display: "inline-flex", alignItems: "center", gap: "5px" }}>
-                  > Resume Matter
+                  Resume Matter
                 </button>
               )}
               {draft.status !== "Closed" && (
@@ -3449,7 +3449,7 @@ function ImportModal({ onClose, onImport, existingMatters }) {
               {/* Reset link */}
               <button onClick={() => { setPreview(null); setParseErr(""); if (fileRef.current) fileRef.current.value = ""; }}
                 style={{ fontFamily: "var(--font-ui)", fontSize: "1rem", color: B.cobalt, background: "transparent", border: "none", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "2px", marginTop: "6px" }}>
-                <- Choose a different file
+                Choose a different file
               </button>
             </>
           )}
@@ -4442,7 +4442,7 @@ function TodoView({ matters, onOpenMatter, onUpdateMatter }) {
                       )}
                       {/* View hint */}
                       <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: isHovered ? B.cobalt : "#CCC", transition: "color 0.13s" }}>
-                        View matter ->
+                        View matter
                       </span>
                     </div>
                   </div>
@@ -4535,7 +4535,7 @@ const HELP_SECTIONS = [
       { action: "Send a reminder email", how: "Click Send Reminder inside any stage that has a responsible person's email. Opens Outlook pre-filled." },
       { action: "Add to calendar", how: "Click Add to Calendar (.ics) inside any stage with a due date. Downloads a file compatible with Outlook, Google Calendar, and Apple Calendar." },
       { action: "Open the iManage workspace", how: "If a workspace link is set, a gold Matter Workspace link appears in the header. Click it to open in a new tab." },
-      { action: "Place on hold", how: "Click || Place on Hold at the bottom of the panel. You will be prompted for an optional reason. The card on the Kanban board becomes faded. Click > Resume Matter to lift the hold." },
+      { action: "Place on hold", how: "Click || Place on Hold at the bottom of the panel. You will be prompted for an optional reason. The card on the Kanban board becomes faded. Click Resume Matter to lift the hold." },
       { action: "Close and archive", how: "Click  Close & Archive Matter. A confirmation prompt appears. The matter moves to the Archive tab and disappears from the Kanban board and Table View." },
     ],
   },
@@ -4594,7 +4594,7 @@ const HELP_SECTIONS = [
     items: [
       { action: "View closed matters", how: "Click the Archive tab in the view toggle. The table shows all closed matters with their ID, name, client, practice area, partner, date opened, date closed, and total amount paid." },
       { action: "Open a closed matter", how: "Click any row in the Archive table to open the full matter detail panel in read-only mode. All stage history, billing logs, and update history are preserved." },
-      { action: "Reopen a matter", how: "Click the <- Reopen button on any archived matter row. The matter returns to the active Kanban board with status set to On Track and the closed date cleared." },
+      { action: "Reopen a matter", how: "Click the Reopen button on any archived matter row. The matter returns to the active Kanban board with status set to On Track and the closed date cleared." },
       { action: "How matters get here", how: "Click Close & Archive Matter at the bottom of any matter detail panel. A confirmation prompt appears before archiving." },
     ],
   },
@@ -5107,7 +5107,7 @@ function ArchiveView({ matters, onOpenMatter, onReopenMatter }) {
                     </td>
                     <td style={{ padding: "9px 12px" }}>
                       <button onClick={() => onReopenMatter(m)} style={{ fontFamily: "var(--font-heading)", fontSize: "0.72rem", fontWeight: 600, padding: "5px 10px", borderRadius: "6px", background: B.cobaltTint, color: B.cobalt, border: "1px solid #BFD0F0", cursor: "pointer", whiteSpace: "nowrap" }}>
-                        <- Reopen
+                        Reopen
                       </button>
                     </td>
                   </tr>
@@ -5663,7 +5663,7 @@ function CalendarView({ matters, onOpenMatter }) {
                     </div>
                     <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.875rem", color: "#AAA" }}>{ev.stage}</div>
                   </div>
-                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: col.text, opacity: 0.7 }}>Open -></span>
+                  <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: col.text, opacity: 0.7 }}>Open</span>
                 </div>
               );
             })}
