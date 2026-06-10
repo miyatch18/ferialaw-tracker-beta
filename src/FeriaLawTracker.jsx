@@ -790,9 +790,9 @@ async function createOutlookCalendarEventPlaceholder({ matter, stage, stageData 
  * PLACEHOLDER - simulates updating an existing Outlook calendar event.
  *
  * REAL IMPLEMENTATION:
- *   const res = await fetch(`https://graph.microsoft.com/v1.0/me/events/${eventId}`, {
+ *   const res = await fetch("https://graph.microsoft.com/v1.0/me/events/" + eventId, {
  *     method: "PATCH",
- *     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+ *     headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
  *     body: JSON.stringify(payload),
  *   });
  */
@@ -2315,7 +2315,7 @@ function KanbanCard({ matter, onClick, onDragStart, onQuickSave }) {
             edit pencil = quick edit date
           </span>
           <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.72rem", color: B.cobalt }}>
-            click = open matter ->
+            click to open matter
           </span>
         </div>
       )}
@@ -3099,7 +3099,7 @@ function rowsToMatters(rows, existingMatters) {
   });
 
   // Group rows by matterId (or synthesise one)
-  const matterMap = new Map(); // matterId -> accumulated data
+  const matterMap = new Map(); // matterId  accumulated data
 
   normalised.forEach((row, idx) => {
     const rowNum = idx + 2; // 1-based + header
