@@ -1186,7 +1186,7 @@ function StageUpdateLog({ log, onUpdateLog, stageName }) {
             />
           </div>
           <div style={{ marginBottom: "10px" }}>
-            <label style={lblSt}>Update / Progress Note</label>
+            <label style={lblSt}>Update &#47; Progress Note</label>
             <textarea
               value={text}
               onChange={e => setText(e.target.value)}
@@ -3313,7 +3313,7 @@ function ImportModal({ onClose, onImport, existingMatters }) {
           display: "flex", alignItems: "center", justifyContent: "space-between",
         }}>
           <div>
-            <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.35rem", fontWeight: 700, color: "#fff", margin: 0 }}>Import Matters from Excel / CSV</h2>
+            <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.35rem", fontWeight: 700, color: "#fff", margin: 0 }}>Import Matters from Excel &#47; CSV</h2>
             <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.9375rem", color: "rgba(255,255,255,0.55)", marginTop: "3px" }}>
               Drag &amp; drop or browse - supports .xlsx, .xls, .csv
             </p>
