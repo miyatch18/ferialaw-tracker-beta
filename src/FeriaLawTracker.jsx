@@ -702,7 +702,7 @@ function downloadICS(content, filename) {
 //     * For a standalone app, use MSAL redirect/popup flow
 //     * Never expose client secrets in the browser bundle
 //
-// /**
+/**
  * Builds the Microsoft Graph event payload from a matter + stage.
  * This shape is identical to what the real Graph API call will send.
  * Reference: https://learn.microsoft.com/en-us/graph/api/user-post-events
