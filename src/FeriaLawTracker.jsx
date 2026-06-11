@@ -1970,7 +1970,7 @@ function AddMatterModal({ onClose, onAdd, firmPeople }) {
           <div style={{ marginTop: "16px", paddingTop: "14px", borderTop: `1px solid ${B.rule}` }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
               <span style={{ fontSize: "1rem" }}>$</span>
-              <label style={{ ...labelSt, margin: 0 }}>Fee Arrangement & Billing Schedule</label>
+              <label style={{ ...labelSt, margin: 0 }}>Fee Arrangement &amp; Billing Schedule</label>
             </div>
             <div style={{ marginBottom: "10px" }}>
               <label style={{ ...labelSt, fontSize: "0.875rem" }}>Fee Arrangement</label>
@@ -4882,7 +4882,7 @@ function BillingLog({ matter, onUpdateMatter, settings }) {
   const handleSendReminder = (entry) => {
     const specEmail = settings?.billingSpecialistEmail || "billing@feriatantoco.com";
     const specName  = settings?.billingSpecialistName  || "Billing Specialist";
-    const subject   = encodeURIComponent(`Invoice Reminder: ${matter.name}${entry.invoiceRef ? ` - ${entry.invoiceRef}` : ""}`);
+    const subject   = encodeURIComponent("Invoice Reminder: " + matter.name + (entry.invoiceRef ? " - " + entry.invoiceRef : ""));
     const body = encodeURIComponent(
       `Dear ${specName},\n\nThis is a reminder regarding the following billing entry for matter:\n\nMatter: ${matter.name} (${matter.id})\nClient: ${matter.client}\nPractice Area: ${matter.practiceArea}\nPartner: ${matter.assignedPartner?.name || "-"}\n\nBilling Entry:\nDescription: ${entry.description}\nAmount: ${entry.amount || "TBD"}\nInvoice Ref: ${entry.invoiceRef || "-"}\nStatus: ${entry.status}\nPlanned Date: ${entry.plannedDate ? formatDate(entry.plannedDate) : "-"}\nDate Billed: ${entry.dateBilled ? formatDate(entry.dateBilled) : "Not yet billed"}\nNotes: ${entry.notes || "None"}\n\nPlease take necessary action.\n\nThank you.`
     );
